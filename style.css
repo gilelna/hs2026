@@ -344,3 +344,10 @@ ul.wp-block-list li {
     margin-left: -50vw;
     margin-right: -50vw;
 }
+/* overrides / manually edited styles added by developer */
+.is-style-big-title {
+    font-family: var(--font-title) !important;
+    font-weight: 700 !important;
+    font-size: 3rem !important; /* roughly equal to tailwind text-5xl */
+    margin-bottom: 0.5rem !important;
+}
