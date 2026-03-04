@@ -1,0 +1,337 @@
+/* 
+Theme Name: Hola HS2026
+Theme URI: https://wordpress.org/themes/twentytwentyfive/
+Description: HS2026 child theme for Twenty Twenty-Five
+Author: Gili
+Author URI: https://elementor.com/
+Template: twentytwentyfive
+Version: 2.0.0  - 16022026  - 2202
+Text Domain: hs2026
+License: GNU General Public License v3 or later.
+License URI: https://www.gnu.org/licenses/gpl-3.0.html
+Tags: flexible-header, custom-colors, custom-menu, custom-logo, editor-style, featured-images, rtl-language-support, threaded-comments, translation-ready
+*/
+/*
+24072026 1734
+*/
+/* Import fonts and Tailwind compiled output */
+@import url('fonts/fonts.css');
+@import url('css/output.css');
+
+
+/* ========== ROOT VARIABLES ========== */
+:root {
+  /* Fonts */
+  --font-title: 'Quincy', serif;
+  --font-body: 'Effra', sans-serif;
+
+  
+  /* Colors */
+  --color-black: #000000;
+  --color-gold: #C1A868;
+  --color-green-dark: #026360;
+  --color-peach: #F7BAA4;
+  --color-teal: #409690;
+  --color-soft-blue: #CBE3E5;
+  --color-light-blue: #F3F7FA;
+  --color-light-purple: #F7F2F9;
+  --color-pink: #F9F2F3;
+  --color-white: #fff;
+
+  
+
+  /* Shadows */
+  --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.05);
+  --shadow-button: 0 2px 6px rgba(0, 0, 0, 0.1);
+
+  /* Layout */
+  --max-width: clamp(1080px, 8vw + 60ch, 1600px);
+}
+
+/* ========== BODY BASE STYLES ========== */
+body {
+  font-family: var(--font-body);
+  color: var(--color-dark);
+  background-color: white;
+  line-height: 1.5;
+  font-size: 1rem;
+}
+
+/* ========== UTILITIES ========== */
+
+
+ .bg-black{  background-color: var(--color-black);}
+ .bg-gold {  background-color: var(--color-gold);}
+  .bg-green-dark{  background-color: var(--color-green-dark);}
+  .bg-peach{  background-color: var(--color-peach);}
+  .bg-teal{  background-color: var(--color-teal);}
+  .bg-soft-blue{  background-color: var(--color-soft-blue);}
+  .bg-light-blue{  background-color: var(--color-light-blue);}
+ .bg-light-purple {  background-color: var(--color-light-purple);}
+  .bg-pink{  background-color: var(--color-pink);}
+   .bg-white {  background-color: var(--color-white);}
+   /*--*/
+ .color-black{  color: var(--color-black);}
+ .color-gold {  color: var(--color-gold);}
+  .color-green-dark{  color: var(--color-green-dark);}
+  .color-peach{  color: var(--color-peach);}
+  .color-teal{  color: var(--color-teal);}
+  .color-soft-blue{  color: var(--color-soft-blue);}
+  .color-light-blue{  color: var(--color-light-blue);}
+ .color-light-purple {  color: var(--color-light-purple);}
+  .color-pink{  color: var(--color-pink);}
+   .color-white {  color: var(--color-white);}
+
+  .font-quincy { font-family:  var(--font-title) }
+ .font-effra { font-family:  var(--font-body) }    
+
+
+/*--- responsive iframe embed container   ---*/
+.iframeing {
+	position: relative;
+	display: block;
+	overflow: hidden;
+	height: 0;
+	max-width: 100% !important;
+  	padding-bottom: 56.25%;
+}
+.iframing iframe, .iframing object, .iframing embed {
+	position: absolute;
+	left: 0;
+	top: 0;
+	height: 100%;
+	width: 100%;
+}
+
+.video-aspect {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 */
+  background: #000;
+}
+
+.inline-video-wrapper {
+  position: relative;
+  max-width: 100%;
+}
+
+.video-thumb {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.video-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.4);
+  transition: background 0.3s;
+}
+.inline-video-wrapper:hover .video-overlay {
+  background: rgba(0,0,0,0.6);
+}
+
+.play-button {
+  background: red;
+  border-radius: 50%;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.play-button .icon {
+  width: 40px;
+  height: 40px;
+  color: white;
+}
+
+/* === Custom Testimonial Card  === */
+.card-one {
+  position: relative;
+  aspect-ratio: 4/6;
+  width: 100%;
+  border-radius: 0.75rem;
+  flex: auto;
+  overflow: hidden; 
+
+}
+
+.card-one.content {
+ position: absolute;
+ inset: 0;              
+ z-index: 20;
+ display: flex;
+ flex-direction: column;
+ justify-content: flex-end; 
+ gap: 1rem;
+ padding: 1.5rem;
+ color: rgb(255,255,255);
+ align-content: center;
+}
+
+.card-one.desc,.card-two .desc{
+  line-height: 1.2;
+  letter-spacing: 0.4px;
+  font-size: 1.3rem;
+  font-weight: 400;
+  font-family:  var(--font-title);
+	 display: flex;
+ flex-direction: column;
+ justify-content: flex-end;
+}
+
+.card-one--bg-pic {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: cover;
+}
+.card-name {
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  line-height: 1.25rem; 
+  font-weight: 500; 
+  letter-spacing: 0.025em;
+  color: var(--color-gold);}
+
+.card-avatar {
+    margin-right: 1rem;
+    height: 6rem;
+    width: 6rem;
+    border-radius: 9999px;
+    object-fit: cover;
+    overflow: hidden;
+}
+.card-button  {
+  display: inline-flex; 
+  align-items: center; 
+  gap: 0.1rem;
+  border-radius: 9999px;
+  box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.15);
+  border-width: 1px;
+  border-color: var(--color-gold);
+  font-size: 0.65rem;
+  line-height: 1rem;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+  padding: 0.4rem 0.9rem 0.3rem 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  }
+  .card-two.desc{
+    font-size: 1.2rem;
+    line-height: 1.4;
+    letter-spacing: 0.4px;
+    font-weight: 400;
+    font-family:  var(--font-title);
+  }
+  .card-two{
+    gap: 1rem; 
+    border-radius: 0.75rem; 
+    padding: 1.5rem;}
+    
+/* === Card Three & Four Backgrounds === */
+.card-three{
+  display: flex; 
+cursor: pointer; 
+flex-direction: column; 
+border-radius: 0.75rem; 
+background-color: rgb(255,255,255); 
+padding: 1.5rem; 
+transition-property: transform; 
+transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); 
+transition-duration: 150ms; 
+transform: translate(0, -0.25rem) rotate(0) skewX(0) skewY(0) scaleX(1) scaleY(1);
+}
+
+/* Ensure col-span-full works across all breakpoints */
+.col-span-full {
+  grid-column: 1 / -1 !important;
+}
+
+
+/*--------transcript modal--------*/
+
+.transcript-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 9999;
+    display: none; /* hidden by default; toggled by JS */
+    justify-content: center;
+    align-items: center;
+}
+.transcript-overlay.is-open { display: flex; }
+.transcript-modal {
+  background: #fff;
+  max-width: 800px;
+  max-height: 80vh; /* 80% viewport height */
+  overflow-y: auto;
+  padding: 2.5rem;
+  border-radius: 8px;
+  position: relative;
+  font-size: 1.1rem;
+  line-height: 1.8;
+}
+.transcript-close {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: transparent;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+}
+.transcript-modal-content {
+    margin-top: 2rem;
+}
+
+.transcript-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--color-soft-blue);
+  padding-bottom: 0.5rem;
+}
+
+.transcript-modal-header h2 {
+  font-family: var(--font-title);
+  font-size: 1.5rem;
+  margin: 0;
+  color: var(--color-green-dark);
+}
+
+.transcript-print-btn {
+  background-color: var(--color-gold);
+  border: none;
+  color: var(--color-black);
+  padding: 0.4rem 0.8rem;
+  font-size: 0.9rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.transcript-print-btn:hover {
+  background-color: #a88f4f;
+}
+
+ul.wp-block-list {
+    list-style: disc;
+    padding: 0.5em 1em;
+}
+ul.wp-block-list li {
+    padding-bottom: 0.8em;
+}

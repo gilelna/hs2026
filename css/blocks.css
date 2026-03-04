@@ -1,0 +1,90 @@
+/* HS2026 Gutenberg Blocks Styles
+   Uses theme CSS variables from style.css to mimic Tailwind utilities
+   Scope minimal utilities to .wp-site-blocks and editor canvas */
+
+:root {
+  /* relies on variables defined in style.css */
+}
+
+/* Typography helpers */
+.hs-title { font-family: var(--font-title); font-weight: 700; color: var(--color-black); }
+.hs-body  { font-family: var(--font-body); }
+.hs-text-gold { color: var(--color-gold); }
+.hs-text-black { color: var(--color-black); }
+.hs-text-white { color: var(--color-white); }
+.hs-quote-large { font-family: var(--font-title); font-weight: 600; line-height: 1.2; }
+
+/* Backgrounds */
+.hs-bg-white { background: var(--color-white); }
+.hs-bg-light-blue { background: var(--color-light-blue); }
+.hs-bg-light-purple { background: var(--color-light-purple); }
+.hs-bg-soft-blue { background: var(--color-soft-blue); }
+.hs-bg-peach { background: var(--color-peach); }
+.hs-bg-teal { background: var(--color-teal); }
+.hs-bg-pink { background: var(--color-pink); }
+.hs-bg-gold { background: var(--color-gold); }
+
+/* Containers */
+.hs-container { max-width: var(--max-width); margin-left: auto; margin-right: auto; }
+.hs-px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+.hs-py-20 { padding-top: 5rem; padding-bottom: 5rem; }
+.hs-py-24 { padding-top: 6rem; padding-bottom: 6rem; }
+.hs-rounded-xl { border-radius: 0.75rem; }
+.hs-rounded-full { border-radius: 9999px; }
+
+/* Shadow */
+.hs-shadow-card { box-shadow: var(--shadow-card); }
+.hs-shadow-button { box-shadow: var(--shadow-button); }
+
+/* Buttons */
+.hs-btn { display: inline-block; font-weight: 700; border-radius: 9999px; padding: 0.75rem 1.25rem; text-decoration: none; }
+.hs-btn-primary { background: var(--color-gold); color: #fff; }
+.hs-btn-secondary { background: var(--color-soft-blue); color: var(--color-black); }
+.hs-btn-ghost { background: transparent; color: var(--color-black); }
+
+/* Cards */
+.hs-card { background: #fff; border-radius: 0.75rem; box-shadow: var(--shadow-card); overflow: hidden; }
+.hs-card-body { padding: 1.5rem; }
+.hs-card-label { color: var(--color-gold); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 700; font-size: 0.85rem; }
+
+/* Block style: core/group is-style-hs-card */
+.wp-block-group.is-style-hs-card { background: #fff; border-radius: 0.75rem; box-shadow: var(--shadow-card); overflow: hidden; }
+.wp-block-group.is-style-hs-card > .wp-block-group__inner-container { padding: 1.5rem; }
+
+/* Utility */
+.hs-text-center { text-align: center; }
+.hs-text-left { text-align: left; }
+.hs-mb-2 { margin-bottom: 0.5rem; }
+.hs-mb-4 { margin-bottom: 1rem; }
+.hs-mb-6 { margin-bottom: 1.5rem; }
+.hs-mb-8 { margin-bottom: 2rem; }
+.hs-mb-12 { margin-bottom: 3rem; }
+.hs-grid { display: grid; gap: 2rem; }
+.hs-grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.hs-grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 1024px) { .hs-grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) { .hs-grid-3, .hs-grid-2 { grid-template-columns: 1fr; } }
+
+/* Hero bubble (rounded left) */
+.hs-bubble-left { border-top-left-radius: 999px; border-bottom-left-radius: 999px; }
+
+/* Testimonial badges */
+.hs-badge { width: 3rem; height: 3rem; border-radius: 9999px; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; }
+.hs-badge-gold { background: var(--color-gold); color: #fff; }
+.hs-badge-soft-blue { background: var(--color-soft-blue); color: var(--color-black); }
+.hs-badge-peach { background: var(--color-peach); color: var(--color-black); }
+.hs-badge-teal { background: var(--color-teal); color: #fff; }
+.hs-badge-light-purple { background: var(--color-light-purple); color: var(--color-black); }
+
+/* Images */
+.hs-img-rounded { border-radius: 1rem; }
+.hs-img-circle { border-radius: 9999px; }
+.hs-img-raised { width: 90%; margin: -2.5rem auto 0; border-radius: 1rem; display: block; }
+
+/* Form */
+.hs-input { border: 1px solid var(--color-gray-300, #ddd); border-radius: .5rem; padding: .5rem .75rem; width: 100%; }
+
+/* Editor canvas scoping */
+.block-editor-page .editor-styles-wrapper .hs-container { max-width: var(--max-width); }
+
+

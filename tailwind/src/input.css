@@ -1,0 +1,33 @@
+@import "tailwindcss";
+@plugin "daisyui";
+@source "../**/*.php";
+@source "../template-parts/**/*.php";
+@source "../**/*.html";
+@source "../js/**/*.js";
+
+@theme {
+	--font-title: "Quincy", serif;
+	--font-body: "Effra", sans-serif;
+
+	--color-black: #000000;
+	--color-gold: #C1A868;
+	--color-green-dark: #026360;
+	--color-peach: #F7BAA4;
+	--color-teal: #409690;
+	--color-soft-blue: #CBE3E5;
+	--color-light-blue: #F3F7FA;
+	--color-light-purple: #F7F2F9;
+	--color-pink: #F9F2F3;
+	--color-white: #ffffff;
+
+	--shadow-card: 0 4px 16px rgba(0, 0, 0, 0.05);
+	--shadow-button: 0 2px 6px rgba(0, 0, 0, 0.10);
+}
+
+@utility text-caps {
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	font-weight: 700;
+}
+
+

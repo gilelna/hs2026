@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HS 2026 Design</title>
+    <link rel="stylesheet" href="css/output.css" />
+    <link rel="stylesheet" href="fonts/fonts.css" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="bg-white text-gray-800 font-body">
+   
+  <h1 class="text-2xl md:text-4xl lg:text-6xl font-bold mb-8">
+    Responsive Typography Test
+  </h1>
+
+  <!-- FLEX DIRECTION -->
+  <div class="flex flex-col md:flex-row gap-4 mb-8">
+    <div class="bg-blue-500 text-white p-6 flex-1 text-center">
+      Box 1
+    </div>
+    <div class="bg-green-500 text-white p-6 flex-1 text-center">
+      Box 2
+    </div>
+  </div>
+
+  <!-- VISIBILITY TEST -->
+  <div class="mb-8">
+    <div class="bg-red-500 text-white p-4 md:hidden">
+      Visible only on SMALL screens
+    </div>
+    <div class="bg-purple-600 text-white p-4 hidden md:block">
+      Visible on MEDIUM and up
+    </div>
+  </div>
+
+  <!-- RESPONSIVE SPACING -->
+  <div class="bg-white p-4 md:p-10 lg:p-20 mb-8 border">
+    <p class="text-base md:text-lg lg:text-xl">
+      Padding and text size increase on larger screens.
+    </p>
+  </div>
+
+  <!-- GRID TEST -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div class="bg-yellow-400 p-6 text-center">1</div>
+    <div class="bg-yellow-400 p-6 text-center">2</div>
+    <div class="bg-yellow-400 p-6 text-center">3</div>
+    <div class="bg-yellow-400 p-6 text-center">4</div>
+  </div>
+
+    <!-- Testimonial Cards Design Preview - Matching Hadar Shemesh Style -->
+   
+
+    <section class="bg-light-blue">
+      <div class="max-w-7xl2 mx-auto py-20 px-6" aria-label="Latest Offers Section">
+        <h2 class="text-3xl md:text-5xl font-title font-bold text-black text-center mb-4">Check our latest offers</h2>
+        <p class="text-base md:text-lg text-gold font-body text-center mb-12 max-w-3xl mx-auto">
+          Meet the community, watch some lessons or explore our freebies to improve<br />
+          Your English, either way you are most welcome! No strings attached
+        </p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- Card 1 -->
+          <div class="card bg-white rounded-xl shadow-card overflow-visible transition-transform hover:-translate-y-1">
+            <img mb2 src="css/placeholder.webp" alt="Photo with feet on yellow dot, representing the start of a journey" class="avatar-rounded w-[90%] -mt-10 rounded-xl mx-auto object-cover aspect-[4/3]" />
+            <div class="p-6 relative text-left">
+                <div class="card-arrow absolute bottom-6 right-6 w-10 h-10 flex items-center justify-center rounded-full shadow-button transition hover:scale-110 bg-gold text-white">
+                →
+              </div><span class="card-label text-sm color-gold text-caps block mb-2">Free course</span>
+              <h3 class="text-xl font-semibold font-body mb-2 quote-large">Your first lesson<br />starts here</h3>
+            
+            </div>
+          </div>
+          <!-- Card 2 -->
+          <div class="card bg-white shadow-card overflow-visible transition-transform hover:-translate-y-1">
+            <img src="css/placeholder.webp" alt="Image of a polka dot bag with a card labeled 'Free'" class="avatar-rounded w-[90%] -mt-10 mx-auto object-cover aspect-[4/3]" />
+            <div class="p-6 relative text-left">
+              <span class="card-label text-sm text-gold font-body block mb-1">Download</span>
+              <h3 class="text-xl font-bold font-title mb-4 quote-large">Get the new course<br />free edition</h3>
+              <div class="card-arrow absolute bottom-6 right-6 w-10 h-10 flex items-center justify-center rounded-full shadow-button transition hover:right-5 bg-gold text-white">
+                →
+              </div>
+            </div>
+          </div>
+          <!-- Card 3 -->
+          <div class="card bg-white rounded-xl shadow-card overflow-visible transition-transform hover:-translate-y-1">
+            <img src="css/placeholder.webp" alt="Three young people smiling and working together on laptops" class="avatar-rounded w-[90%] -mt-10 rounded-xl mx-auto object-cover aspect-[4/3]" />
+            <div class="p-6 relative text-left">
+              <span class="card-label text-sm text-gold font-body block mb-1">Community</span>
+              <h3 class="text-xl font-bold font-title mb-4 quote-large">Meet everyone</h3>
+              <div class="card-arrow absolute bottom-6 right-6 w-10 h-10 flex items-center justify-center rounded-full shadow-button transition hover:scale-110 bg-gold text-white">
+                →
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-12">
+          <a href="#" class="inline-block bg-soft-blue text-black font-bold rounded-full px-6 py-3 shadow-button hover:shadow-lg transition">
+            SEE MORE
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- "Your English is amazing!" Section -->
+    <section class="max-w-full mx-auto px-6 py-24 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+      <div class="max-w-xl w-full mx-auto">
+        <h2 class="text-5xl font-title font-bold text-black mb-6 leading-tight text-center md:text-left">
+          Your<br />English<br />is amazing!
+        </h2>
+        <p class="text-lg text-gold font-body mb-8 max-w-md">
+          You don’t have to be a native speaker to have great English. All you need is right here, with us.
+        </p>
+        <a href="#" class="inline-block px-6 py-3 bg-soft-blue text-black font-bold rounded-xl shadow-button hover:shadow-lg transition">
+          EXPLORE
+        </a>
+      </div>
+      <div class="relative">
+        <img src="css/placeholder.webp" alt="Smiling woman" class="rounded-full w-full max-w-md mx-auto object-cover aspect-square" />
+        <!-- Decorative background circle or SVG could go here -->
+      </div>
+    </section>
+
+    <!-- "Free 14-day Pronunciation Plan" Section -->
+    <section class="relative grid grid-cols-1 md:grid-cols-2 items-center px-6 py-24 overflow-hidden">
+      <div class="relative z-0">
+        <img src="https://hadarshemesh.com/wp-content/uploads/Hadar_ColorfulSkirt__MP_2094-4.jpg" alt="Smiling woman" class="w-full h-full object-cover rounded-lg" />
+        <div class="absolute inset-y-0 right-0 w-1/5 bg-gradient-to-l from-white via-white/70 to-transparent"></div>
+      </div>
+      <div class="z-10 relative max-w-7xl mx-auto px-6">
+        <h2 class="text-5xl font-title font-bold mb-6 leading-tight">
+          <span class="underline">Free</span> 14-day<br />Pronunciation Plan
+        </h2>
+        <p class="text-lg text-gray-700 font-body mb-8 max-w-lg">
+          Daily lessons, practice drills and audio recordings to achieve confident, clear speech in just 14 days – without any overwhelm, confusion, or too much time!
+        </p>
+        <form class="flex flex-wrap gap-4 bg-white p-4 rounded-xl shadow-md max-w-xl">
+          <input type="text" placeholder="Name" class="flex-1 border border-gray-300 px-4 py-2 rounded-md" />
+          <input type="email" placeholder="Email" class="flex-1 border border-gray-300 px-4 py-2 rounded-md" />
+          <button class="bg-green-900 text-white font-bold px-6 py-2 rounded-md hover:bg-green-800 transition">Get it</button>
+        </form>
+      </div>
+    </section>
+</body>
+
+  <!-- "Exciting New Course" Section -->
+  <section class="relative bg-white py-24 px-6">
+    <div class="max-w-7xl mx-auto relative z-10 grid grid-cols-1 md:grid-cols-2 items-center gap-12">
+      <!-- Right side bubble CTA -->
+      <div class="relative z-10 bg-pink rounded-l-[999px] py-12 px-8 md:pl-24 shadow-xl">
+        <h2 class="text-4xl md:text-5xl font-title font-bold text-black mb-6 leading-tight">
+          It’s So exciting,<br />A new free course!
+        </h2>
+        <p class="text-gray-600 font-body text-lg leading-relaxed mb-8 max-w-xl">
+          We made some of our library accessible<br />
+          So you can easily take your first step<br />
+          And start speaking English freely.
+        </p>
+        <a href="#" class="inline-block bg-gold text-white font-bold px-6 py-3 rounded-full shadow-button hover:bg-opacity-90 transition">
+          START NOW
+        </a>
+      </div>
+
+      <!-- Floating image on right -->
+      <div class="relative z-20 flex justify-center md:justify-start">
+        <img src="css/placeholder.webp" alt="Excited woman with hands up" class="w-[300px] md:w-[360px] lg:w-[420px] -mt-16 md:-mt-24 relative z-30" />
+      </div>
+    </div>
+  </section>
+  <section class="bg-white py-20 px-6">
+    <div class="max-w-7xl mx-auto">
+      <h2 class="text-3xl md:text-4xl font-title font-bold text-black text-center mb-12">
+        Testimonial Cards Design Preview
+      </h2>
+      
+      <!-- Video Testimonials Grid - Matching Hadar Style -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+        
+        <!-- Video Card 1 - Francis Kodama Style (background image) -->
+      <article class="card-one transition-transform hover:-translate-y-1">
+          <!-- רקע התמונה -->
+          <div class="card-one--bg-pic"
+            style=" background-image: url('https://s3.us-east-2.amazonaws.com/hadarshemesh.com/media/Screenshot-2024-02-20-at-18.35.21.png');">
+          </div>
+        
+          <!-- גרדיאנט בהתאמה -->
+          <div class="absolute inset-0 z-10 w-full h-full"
+            style="background: linear-gradient(180deg, rgba(0,0,0,0) 30%, rgba(0,0,0,0.8) 100%);">
+          </div>
+        
+          <!-- תוכן -->
+          <div class="card-one content">
+            <p class="card-one desc">
+              This course gave me back my superpower: To communicate with confidence.
+            </p>
+            <div class="flex items-center justify-between">
+              <span class="card-name">FRANCIS KODAMA</span>
+              <a href="#" 
+                class="card-button">
+                <span><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path d="M14.752 11.168l-4.796-2.7A1 1 0 008 9.2v5.6a1 1 0 001.5.866l4.796-2.7a1 1 0 000-1.732z" />
+                </svg>
+                </span>
+                Watch More
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Testimonial Card 2 - Avatar Style -->
+<div class="card-two bg-pink-50 rounded-xl p-6 flex flex-col gap-4">
+<!-- תמונה -->
+<div class="card-avatar-img">
+  <img src="https://hadarshemesh.com/wp-content/uploads/Monica-Guarin.webp" alt="Marco Aurelio" >
+</div>
+
+<!-- שם -->
+<p class="card-name">
+  MARCO AURELIO C CASARIN
+</p>
+
+<!-- ציטוט -->
+<p class="text-lg font-serif text-black leading-relaxed">
+  I had no confidence and I avoided talking. This program was just what I needed to help me progress. Now, I have built the confidence to join in conversations with others.
+</p>
+
+<!-- כפתור -->
+<a href="#" 
+                class="card-button">
+                <span><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path d="M14.752 11.168l-4.796-2.7A1 1 0 008 9.2v5.6a1 1 0 001.5.866l4.796-2.7a1 1 0 000-1.732z" />
+                </svg>
+                </span>
+                Watch More
+              </a>
+</div>
+
+        <!-- Video Card 3 - Muxiang Liu Style (rounded avatar, no background) -->
+        <article class="card-two bg-pink">
+            <div class="card-avatar-img">
+              <img src="css/placeholder.webp" alt="Muxiang Liu Pajerski avatar" />
+           </div>
+<!-- שם -->
+<p class="card-name">
+2 MARCO AURELIO C CASARIN
+</p>
+
+<!-- ציטוט -->
+<p class="card-two desc">
+I had no confidence and I avoided talking. This program was just what I needed to help me progress. Now, I have built the confidence to join in conversations with others.
+</p>
+
+<!-- כפתור -->
+<a href="#" 
+class="card-button">
+<span><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="M14.752 11.168l-4.796-2.7A1 1 0 008 9.2v5.6a1 1 0 001.5.866l4.796-2.7a1 1 0 000-1.732z" />
+</svg>
+</span>
+Watch More
+</a>
+          </div>
+        </article>
+      </div>
+
+      <!-- Text Testimonials Grid - Matching Hadar Style -->
+      <h3 class="text-2xl font-title font-bold text-black mb-8">Text Testimonial Cards</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+        
+        <!-- Text Card 1 - Hiroko Neely Style -->
+        <article class="testimonial-card card-label bg-white rounded-xl shadow-card p-6 transition-transform hover:-translate-y-1 cursor-pointer group">
+          <div class="flex items-start mb-4">
+            <div class="w-12 h-12 bg-gold rounded-full flex items-center justify-center text-white font-bold text-sm mr-3 flex-shrink-0">
+              HK
+            </div>
+            <div>
+              <h3 class="quote-large font-semibold text-black mb-0">Hiroko Neely</h3>
+              <p class="text-sm text-gold">Japan</p>
+            </div>
+          </div>
+          <blockquote class="mb-4">
+            <p class="text-gray-700 font-body text-lg leading-relaxed">
+              "Recently, I had an interview for a program with 120 applicants, but only 15 were accepted, and I was one of them! In the interview, I was able to confidently introduce myself first in front of everyone."
+            </p>
+          </blockquote>
+          <div class="text-right">
+            <button class="bg-gray-200 text-black font-bold px-4 py-2 rounded-full text-sm hover:bg-gray-300 transition-colors">
+              Read More
+            </button>
+          </div>
+        </article>
+
+        <!-- Text Card 2 - Armella Demeter Style -->
+        <article class="testimonial-card card-label bg-white rounded-xl shadow-card p-6 transition-transform hover:-translate-y-1 cursor-pointer group">
+          <div class="flex items-start mb-4">
+            <div class="w-12 h-12 bg-soft-blue rounded-full flex items-center justify-center text-black font-bold text-sm mr-3 flex-shrink-0">
+              AD
+            </div>
+            <div>
+              <h3 class="quote-large font-semibold text-black mb-0">Armella Demeter</h3>
+              <p class="text-sm text-gold">Germany</p>
+            </div>
+          </div>
+          <blockquote class="mb-4">
+            <p class="text-gray-700 font-body text-lg leading-relaxed">
+              "After just three months, I can easily have conversations in English with people from all around the world. The community support was incredible."
+            </p>
+          </blockquote>
+          <div class="text-right">
+            <button class="bg-gray-200 text-black font-bold px-4 py-2 rounded-full text-sm hover:bg-gray-300 transition-colors">
+              Read More
+            </button>
+          </div>
+        </article>
+
+        <!-- Text Card 3 - Jacqueline Conde Style -->
+        <article class="testimonial-card card-label bg-white rounded-xl shadow-card p-6 transition-transform hover:-translate-y-1 cursor-pointer group">
+          <div class="flex items-start mb-4">
+            <div class="w-12 h-12 bg-peach rounded-full flex items-center justify-center text-black font-bold text-sm mr-3 flex-shrink-0">
+              JC
+            </div>
+            <div>
+              <h3 class="quote-large font-semibold text-black mb-0">Jacqueline Conde</h3>
+              <p class="text-sm text-gold">Mexico</p>
+            </div>
+          </div>
+          <blockquote class="mb-4">
+            <p class="text-gray-700 font-body text-lg leading-relaxed">
+              "I've seen people spend thousands on English programs and still not get the results I got with New Sound. This program is worth every penny."
+            </p>
+          </blockquote>
+          <div class="text-right">
+            <button class="bg-gold text-white font-bold px-4 py-2 rounded-full text-sm hover:bg-yellow-600 transition-colors">
+              Watch More
+            </button>
+          </div>
+        </article>
+      </div>
+
+      <!-- Featured Testimonial Cards - Matching Hadar Style -->
+      <h3 class="text-2xl font-title font-bold text-black mb-8">Featured Testimonial Cards</h3>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
+        
+        <!-- Featured Card 1 - Galina Cherneva Style -->
+        <article class="testimonial-card card-label bg-white rounded-xl shadow-card p-8 transition-transform hover:-translate-y-1 cursor-pointer group">
+          <div class="text-4xl text-gold font-title mb-4">"</div>
+          <div class="flex items-center mb-6">
+            <div class="w-16 h-16 bg-gold rounded-full flex items-center justify-center text-white font-bold text-lg mr-4">
+              GC
+            </div>
+            <div>
+              <h3 class="quote-large font-semibold text-black text-lg mb-0">Galina Cherneva</h3>
+              <p class="text-gold">Bulgaria</p>
+            </div>
+          </div>
+          <blockquote class="text-gray-700 font-body text-lg mb-6 italic leading-relaxed">
+            "I now have my own health and wellness business that serves clients all over the world! I used to be afraid of speaking, and now I'm a business owner and a content creator, creating videos on YouTube, Instagram, and TikTok. This course changed my personal and professional life."
+          </blockquote>
+          <div class="text-right">
+            <button class="bg-gold text-white font-bold px-4 py-2 rounded-full text-sm hover:bg-yellow-600 transition-colors">
+              Watch Video
+            </button>
+          </div>
+        </article>
+
+        <!-- Featured Card 2 - Dorota Burnos Style -->
+        <article class="testimonial-card card-label bg-white rounded-xl shadow-card p-8 transition-transform hover:-translate-y-1 cursor-pointer group">
+          <div class="text-4xl text-gold font-title mb-4">"</div>
+          <div class="flex items-center mb-6">
+            <div class="w-16 h-16 bg-soft-blue rounded-full flex items-center justify-center text-black font-bold text-lg mr-4">
+              DB
+            </div>
+            <div>
+              <h3 class="quote-large font-semibold text-black text-lg mb-0">Dorota Burnos</h3>
+              <p class="text-gold">Poland</p>
+            </div>
+          </div>
+          <blockquote class="text-gray-700 font-body text-lg mb-6 italic leading-relaxed">
+            "I don't worry anymore about what words to use - I just speak freely and with confidence. I can express my thoughts and speak automatically. All of the coaches are so supportive and warm, I felt like I was with my family."
+          </blockquote>
+          <div class="text-right">
+            <button class="bg-gold text-white font-bold px-4 py-2 rounded-full text-sm hover:bg-yellow-600 transition-colors">
+              Watch Video
+            </button>
+          </div>
+        </article>
+      </div>
+
+      <!-- Card Variations - Matching Hadar Style -->
+      <h3 class="text-2xl font-title font-bold text-black mb-8">Card Variations</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+        
+        <!-- Card with both Watch and Read buttons -->
+        <article class="testimonial-card card-label bg-white rounded-xl shadow-card p-6 transition-transform hover:-translate-y-1 cursor-pointer group">
+          <div class="flex items-start mb-4">
+            <div class="w-12 h-12 bg-teal rounded-full flex items-center justify-center text-white font-bold text-sm mr-3 flex-shrink-0">
+              IC
+            </div>
+            <div>
+              <h3 class="quote-large font-semibold text-black mb-0">Ilana Charat</h3>
+              <p class="text-sm text-gold">Brazil</p>
+            </div>
+          </div>
+          <blockquote class="mb-4">
+            <p class="text-gray-700 font-body text-lg leading-relaxed">
+              "Before, I had to prepare a lot for meetings with American customers. I would work on a script to speak with them. Now, I understand almost everything!"
+            </p>
+          </blockquote>
+          <div class="flex justify-between items-center mt-4">
+            <button class="bg-gold text-white font-bold px-4 py-2 rounded-full text-sm hover:bg-yellow-600 transition-colors">
+              Watch More
+            </button>
+            <button class="bg-gray-200 text-black font-bold px-4 py-2 rounded-full text-sm hover:bg-gray-300 transition-colors">
+              Read More
+            </button>
+          </div>
+        </article>
+
+        <!-- Card without avatar -->
+        <article class="testimonial-card card-label bg-white rounded-xl shadow-card p-6 transition-transform hover:-translate-y-1 cursor-pointer group">
+          <h3 class="quote-large font-semibold text-black mb-2">Filippo Pardossi</h3>
+          <blockquote class="mb-4">
+            <p class="text-gray-700 font-body text-lg leading-relaxed">
+              "Before New Sound my English was a B1 and now it is a C1. The transformation was incredible and I feel so much more confident."
+            </p>
+          </blockquote>
+          <div class="flex justify-between items-center mt-4">
+            <div>
+              <p class="text-sm text-gold">Italy</p>
+            </div>
+            <button class="bg-gray-200 text-black font-bold px-4 py-2 rounded-full text-sm hover:bg-gray-300 transition-colors">
+              Read More
+            </button>
+          </div>
+        </article>
+
+        <!-- Card with longer quote -->
+        <article class="testimonial-card card-label bg-white rounded-xl shadow-card p-6 transition-transform hover:-translate-y-1 cursor-pointer group">
+          <div class="flex items-start mb-4">
+            <div class="w-12 h-12 bg-light-purple rounded-full flex items-center justify-center text-black font-bold text-sm mr-3 flex-shrink-0">
+              DA
+            </div>
+            <div>
+              <h3 class="quote-large font-semibold text-black mb-0">Dia Adorjan</h3>
+              <p class="text-sm text-gold">Hungary</p>
+            </div>
+          </div>
+          <blockquote class="mb-4">
+            <p class="text-gray-700 font-body text-lg leading-relaxed">
+              "I can now speak with more clarity, confidence, and joy—without worrying about making mistakes or being judged. This program is so much more than a path to improving pronunciation—it's a space to grow and build a healthier sense of self."
+            </p>
+          </blockquote>
+          <div class="text-right">
+            <button class="bg-gray-200 text-black font-bold px-4 py-2 rounded-full text-sm hover:bg-gray-300 transition-colors">
+              Read More
+            </button>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================= -->
+  <!-- Style Guide (Tailwind + DaisyUI + Branding) -->
+  <!-- ========================================= -->
+  <section class="bg-white border-t border-gray-200">
+    <div class="max-w-7xl mx-auto px-6 py-20">
+      <h2 class="text-4xl md:text-5xl font-title font-bold text-black mb-2">Style Guide</h2>
+      <p class="text-lg text-gold font-body mb-10">Reusable components and layout patterns using Tailwind CSS, DaisyUI, and our brand tokens.</p>
+
+      <!-- Hero Section -->
+      <!-- ------------------------------------- -->
+      <div class="mb-16">
+        <h3 class="text-2xl font-title font-bold text-black mb-4">Hero Section</h3>
+        <div class="relative overflow-hidden rounded-2xl bg-light-blue">
+          <div class="absolute inset-0 opacity-10" style="background-image: url('css/placeholder.webp'); background-size: cover; background-position: center;"></div>
+          <div class="relative px-8 py-16 md:py-24 md:px-12 lg:px-16">
+            <h1 class="text-4xl md:text-6xl font-title font-bold text-black leading-tight mb-4">Speak With Confidence</h1>
+            <p class="text-lg md:text-xl text-gold font-body mb-8 max-w-2xl">Clear structure, supportive community, and practical tools to help you thrive in English.</p>
+            <div class="flex flex-wrap gap-3">
+              <button class="btn bg-gold text-white border-0 shadow-button">Get Started</button>
+              <button class="btn btn-ghost text-black">Learn More</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Layout & Containers -->
+      <!-- ------------------------------------- -->
+      <div class="mb-16">
+        <h3 class="text-2xl font-title font-bold text-black mb-4">Layout & Containers</h3>
+        <p class="text-gray-600 mb-4">Examples of common responsive grids and spacing.</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div class="rounded-xl p-6 bg-light-purple">
+            <p class="text-sm text-gold mb-2">2 Columns</p>
+            <div class="grid grid-cols-2 gap-4">
+              <div class="bg-white rounded-xl shadow-card p-4 text-center">Col 1</div>
+              <div class="bg-white rounded-xl shadow-card p-4 text-center">Col 2</div>
+            </div>
+          </div>
+          <div class="rounded-xl p-6 bg-soft-blue">
+            <p class="text-sm text-gold mb-2">3 Columns</p>
+            <div class="grid grid-cols-3 gap-4">
+              <div class="bg-white rounded-xl shadow-card p-4 text-center">1</div>
+              <div class="bg-white rounded-xl shadow-card p-4 text-center">2</div>
+              <div class="bg-white rounded-xl shadow-card p-4 text-center">3</div>
+            </div>
+          </div>
+        </div>
+        <div class="rounded-xl p-6 bg-light-blue mb-6">
+          <p class="text-sm text-gold mb-2">4 Columns</p>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="bg-white rounded-xl shadow-card p-4 text-center">A</div>
+            <div class="bg-white rounded-xl shadow-card p-4 text-center">B</div>
+            <div class="bg-white rounded-xl shadow-card p-4 text-center">C</div>
+            <div class="bg-white rounded-xl shadow-card p-4 text-center">D</div>
+          </div>
+        </div>
+        <div class="rounded-xl p-6 bg-white border border-gray-200">
+          <p class="text-sm text-gold mb-4">Padding, Spacing, Alignment</p>
+          <div class="flex flex-wrap items-center gap-4">
+            <span class="px-4 py-2 bg-soft-blue rounded-full">px-4 py-2</span>
+            <span class="p-4 bg-light-purple rounded-xl">p-4</span>
+            <span class="p-2 bg-peach rounded-md">p-2</span>
+            <span class="px-6 py-3 bg-teal text-white rounded-full">btn spacing</span>
+            <div class="ml-auto px-3 py-1 bg-gray-100 rounded">ml-auto</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Text Styles -->
+      <!-- ------------------------------------- -->
+      <div class="mb-16">
+        <h3 class="text-2xl font-title font-bold text-black mb-4">Text Styles</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div>
+            <h1 class="text-5xl font-title font-bold text-black mb-2">Heading 1</h1>
+            <h2 class="text-4xl font-title font-bold text-black mb-2">Heading 2</h2>
+            <h3 class="text-3xl font-title font-bold text-black mb-2">Heading 3</h3>
+            <h4 class="text-2xl font-title font-bold text-black mb-4">Heading 4</h4>
+            <p class="text-base text-gray-700 font-body mb-2">Body text example using our brand body font.</p>
+            <a class="text-gold underline" href="#">Link example</a>
+            <p class="text-sm text-gray-500 mt-2">Small text example</p>
+          </div>
+          <div class="bg-white rounded-xl border border-gray-200 p-6">
+            <p class="text-gold text-caps mb-2">Highlight</p>
+            <p class="font-title text-2xl">Quincy for titles</p>
+            <p class="font-body text-base text-gray-700">Effra for body</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Accordion (DaisyUI Collapse) -->
+      <!-- ------------------------------------- -->
+      <div class="mb-16">
+        <h3 class="text-2xl font-title font-bold text-black mb-4">Accordion</h3>
+        <div class="space-y-3">
+          <div class="collapse bg-white border border-gray-200 rounded-xl">
+            <input type="checkbox" />
+            <div class="collapse-title text-lg font-semibold">What makes this program unique?</div>
+            <div class="collapse-content text-gray-700">A supportive community, practical tools, and real-world practice to build confidence.</div>
+          </div>
+          <div class="collapse bg-white border border-gray-200 rounded-xl">
+            <input type="checkbox" />
+            <div class="collapse-title text-lg font-semibold">How long is the course?</div>
+            <div class="collapse-content text-gray-700">Flexible pacing with structured milestones so you can learn consistently.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <!-- ------------------------------------- -->
+      <div class="mb-16">
+        <h3 class="text-2xl font-title font-bold text-black mb-4">Buttons</h3>
+        <div class="flex flex-wrap gap-3 items-center">
+          <button class="btn bg-gold text-white border-0 shadow-button">Primary</button>
+          <button class="btn bg-soft-blue text-black border-0">Secondary</button>
+          <button class="btn btn-outline border-gold text-gold">Outline</button>
+          <button class="btn btn-ghost text-black">Ghost</button>
+          <button class="btn" disabled>Disabled</button>
+        </div>
+      </div>
+
+      <!-- Cards & Boxes -->
+      <!-- ------------------------------------- -->
+      <div class="mb-16">
+        <h3 class="text-2xl font-title font-bold text-black mb-4">Cards & Boxes</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- Info Card -->
+          <div class="card bg-white shadow-card rounded-xl border border-gray-100">
+            <div class="card-body p-6">
+              <h4 class="card-title font-title text-xl">Info Card</h4>
+              <p class="text-gray-700">Use for quick information panels.</p>
+            </div>
+          </div>
+          <!-- Image Card -->
+          <div class="card bg-white shadow-card rounded-xl overflow-hidden border border-gray-100">
+            <figure class="aspect-video"><img src="css/placeholder.webp" alt="Placeholder" /></figure>
+            <div class="card-body p-6">
+              <h4 class="card-title font-title text-xl">Image Card</h4>
+              <p class="text-gray-700">With image header and body content.</p>
+            </div>
+          </div>
+          <!-- Stat Card -->
+          <div class="card bg-light-blue rounded-xl border border-gray-100">
+            <div class="card-body p-6">
+              <p class="text-sm text-gold">Students</p>
+              <p class="text-4xl font-title font-bold text-black">25k+</p>
+              <p class="text-gray-600">Active learners in our community</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Forms -->
+      <!-- ------------------------------------- -->
+      <div class="mb-16">
+        <h3 class="text-2xl font-title font-bold text-black mb-4">Forms</h3>
+        <form class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <label class="form-control w-full">
+            <div class="label"><span class="label-text">First name</span></div>
+            <input type="text" placeholder="Hadar" class="input input-bordered w-full" />
+          </label>
+          <label class="form-control w-full">
+            <div class="label"><span class="label-text">Last name</span></div>
+            <input type="text" placeholder="Shemesh" class="input input-bordered w-full" />
+          </label>
+          <label class="form-control md:col-span-2">
+            <div class="label"><span class="label-text">Message</span></div>
+            <textarea class="textarea textarea-bordered" rows="4" placeholder="Tell us more..."></textarea>
+          </label>
+          <label class="form-control">
+            <div class="label"><span class="label-text">Program</span></div>
+            <select class="select select-bordered">
+              <option>New Sound</option>
+              <option>Accent Makeover</option>
+              <option>Freebies</option>
+            </select>
+          </label>
+          <div class="flex items-center gap-6">
+            <label class="label cursor-pointer"><input type="checkbox" class="checkbox checkbox-md" /><span class="label-text ml-2">Subscribe</span></label>
+            <label class="label cursor-pointer"><input type="radio" name="plan" class="radio" checked /><span class="label-text ml-2">Monthly</span></label>
+            <label class="label cursor-pointer"><input type="radio" name="plan" class="radio" /><span class="label-text ml-2">Yearly</span></label>
+          </div>
+          <div class="md:col-span-2">
+            <button type="submit" class="btn bg-gold text-white border-0">Submit</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Alerts / Messages -->
+      <!-- ------------------------------------- -->
+      <div class="mb-16">
+        <h3 class="text-2xl font-title font-bold text-black mb-4">Alerts / Messages</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="alert alert-info"><span>Info: New cohort opens next week.</span></div>
+          <div class="alert alert-success"><span>Success: You’re on the list!</span></div>
+          <div class="alert alert-warning"><span>Warning: Limited seats remaining.</span></div>
+          <div class="alert alert-error"><span>Error: Please try again later.</span></div>
+        </div>
+      </div>
+
+      <!-- Tabs & Navigation -->
+      <!-- ------------------------------------- -->
+      <div class="mb-16">
+        <h3 class="text-2xl font-title font-bold text-black mb-4">Tabs & Navigation</h3>
+        <div class="navbar bg-white rounded-xl border border-gray-200 mb-6 px-4">
+          <div class="flex-1"><a class="text-lg font-title font-bold">HS Brand</a></div>
+          <div class="flex gap-2">
+            <a class="btn btn-ghost">Home</a>
+            <a class="btn btn-ghost">Programs</a>
+            <a class="btn btn-ghost">Community</a>
+          </div>
+        </div>
+        <div class="tabs tabs-lifted bg-white rounded-xl">
+          <a class="tab tab-active">
+            <span class="mr-2">🏠</span>Overview
+          </a>
+          <a class="tab"><span class="mr-2">🎓</span>Courses</a>
+          <a class="tab"><span class="mr-2">💬</span>Community</a>
+        </div>
+      </div>
+
+      <!-- Common Utilities Showcase -->
+      <!-- ------------------------------------- -->
+      <div>
+        <h3 class="text-2xl font-title font-bold text-black mb-4">Common Utilities</h3>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <div class="p-4 rounded-xl bg-soft-blue text-center">bg-soft-blue</div>
+          <div class="p-4 rounded-xl bg-light-purple text-center">bg-light-purple</div>
+          <div class="p-4 rounded-xl bg-peach text-center">bg-peach</div>
+          <div class="p-4 rounded-xl bg-teal text-white text-center">bg-teal</div>
+          <div class="p-4 rounded-xl border border-gray-200 text-center">p-4 rounded-xl</div>
+          <div class="p-4 rounded-xl bg-white shadow-card text-center">shadow-card</div>
+          <div class="p-4 rounded-xl bg-white text-gold text-center">text-gold</div>
+          <div class="p-4 rounded-xl bg-white text-center">
+            <div class="grid grid-cols-3 gap-2"><div class="bg-gray-100 p-2">1</div><div class="bg-gray-100 p-2">2</div><div class="bg-gray-100 p-2">3</div></div>
+            <div class="text-xs mt-2">grid grid-cols-3 gap-2</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</html>
