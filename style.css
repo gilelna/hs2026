@@ -335,3 +335,12 @@ ul.wp-block-list {
 ul.wp-block-list li {
     padding-bottom: 0.8em;
 }
+/* full-width helpers */
+.alignfull {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+}

@@ -95,6 +95,9 @@ function hs2026_theme_setup() {
     add_editor_style( [ 'fonts/fonts.css', 'css/blocks.css', 'style.css' ] );
     add_theme_support( 'responsive-embeds' );
 
+    // allow wide/full alignments in block editor
+    add_theme_support( 'align-wide' );
+
     register_nav_menus( array(
         'primary' => __( 'Primary Menu', 'hello-elementor-child-hs2026' ),
         'footer'  => __( 'Footer Menu', 'hello-elementor-child-hs2026' ),
