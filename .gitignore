@@ -1,0 +1,16 @@
+# WordPress-related
+wp-config.php
+/wp-content/uploads/
+
+# Node & build folders
+
+tailwind/
+
+# Local env
+.env
+.env.local
+
+# IDE/OS files
+.vscode/
+.DS_Store/
+_legacy/

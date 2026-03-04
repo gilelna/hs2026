@@ -7,6 +7,8 @@ module.exports = {
     "../template-parts/**/*.php",
     "../includes/**/*.php",
     "../src/**/*.{js,ts,jsx,tsx,html}",
+    "../parts/**/*.html",
+    "../templates/**/*.html",
   ],
   safelist: [
     {

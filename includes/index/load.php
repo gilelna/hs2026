@@ -43,6 +43,9 @@ if ( ! hs2026_require_module( 'src/includes/elementor-dominator.php' ) ) {
 	hs2026_require_module( 'includes/elementor-dominator.php' );
 }
 
+// FSE template parts + Elementor asset integration for block templates.
+hs2026_require_module( 'includes/fse-setup.php' );
+
 // Inline Video is a theme-level feature module.
 hs2026_require_module( 'includes/shortcodes/inline-video.php' );
 

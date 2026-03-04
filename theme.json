@@ -78,6 +78,25 @@
     },
     "disableLayoutStyles": true
   },
+  "customTemplates": [
+    {
+      "name": "index",
+      "title": "Default",
+      "postTypes": ["page", "post"]
+    }
+  ],
+  "templateParts": [
+    {
+      "name": "header",
+      "title": "Header",
+      "area": "header"
+    },
+    {
+      "name": "footer",
+      "title": "Footer",
+      "area": "footer"
+    }
+  ],
   "styles": {
     "blocks": {
       "core/group": {
