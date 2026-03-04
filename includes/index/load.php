@@ -32,6 +32,12 @@ if ( ! function_exists( 'hs2026_require_module' ) ) {
 // Core feature modules.
 hs2026_require_module( 'post-type.php' );
 
+// Theme setup & asset enqueue helpers
+hs2026_require_module( 'includes/theme-setup.php' );
+
+// Editor styles/patterns module (block styles, pattern categories, etc.)
+hs2026_require_module( 'includes/block-styles.php' );
+
 // Elementor dominator: support current + legacy module locations.
 if ( ! hs2026_require_module( 'src/includes/elementor-dominator.php' ) ) {
 	hs2026_require_module( 'includes/elementor-dominator.php' );

@@ -9,6 +9,7 @@
 - `patterns/` - Gutenberg block patterns (starter layout library).
 - `post-type.php` - CPT, taxonomy, metabox, and meta registration.
 - `includes/` - modular theme features.
+  - `theme-setup.php` – enqueues assets, registers theme supports/menus, and other style-related helpers.
 - `includes/index/load.php` - module index loader (single include entrypoint).
 - `includes/shortcodes/` - shortcode modules (including inline video).
 - `src/includes/` - additional feature modules (e.g., Elementor asset controls).

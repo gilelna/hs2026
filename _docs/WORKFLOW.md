@@ -17,7 +17,8 @@
 ## Where to Add Things
 - **Patterns:** `patterns/*.php`
 - **Template parts / templates:** theme template files (block-first approach). For example, `page-fullwidth.php` wraps `the_content()` inside an `alignfull` container so any sections inside stretch edge‑to‑edge.
-- **PHP feature modules:** `includes/` (loaded by `includes/index/load.php`)
+- **PHP feature modules:** `includes/` (loaded by `includes/index/load.php`).
+  - `theme-setup.php` now houses enqueue helpers and theme support registrations.
 - **Shortcodes:** `includes/shortcodes/*.php`
 - **Core CPT/meta logic:** `post-type.php`
 - **Theme JS:** `js/`
