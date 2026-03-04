@@ -30,4 +30,11 @@
 	font-weight: 700;
 }
 
+@layer components {
+  /* class applied by Big Title block style */
+  .is-style-big-title {
+    @apply text-5xl font-title font-bold mb-2;
+  }
+}
+
 
