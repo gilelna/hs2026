@@ -53,3 +53,5 @@ hs2026_require_module( 'includes/shortcodes/inline-video.php' );
 foreach ( glob( get_stylesheet_directory() . '/includes/shortcodes/*.php' ) ?: array() as $shortcode_file ) {
 	require_once $shortcode_file;
 }
+
+hs2026_require_module( 'includes/block-inspector/block-inspector.php' );
