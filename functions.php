@@ -105,6 +105,16 @@ function hs2026_theme_setup() {
 }
 add_action( 'after_setup_theme', 'hs2026_theme_setup' );
 
+// Register block styles that depend on editor support
+add_action( 'init', function() {
+    if ( function_exists( 'register_block_style' ) ) {
+        register_block_style( 'core/heading', [
+            'name'  => 'big-title',
+            'label' => __( 'Big Title', 'hello-elementor-child-hs2026' ),
+        ] );
+    }
+} );
+
 add_theme_support( 'post-formats', 
 	array( 
 		'aside', 

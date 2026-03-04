@@ -17,6 +17,7 @@ Anonymous hooks in this file:
 - `add_action('add_meta_boxes', function() { ... })` - adds related post metabox to `podcast`.
 - `add_action('rest_api_init', function() { ... })` - registers `/hs/v1/testimonial-modal/{id}` route.
 - `add_action('init', function() { ... })` - registers block pattern category and group block style.
+- `add_action('init', function() { ... })` (added 2026‑03‑04) - registers a custom heading block style named "Big Title" (`core/heading`).
 - `add_filter('is_protected_meta', '__return_false')` - exposes protected meta for current implementation.
 
 ## `includes/index/load.php`
