@@ -1,10 +1,11 @@
 # HS2026 TODO
 
 ## Phase 0 - Cleanup + Boot Verification
-- [ ] Confirm theme boots with no PHP fatal errors.
-- [ ] Confirm module index loader is the only include entrypoint from `functions.php`.
+- [x] Confirm theme boots with no PHP fatal errors. *(fixed 2026-03-06: added `hs2026_img()`, removed pattern manual-require loop)*
+- [x] Confirm module index loader is the only include entrypoint from `functions.php`.
 - [ ] Confirm `css/output.css` exists and frontend styles load.
 - [ ] Confirm legacy folder is treated as optional reference only (not deployed).
+- [x] Elementor/FSE coexistence: `fse-setup.php` guards against stripping Elementor on Elementor-built pages.
 
 ## Phase 1 - `theme.json` Branding
 - [ ] Finalize color palette tokens.

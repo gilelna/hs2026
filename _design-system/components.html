@@ -1,0 +1,630 @@
+<!-- HS2026 Design System — Components — do not deploy -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HS2026 DS · Components</title>
+
+  <link rel="stylesheet" href="../css/output.css">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../css/blocks.css">
+  <link rel="stylesheet" href="_shared.css">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-body); background: var(--color-cream); color: var(--color-espresso); min-height: 100vh; line-height: var(--lh-body); }
+
+    /* ── Site Nav component (as it appears on the actual site) ── */
+    .site-nav {
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(18px) saturate(180%);
+      -webkit-backdrop-filter: blur(18px) saturate(180%);
+      border: 1px solid rgba(0,0,0,0.07);
+      border-radius: var(--radius-pill);
+      padding: 0.55rem 1.4rem;
+      display: flex; align-items: center; justify-content: space-between; gap: var(--sp-4);
+      box-shadow: var(--shadow-card);
+    }
+    .site-nav__logo {
+      font-family: var(--font-title); font-weight: 700; font-size: var(--text-h4);
+      color: var(--color-black); text-decoration: none;
+    }
+    .site-nav__links { display: flex; align-items: center; gap: var(--sp-1); }
+    .site-nav__link {
+      font-family: var(--font-body); font-size: var(--text-label);
+      color: var(--color-espresso); text-decoration: none;
+      padding: var(--sp-2) var(--sp-4); border-radius: var(--radius-pill);
+      transition: background .15s, color .15s;
+    }
+    .site-nav__link:hover { background: var(--color-light-blue); }
+    .site-nav__cta {
+      font-family: var(--font-body); font-size: var(--text-label); font-weight: 700;
+      letter-spacing: var(--ls-wide); text-transform: uppercase;
+      background: var(--color-gold); color: var(--color-white);
+      border-radius: var(--radius-pill); padding: var(--sp-2) var(--sp-5);
+      text-decoration: none; transition: background .15s; white-space: nowrap;
+    }
+    .site-nav__cta:hover { background: var(--color-gold-deep); }
+    .site-nav__secondary {
+      font-family: var(--font-body); font-size: var(--text-label);
+      color: var(--color-espresso); opacity: 0.55; text-decoration: none;
+      padding: var(--sp-2) var(--sp-3);
+    }
+
+    /* ── Buttons ── */
+    .btn-primary {
+      display: inline-flex; align-items: center; justify-content: center;
+      font-family: var(--font-body); font-size: var(--text-label); font-weight: 700;
+      letter-spacing: var(--ls-wide); text-transform: uppercase;
+      border-radius: var(--radius-pill); min-height: 44px; padding: 0 var(--sp-6);
+      background: var(--color-gold); color: var(--color-white);
+      border: none; cursor: pointer; text-decoration: none;
+      transition: background .2s; box-shadow: var(--shadow-button);
+    }
+    .btn-primary:hover { background: var(--color-gold-deep); }
+    .wp-block-button__link { padding: var(--sp-3) var(--sp-6) !important; }
+
+    /* ── Arrow btn ── */
+    .arrow-btn-demo {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--color-gold); color: var(--color-white);
+      font-size: 1.125rem; text-decoration: none;
+      transition: background .18s, transform .18s;
+    }
+    .arrow-btn-demo:hover { background: var(--color-gold-deep); transform: translateX(3px); }
+
+    /* ── Cards ── */
+    .demo-card {
+      background: var(--color-white); border-radius: var(--radius-card);
+      box-shadow: var(--shadow-card); overflow: hidden;
+      transition: transform .22s ease, box-shadow .22s ease; cursor: pointer;
+    }
+    .demo-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-raised); }
+    .demo-card__img { width: 100%; }
+    .demo-card__body { padding: var(--sp-5); }
+    .demo-card__eye  { font-family: var(--font-body); font-size: var(--text-label); font-weight: 700; letter-spacing: var(--ls-wide); text-transform: uppercase; color: var(--color-gold); margin-bottom: var(--sp-3); }
+    .demo-card__title { font-family: var(--font-title); font-size: var(--text-h4); font-weight: 700; color: var(--color-black); line-height: var(--lh-card); margin-bottom: var(--sp-3); }
+    .demo-card__text { font-family: var(--font-body); font-size: var(--text-body); color: var(--color-espresso); line-height: var(--lh-body); opacity: 0.7; }
+
+    /* card-one (testimonial portrait) */
+    .card-one-demo {
+      position: relative; width: 220px; aspect-ratio: 4/6;
+      border-radius: var(--radius-card); overflow: hidden;
+    }
+    .card-one-demo__bg { position: absolute; inset: 0; background: var(--color-teal); }
+    .card-one-demo__content {
+      position: absolute; inset: 0; z-index: 2;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: var(--sp-5); color: var(--color-white);
+      background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 60%);
+    }
+    .card-one-demo__quote { font-family: var(--font-title); font-size: var(--text-h4); font-weight: 400; line-height: 1.2; margin-bottom: var(--sp-3); }
+    .card-one-demo__name  { font-family: var(--font-body); font-size: var(--text-micro); font-weight: 700; letter-spacing: var(--ls-wide); text-transform: uppercase; color: var(--color-gold); }
+
+    /* card-three (hover lift) */
+    .card-three-demo {
+      display: flex; flex-direction: column; gap: var(--sp-4);
+      border-radius: var(--radius-card); background: var(--color-white);
+      padding: var(--sp-6); cursor: pointer;
+      transition: transform .22s ease, box-shadow .22s ease;
+      box-shadow: var(--shadow-subtle);
+    }
+    .card-three-demo:hover { transform: translateY(-4px); box-shadow: var(--shadow-raised); }
+    .card-three-demo__icon {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--color-soft-blue);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* magazine card */
+    .magazine-card-demo { border-radius: var(--radius-card); overflow: hidden; cursor: pointer; transition: transform .22s ease; }
+    .magazine-card-demo:hover { transform: translateY(-4px); }
+    .magazine-card-demo__img { width: 100%; }
+    .magazine-card-demo__body { padding: var(--sp-4); background: var(--color-white); }
+
+    /* ── Typography pieces ── */
+    .label-text-demo {
+      font-family: var(--font-body); font-size: var(--text-label); font-weight: 700;
+      letter-spacing: var(--ls-wide); text-transform: uppercase; color: var(--color-gold); line-height: 1;
+    }
+    .big-title-demo {
+      font-family: var(--font-title); font-weight: 700;
+      font-size: var(--font-size-5xl); line-height: var(--lh-tight);
+    }
+    .quote-large-demo {
+      font-family: var(--font-title); font-weight: 600; line-height: 1.2;
+      font-size: var(--text-h3); color: var(--color-black);
+    }
+
+    /* ── Badges ── */
+    .badge-row { display: flex; flex-wrap: wrap; gap: var(--sp-4); align-items: center; }
+
+    /* ── Form ── */
+    .form-row { display: flex; flex-wrap: wrap; gap: var(--sp-3); align-items: flex-end; max-width: 560px; }
+    .form-field { display: flex; flex-direction: column; gap: var(--sp-2); flex: 1; min-width: 180px; }
+    .form-label { font-family: var(--font-body); font-size: var(--text-micro); font-weight: 700; letter-spacing: var(--ls-wide); text-transform: uppercase; color: var(--color-espresso); opacity: 0.6; }
+
+    /* ── Texture ── */
+    .tex-demo { border-radius: var(--radius-card); padding: var(--sp-7) var(--sp-6); }
+    .tex-demo__label { font-family: monospace; font-size: var(--text-micro); font-weight: 700; color: var(--color-gold); margin-bottom: var(--sp-3); letter-spacing: var(--ls-wide); text-transform: uppercase; }
+    .tex-demo__title { font-family: var(--font-title); font-weight: 700; font-size: var(--text-h4); margin-bottom: var(--sp-3); }
+
+    /* ── Pill CTA banner ── */
+    .pill-cta-demo {
+      position: relative; border-radius: var(--radius-pill); overflow: hidden;
+      min-height: clamp(160px, 18vw, 240px);
+      padding: var(--sp-7) var(--sp-6) var(--sp-7) 36%;
+    }
+    .pill-cta-demo__img-zone {
+      position: absolute; left: 0; bottom: 0; height: 100%; width: 36%;
+      background: var(--color-soft-blue);
+      display: flex; align-items: flex-end; justify-content: center;
+      overflow: hidden;
+    }
+    .pill-cta-demo__img-ph { font-family: var(--font-body); font-size: var(--text-micro); color: var(--color-espresso); opacity: 0.4; padding-bottom: var(--sp-4); }
+    .pill-cta-demo__content { position: relative; z-index: 2; display: flex; flex-direction: column; gap: var(--sp-4); max-width: 480px; }
+    .pill-cta-demo__title { font-family: var(--font-title); font-weight: 700; font-size: var(--text-h3); line-height: var(--lh-heading); }
+
+    @media (max-width: 640px) {
+      .site-nav__links { display: none; }
+      .pill-cta-demo { padding: var(--sp-6); border-radius: var(--radius-section); }
+      .pill-cta-demo__img-zone { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="ds-nav" id="ds-nav">
+  <div class="ds-nav__inner">
+    <a href="index.html" class="ds-nav__logo">
+      <span class="ds-nav__logo-mark">HS</span>
+      <span class="ds-nav__logo-label">Design System</span>
+    </a>
+    <div class="ds-nav__links">
+      <a href="index.html"      class="ds-nav__link">Tokens</a>
+      <a href="components.html" class="ds-nav__link is-active">Components</a>
+      <a href="patterns.html"   class="ds-nav__link">Patterns</a>
+    </div>
+    <div class="ds-nav__ref">
+      <a href="hs2026-design-demo_2.html"       class="ds-nav__ref-link">Demo</a>
+      <a href="hs2026-sections.html"            class="ds-nav__ref-link">Sections</a>
+      <a href="hs2026-design-constitution.html" class="ds-nav__ref-link">Constitution</a>
+    </div>
+    <div class="ds-nav__vp">
+      <span class="ds-nav__vp-bp" id="vp-bp">—</span>
+      <span class="ds-nav__vp-px" id="vp-px">—</span>
+    </div>
+  </div>
+</nav>
+
+
+<div class="ds-page">
+
+  <header style="border-bottom:2px solid var(--color-gold);padding-bottom:var(--sp-5);margin-bottom:var(--sp-7)">
+    <div style="font-family:var(--font-title);font-size:var(--text-h1);font-weight:700;color:var(--color-black);line-height:var(--lh-tight);letter-spacing:var(--ls-tight)">Components</div>
+    <div style="font-family:var(--font-body);font-size:var(--text-body);color:var(--color-espresso);margin-top:var(--sp-3);opacity:0.5">UI building blocks · real theme CSS · ready for WP block development</div>
+  </header>
+
+
+  <!-- ══════════════════════════════════════════
+       § 01  Site Navigation
+  ══════════════════════════════════════════ -->
+  <section class="ds-section" id="nav">
+    <div class="ds-section-eyebrow">§ 01</div>
+    <div class="ds-section-heading">Site Navigation</div>
+    <p class="ds-note">Floating pill nav — frosted glass, sticky top, scrolled state adds shadow-raised</p>
+    <div style="background:var(--color-pink);padding:var(--sp-6);border-radius:var(--radius-card)">
+      <nav class="site-nav">
+        <a href="#" class="site-nav__logo">Hadar Shemesh</a>
+        <div class="site-nav__links">
+          <a href="#" class="site-nav__link">Start Here</a>
+          <a href="#" class="site-nav__link">Courses</a>
+          <a href="#" class="site-nav__link">Magazine</a>
+          <a href="#" class="site-nav__link">Free Stuff</a>
+          <a href="#" class="site-nav__link">About</a>
+          <a href="#" class="site-nav__link">Community</a>
+        </div>
+        <div style="display:flex;align-items:center;gap:var(--sp-3)">
+          <a href="#" class="site-nav__secondary">Free Training</a>
+          <a href="#" class="site-nav__cta">Join Now &rarr;</a>
+        </div>
+      </nav>
+    </div>
+    <div style="margin-top:var(--sp-5);display:flex;flex-wrap:wrap;gap:var(--sp-4)">
+      <div class="ds-demo-label">background: rgba(255,255,255,0.92) + backdrop-filter:blur(18px)</div>
+      <div class="ds-demo-label">border-radius: --radius-pill · box-shadow: --shadow-card</div>
+      <div class="ds-demo-label">CTA: --color-gold fill · --font-body 700 · --ls-wide uppercase</div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       § 02  Buttons
+  ══════════════════════════════════════════ -->
+  <section class="ds-section" id="buttons">
+    <div class="ds-section-eyebrow">§ 02</div>
+    <div class="ds-section-heading">Buttons</div>
+
+    <!-- Primary variants on light bg -->
+    <p class="ds-note">On light backgrounds</p>
+    <div class="ds-demo-row" style="margin-bottom:var(--sp-6)">
+      <div class="ds-demo-col">
+        <a class="btn-primary" href="#">Get Started Now &rarr;</a>
+        <div class="ds-demo-label">btn-primary / gold fill</div>
+      </div>
+      <div class="ds-demo-col">
+        <div class="wp-block-button is-style-outline-gold"><a class="wp-block-button__link" href="#">Learn More</a></div>
+        <div class="ds-demo-label">is-style-outline-gold</div>
+      </div>
+      <div class="ds-demo-col">
+        <div class="wp-block-button is-style-chip"><a class="wp-block-button__link" href="#">Pronunciation</a></div>
+        <div class="ds-demo-label">is-style-chip (default)</div>
+      </div>
+      <div class="ds-demo-col">
+        <div class="wp-block-button is-style-chip is-active"><a class="wp-block-button__link" href="#">Fluency</a></div>
+        <div class="ds-demo-label">is-style-chip.is-active</div>
+      </div>
+    </div>
+
+    <!-- Ghost on dark bg -->
+    <p class="ds-note">On dark backgrounds</p>
+    <div style="background:var(--color-espresso);border-radius:var(--radius-card);padding:var(--sp-6)">
+      <div class="ds-demo-row">
+        <div class="ds-demo-col">
+          <div class="wp-block-button is-style-ghost"><a class="wp-block-button__link" href="#">Watch Free Lesson</a></div>
+          <div class="ds-demo-label" style="color:rgba(255,255,255,0.4)">is-style-ghost</div>
+        </div>
+        <div class="ds-demo-col">
+          <a class="btn-primary" href="#">Join the Program &rarr;</a>
+          <div class="ds-demo-label" style="color:rgba(255,255,255,0.4)">gold primary (works on dark)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pill filter chips row -->
+    <div style="margin-top:var(--sp-6)">
+      <p class="ds-note">Filter chip row (typical usage)</p>
+      <div style="display:flex;flex-wrap:wrap;gap:var(--sp-3)">
+        <div class="wp-block-button is-style-chip is-active"><a class="wp-block-button__link" href="#">All</a></div>
+        <div class="wp-block-button is-style-chip"><a class="wp-block-button__link" href="#">Pronunciation</a></div>
+        <div class="wp-block-button is-style-chip"><a class="wp-block-button__link" href="#">Fluency</a></div>
+        <div class="wp-block-button is-style-chip"><a class="wp-block-button__link" href="#">Confidence</a></div>
+        <div class="wp-block-button is-style-chip"><a class="wp-block-button__link" href="#">Grammar</a></div>
+        <div class="wp-block-button is-style-chip"><a class="wp-block-button__link" href="#">Vocabulary</a></div>
+      </div>
+    </div>
+
+    <!-- Arrow button -->
+    <div style="margin-top:var(--sp-6)">
+      <p class="ds-note" style="margin-bottom:var(--sp-4)">.arrow-btn — gold circle, used in cards</p>
+      <div class="ds-demo-row">
+        <div class="ds-demo-col">
+          <a class="arrow-btn-demo" href="#" aria-label="Read more">&rarr;</a>
+          <div class="ds-demo-label">.arrow-btn (default)</div>
+        </div>
+        <div class="ds-demo-col" style="flex-direction:row;align-items:center;gap:var(--sp-4)">
+          <div style="font-family:var(--font-title);font-size:var(--text-h4);font-weight:700;color:var(--color-black)">Read this article</div>
+          <a class="arrow-btn-demo" href="#" aria-label="Read more">&rarr;</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       § 03  Typography Pieces
+  ══════════════════════════════════════════ -->
+  <section class="ds-section" id="typography">
+    <div class="ds-section-eyebrow">§ 03</div>
+    <div class="ds-section-heading">Typography Pieces</div>
+
+    <!-- Eyebrow / label -->
+    <div style="margin-bottom:var(--sp-6)">
+      <p class="ds-note">Eyebrow label — .label-text</p>
+      <div class="label-text-demo">English Coach · Pronunciation Expert</div>
+      <div style="margin-top:var(--sp-4);display:flex;flex-wrap:wrap;gap:var(--sp-4)">
+        <span class="label-text-demo" style="color:var(--color-teal)">With color override → teal</span>
+        <span class="label-text-demo" style="color:var(--color-espresso);opacity:0.5">Muted espresso</span>
+      </div>
+    </div>
+
+    <!-- Heading sequence -->
+    <div style="margin-bottom:var(--sp-6);display:flex;flex-direction:column;gap:var(--sp-2)">
+      <p class="ds-note">Heading hierarchy (Quincy, --ls-tight)</p>
+      <div class="label-text-demo">English Coach · 10 Years</div>
+      <h1 style="font-family:var(--font-title);font-size:var(--text-h1);font-weight:700;line-height:var(--lh-tight);letter-spacing:var(--ls-tight);color:var(--color-black)">Speak English<br>with confidence</h1>
+      <p style="font-family:var(--font-body);font-size:var(--text-body-lg);color:var(--color-espresso);opacity:0.7;line-height:var(--lh-body);max-width:480px">Weekly lessons, free resources and proven programs to help you speak clearly, freely, and without fear.</p>
+    </div>
+
+    <!-- Big title -->
+    <div style="margin-bottom:var(--sp-6)">
+      <p class="ds-note">.is-style-big-title — override class from style.css</p>
+      <div class="is-style-big-title" style="color:var(--color-black)">Speak with Confidence</div>
+    </div>
+
+    <!-- Testimonial quote -->
+    <div style="margin-bottom:var(--sp-6)">
+      <p class="ds-note">.hs-quote-large — testimonial pull quote (Quincy 600)</p>
+      <div style="border-left:3px solid var(--color-gold);padding-left:var(--sp-5)">
+        <div class="hs-quote-large quote-large-demo">"My pronunciation improved so much in just 6 weeks. I finally feel confident in meetings."</div>
+        <div style="margin-top:var(--sp-4);font-family:var(--font-body);font-size:var(--text-label);font-weight:700;letter-spacing:var(--ls-wide);text-transform:uppercase;color:var(--color-gold)">— Maria, Brazil</div>
+      </div>
+    </div>
+
+    <!-- Body copy styles -->
+    <div>
+      <p class="ds-note">Body copy — Effra, line-height --lh-body (1.618)</p>
+      <div style="max-width:620px;display:flex;flex-direction:column;gap:var(--sp-4)">
+        <p style="font-family:var(--font-body);font-size:var(--text-body-lg);line-height:var(--lh-body);color:var(--color-black)">Lead paragraph. Slightly larger, used for the first paragraph of section introductions and hero subtext.</p>
+        <p style="font-family:var(--font-body);font-size:var(--text-body);line-height:var(--lh-body);color:var(--color-espresso);opacity:0.8">Body text at --text-body size. Used for article content, card descriptions, and general copy. The line-height follows the golden ratio (1.618) for maximum readability at any scale.</p>
+        <p style="font-family:var(--font-body);font-size:var(--text-label);line-height:var(--lh-body);color:var(--color-espresso);opacity:0.6">Caption / metadata text at --text-label. Used for dates, tags, read times, and secondary information in cards and articles.</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       § 04  Cards
+  ══════════════════════════════════════════ -->
+  <section class="ds-section" id="cards">
+    <div class="ds-section-eyebrow">§ 04</div>
+    <div class="ds-section-heading">Cards</div>
+    <p class="ds-note">Hover all cards to see the lift effect (translateY −4px + --shadow-raised)</p>
+
+    <div class="ds-demo-row" style="align-items:flex-start">
+
+      <!-- Standard content card -->
+      <div style="display:flex;flex-direction:column;gap:var(--sp-3);flex:1;min-width:220px;max-width:280px">
+        <div class="demo-card">
+          <div class="demo-card__img img-ph img-ph--landscape">Article image</div>
+          <div class="demo-card__body">
+            <div class="demo-card__eye">Pronunciation</div>
+            <div class="demo-card__title">How to sound natural in English conversations</div>
+            <div class="demo-card__text">5 min read · 3 days ago</div>
+          </div>
+        </div>
+        <div class="ds-demo-label">.demo-card / content article card</div>
+      </div>
+
+      <!-- Testimonial portrait card (card-one style) -->
+      <div style="display:flex;flex-direction:column;gap:var(--sp-3)">
+        <div class="card-one-demo">
+          <div class="card-one-demo__bg"></div>
+          <div class="card-one-demo__content">
+            <div class="card-one-demo__quote">"My accent changed completely in 6 weeks."</div>
+            <div class="card-one-demo__name">Maria, Brazil</div>
+          </div>
+        </div>
+        <div class="ds-demo-label">card-one — testimonial portrait</div>
+      </div>
+
+      <!-- Info card (card-three style) -->
+      <div style="display:flex;flex-direction:column;gap:var(--sp-3);flex:1;min-width:220px;max-width:260px">
+        <div class="card-three-demo">
+          <div class="card-three-demo__icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-teal)" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>
+          </div>
+          <div class="demo-card__eye">Free Resource</div>
+          <div class="demo-card__title">Pronunciation Worksheet</div>
+          <div class="demo-card__text">Practice the 5 most common sounds that non-native speakers struggle with.</div>
+          <a class="arrow-btn-demo" href="#" aria-label="Download" style="margin-top:var(--sp-2)">&rarr;</a>
+        </div>
+        <div class="ds-demo-label">card-three — resource/info card with arrow</div>
+      </div>
+
+      <!-- Magazine card -->
+      <div style="display:flex;flex-direction:column;gap:var(--sp-3);width:160px">
+        <div class="magazine-card-demo">
+          <div class="img-ph img-ph--portrait magazine-card-demo__img">Cover</div>
+          <div class="magazine-card-demo__body">
+            <div style="font-family:var(--font-body);font-size:var(--text-micro);font-weight:700;color:var(--color-gold);text-transform:uppercase;letter-spacing:var(--ls-wide);margin-bottom:var(--sp-2)">Fluency</div>
+            <div style="font-family:var(--font-title);font-size:var(--text-label);font-weight:700;line-height:1.3;color:var(--color-black)">Stop translating in your head</div>
+          </div>
+        </div>
+        <div class="ds-demo-label">.magazine-card — portrait grid card</div>
+      </div>
+
+      <!-- hs-card block -->
+      <div style="display:flex;flex-direction:column;gap:var(--sp-3);flex:1;min-width:220px;max-width:260px">
+        <div class="wp-block-group is-style-hs-card">
+          <div class="wp-block-group__inner-container">
+            <div class="demo-card__eye">Course</div>
+            <div class="demo-card__title" style="font-family:var(--font-title);font-size:var(--text-h4)">Accent Reduction Bootcamp</div>
+            <div class="demo-card__text">12-week intensive program for professionals.</div>
+          </div>
+        </div>
+        <div class="ds-demo-label">.is-style-hs-card (wp-block-group)</div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       § 05  Form Elements
+  ══════════════════════════════════════════ -->
+  <section class="ds-section" id="forms">
+    <div class="ds-section-eyebrow">§ 05</div>
+    <div class="ds-section-heading">Form Elements</div>
+
+    <p class="ds-note">Inputs from style.css — focus state: --color-gold border + gold glow ring</p>
+    <div style="max-width:560px;display:flex;flex-direction:column;gap:var(--sp-5)">
+
+      <!-- Text input -->
+      <div class="form-field">
+        <label class="form-label" for="demo-name">First name</label>
+        <input type="text" id="demo-name" placeholder="Your first name" value="">
+      </div>
+
+      <!-- Email input -->
+      <div class="form-field">
+        <label class="form-label" for="demo-email">Email address</label>
+        <input type="email" id="demo-email" placeholder="you@example.com" value="">
+      </div>
+
+      <!-- Newsletter row (as used in the site) -->
+      <div>
+        <p class="ds-note" style="margin-bottom:var(--sp-4)">.newsletter-form — from blocks.css</p>
+        <form class="newsletter-form" onsubmit="return false">
+          <input type="text"  placeholder="First name">
+          <input type="email" placeholder="Email address">
+          <button class="btn-primary" type="submit">Subscribe &rarr;</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       § 06  Badges
+  ══════════════════════════════════════════ -->
+  <section class="ds-section" id="badges">
+    <div class="ds-section-eyebrow">§ 06</div>
+    <div class="ds-section-heading">Badges</div>
+    <p class="ds-note">.hs-badge · 48px circle · --radius-pill</p>
+    <div class="badge-row">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:var(--sp-3)">
+        <div class="hs-badge hs-badge-gold" style="width:48px;height:48px;font-family:var(--font-body);font-weight:700;font-size:var(--text-label)">H</div>
+        <div class="ds-demo-label">hs-badge-gold</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:var(--sp-3)">
+        <div class="hs-badge hs-badge-soft-blue" style="width:48px;height:48px;font-family:var(--font-body);font-weight:700;font-size:var(--text-label)">M</div>
+        <div class="ds-demo-label">hs-badge-soft-blue</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:var(--sp-3)">
+        <div class="hs-badge hs-badge-peach" style="width:48px;height:48px;font-family:var(--font-body);font-weight:700;font-size:var(--text-label)">A</div>
+        <div class="ds-demo-label">hs-badge-peach</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:var(--sp-3)">
+        <div class="hs-badge hs-badge-teal" style="width:48px;height:48px;font-family:var(--font-body);font-weight:700;font-size:var(--text-label)">R</div>
+        <div class="ds-demo-label">hs-badge-teal</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:var(--sp-3)">
+        <div class="hs-badge hs-badge-light-purple" style="width:48px;height:48px;font-family:var(--font-body);font-weight:700;font-size:var(--text-label)">S</div>
+        <div class="ds-demo-label">hs-badge-light-purple</div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       § 07  Textures
+  ══════════════════════════════════════════ -->
+  <section class="ds-section" id="textures">
+    <div class="ds-section-eyebrow">§ 07</div>
+    <div class="ds-section-heading">Background Textures</div>
+    <p class="ds-note">CSS-only textures — add as extra class on any block or section</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:var(--sp-5)">
+
+      <div class="tex-demo tex-dots" style="background:var(--color-peach)">
+        <div class="tex-demo__label">.tex-dots</div>
+        <div class="tex-demo__title" style="color:var(--color-espresso)">Gold dot grid</div>
+        <p style="font-family:var(--font-body);font-size:var(--text-body);color:var(--color-espresso);opacity:0.7">Subtle depth for testimonial or CTA sections. Works on any warm background.</p>
+      </div>
+
+      <div class="tex-demo tex-cross" style="background:var(--color-light-blue)">
+        <div class="tex-demo__label">.tex-cross</div>
+        <div class="tex-demo__title" style="color:var(--color-espresso)">Gold plus pattern</div>
+        <p style="font-family:var(--font-body);font-size:var(--text-body);color:var(--color-espresso);opacity:0.7">Editorial feel for content and form areas. Clean and structured.</p>
+      </div>
+
+      <div class="tex-demo tex-dots" style="background:var(--color-espresso)">
+        <div class="tex-demo__label" style="color:rgba(193,168,104,0.6)">.tex-dots on espresso</div>
+        <div class="tex-demo__title" style="color:var(--color-white)">Warm dark section</div>
+        <p style="font-family:var(--font-body);font-size:var(--text-body);color:rgba(255,255,255,0.5)">Much warmer than pure black. Richer editorial feel for hero or CTA.</p>
+      </div>
+
+      <div class="tex-demo tex-grid" style="background:var(--color-cream)">
+        <div class="tex-demo__label" style="color:var(--color-amber)">.tex-grid</div>
+        <div class="tex-demo__title" style="color:var(--color-espresso)">Line grid on cream</div>
+        <p style="font-family:var(--font-body);font-size:var(--text-body);color:var(--color-amber)">Luxurious and personal. Perfect for about or coaching sections.</p>
+      </div>
+
+      <div class="tex-demo tex-cross" style="background:var(--color-green-dark)">
+        <div class="tex-demo__label" style="color:rgba(193,168,104,0.6)">.tex-cross on green-dark</div>
+        <div class="tex-demo__title" style="color:var(--color-white)">Dark green editorial</div>
+        <p style="font-family:var(--font-body);font-size:var(--text-body);color:rgba(255,255,255,0.55)">Strong, trustworthy feel. Use with gold accents and white text.</p>
+      </div>
+
+      <div class="tex-demo tex-grid" style="background:var(--color-soft-blue)">
+        <div class="tex-demo__label">.tex-grid on soft-blue</div>
+        <div class="tex-demo__title" style="color:var(--color-deep-teal)">Soft structured</div>
+        <p style="font-family:var(--font-body);font-size:var(--text-body);color:var(--color-deep-teal);opacity:0.8">Calm, approachable. Great for feature list or course overview sections.</p>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       § 08  Pill CTA Banner
+  ══════════════════════════════════════════ -->
+  <section class="ds-section" id="pill-cta">
+    <div class="ds-section-eyebrow">§ 08</div>
+    <div class="ds-section-heading">Pill CTA Banner</div>
+    <p class="ds-note">.pill-cta from blocks.css — rounded pill shape, person photo left, content right · see all 4 color variants in Patterns</p>
+
+    <div style="display:flex;flex-direction:column;gap:var(--sp-5)">
+
+      <!-- Pink standard -->
+      <div class="pill-cta-demo" style="background:var(--color-pink)">
+        <div class="pill-cta-demo__img-zone"><div class="pill-cta-demo__img-ph">Photo</div></div>
+        <div class="pill-cta-demo__content">
+          <div class="label-text-demo">New here?</div>
+          <div class="pill-cta-demo__title" style="color:var(--color-black)">Gosh.. There's so much to choose from!</div>
+          <p style="font-family:var(--font-body);font-size:var(--text-body);color:var(--color-espresso);opacity:0.7;line-height:var(--lh-body)">Let me show you exactly where to start based on your level.</p>
+          <a class="btn-primary" href="#" style="align-self:flex-start">Start Here &rarr;</a>
+        </div>
+      </div>
+
+      <!-- Espresso dark -->
+      <div class="pill-cta-demo tex-dots" style="background:var(--color-espresso)">
+        <div class="pill-cta-demo__img-zone" style="background:var(--color-deep-teal)"><div class="pill-cta-demo__img-ph" style="color:rgba(255,255,255,0.3)">Photo</div></div>
+        <div class="pill-cta-demo__content">
+          <div class="label-text-demo">New here?</div>
+          <div class="pill-cta-demo__title" style="color:var(--color-white)">Gosh.. There's <em style="color:var(--color-gold);font-style:italic">so much</em> to choose from!</div>
+          <p style="font-family:var(--font-body);font-size:var(--text-body);color:rgba(255,255,255,0.5);line-height:var(--lh-body)">Let me show you exactly where to start.</p>
+          <a class="btn-primary" href="#" style="align-self:flex-start">Start Here &rarr;</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <footer class="ds-footer">
+    HS2026 Design System · Components · style.css + blocks.css + theme.json · Do not deploy
+  </footer>
+
+</div><!-- /.ds-page -->
+
+
+<script>
+  const nav = document.getElementById('ds-nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 20), { passive: true });
+
+  const bpEl = document.getElementById('vp-bp');
+  const pxEl = document.getElementById('vp-px');
+  const breakpoints = [[1536,'2xl'],[1280,'xl'],[1024,'lg'],[768,'md'],[640,'sm'],[0,'xs']];
+  function updateBadge() {
+    const w = window.innerWidth;
+    bpEl.textContent = breakpoints.find(([min]) => w >= min)[1];
+    pxEl.textContent = w + 'px';
+  }
+  updateBadge();
+  window.addEventListener('resize', updateBadge);
+
+  // Chip toggle
+  document.querySelectorAll('.wp-block-button.is-style-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const row = chip.closest('div');
+      row?.querySelectorAll('.wp-block-button.is-style-chip').forEach(c => c.classList.remove('is-active'));
+      chip.classList.add('is-active');
+    });
+  });
+</script>
+</body>
+</html>

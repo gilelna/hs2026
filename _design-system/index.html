@@ -1,0 +1,736 @@
+<!-- HS2026 Design System Specimen — loads real theme assets — do not deploy -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HS2026 DS · Tokens</title>
+
+  <!-- Real theme assets — paths relative to _design-system/ -->
+  <link rel="stylesheet" href="../css/output.css">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../css/blocks.css">
+  <link rel="stylesheet" href="_shared.css">
+
+  <style>
+    /* ── Page base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-body);
+      background: var(--color-cream);
+      color: var(--color-espresso);
+      min-height: 100vh;
+      line-height: var(--lh-body);
+    }
+
+    /* ── Header ── */
+    .ds-header {
+      border-bottom: 2px solid var(--color-gold);
+      padding-bottom: var(--sp-5);
+      margin-bottom: var(--sp-7);
+    }
+    .ds-header__title {
+      font-family: var(--font-title);
+      font-size: var(--text-h1);
+      font-weight: 700;
+      color: var(--color-black);
+      line-height: var(--lh-tight);
+      letter-spacing: var(--ls-tight);
+    }
+    .ds-header__sub {
+      font-family: var(--font-body);
+      font-size: var(--text-body);
+      color: var(--color-espresso);
+      margin-top: var(--sp-3);
+      opacity: 0.5;
+    }
+
+    /* ── Colors ── */
+    .ds-swatches {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      gap: var(--sp-4);
+    }
+    .ds-swatch { border-radius: var(--radius-card); overflow: hidden; box-shadow: var(--shadow-subtle); }
+    .ds-swatch__color { height: 72px; width: 100%; }
+    .ds-swatch__info { padding: var(--sp-3); background: var(--color-white); }
+    .ds-swatch__name { display: block; font-family: var(--font-body); font-size: var(--text-micro); font-weight: 700; color: var(--color-espresso); text-transform: uppercase; letter-spacing: var(--ls-wide); }
+    .ds-swatch__hex  { display: block; font-family: monospace; font-size: var(--text-micro); color: var(--color-slate); margin-top: 2px; }
+    .ds-group-label  { grid-column: 1 / -1; font-family: var(--font-body); font-size: var(--text-micro); font-weight: 700; letter-spacing: var(--ls-wide); text-transform: uppercase; color: var(--color-espresso); opacity: 0.35; padding-top: var(--sp-3); }
+
+    /* ── Type Scale ── */
+    .ds-type-row {
+      display: grid;
+      grid-template-columns: 108px 1fr 1fr;
+      gap: var(--sp-5);
+      align-items: baseline;
+      padding: var(--sp-4) 0;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+    .ds-type-row:last-child { border-bottom: none; }
+    .ds-type-token  { font-family: monospace; font-size: var(--text-micro); color: var(--color-gold-deep); font-weight: 700; white-space: nowrap; align-self: center; }
+    .ds-type-quincy { font-family: var(--font-title); line-height: var(--lh-heading); color: var(--color-black); }
+    .ds-type-effra  { font-family: var(--font-body);  line-height: var(--lh-heading); color: var(--color-espresso); opacity: 0.7; }
+    .ds-type-legend { display: flex; gap: var(--sp-6); margin-top: var(--sp-5); opacity: 0.4; }
+
+    /* ── Spacing ── */
+    .ds-sp-row   { display: flex; align-items: center; gap: var(--sp-5); padding: var(--sp-2) 0; }
+    .ds-sp-label { font-family: monospace; font-size: var(--text-micro); color: var(--color-gold-deep); font-weight: 700; width: 56px; flex-shrink: 0; }
+    .ds-sp-bar   { height: 20px; background: var(--color-gold); border-radius: var(--radius-sm); min-width: 2px; flex-shrink: 0; }
+    .ds-sp-value { font-family: monospace; font-size: var(--text-micro); color: var(--color-espresso); opacity: 0.5; }
+
+    /* ── Shadows ── */
+    .ds-shadows     { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: var(--sp-7); }
+    .ds-shadow-card { background: var(--color-white); border-radius: var(--radius-card); padding: var(--sp-6) var(--sp-5); text-align: center; }
+    .ds-shadow-name { font-family: monospace; font-size: var(--text-micro); color: var(--color-gold-deep); font-weight: 700; margin-top: var(--sp-3); }
+    .ds-shadow-val  { font-family: monospace; font-size: var(--text-micro); color: var(--color-espresso); opacity: 0.4; margin-top: 4px; }
+
+    /* ── Radius ── */
+    .ds-radii       { display: flex; flex-wrap: wrap; gap: var(--sp-7); align-items: flex-end; }
+    .ds-radius-item { display: flex; flex-direction: column; align-items: center; gap: var(--sp-3); }
+    .ds-radius-box  { background: var(--color-soft-blue); width: 96px; height: 96px; }
+    .ds-radius-name { font-family: monospace; font-size: var(--text-micro); font-weight: 700; color: var(--color-deep-teal); text-align: center; line-height: 1.5; }
+
+    /* ── Buttons ── */
+    .ds-buttons   { display: flex; flex-wrap: wrap; gap: var(--sp-6); align-items: flex-start; }
+    .ds-btn-group { display: flex; flex-direction: column; align-items: center; gap: var(--sp-3); }
+    .ds-btn-primary {
+      display: inline-flex; align-items: center; justify-content: center;
+      font-family: var(--font-body); font-size: var(--text-label); font-weight: 700;
+      letter-spacing: var(--ls-wide); text-transform: uppercase;
+      border-radius: var(--radius-pill); min-height: 44px; padding: 0 var(--sp-6);
+      background: var(--color-gold); color: var(--color-white);
+      border: none; cursor: pointer; text-decoration: none; transition: background .2s;
+      box-shadow: var(--shadow-button);
+    }
+    .ds-btn-primary:hover { background: var(--color-gold-deep); }
+    .wp-block-button__link { padding: var(--sp-3) var(--sp-6) !important; }
+    .ds-ghost-bg { background: var(--color-black); border-radius: var(--radius-card); padding: var(--sp-5); }
+
+    /* ── Cards ── */
+    .card { background: var(--color-white); border-radius: var(--radius-card); box-shadow: var(--shadow-card); overflow: hidden; transition: transform .22s ease, box-shadow .22s ease; cursor: pointer; }
+    .card:hover  { transform: translateY(-4px); box-shadow: var(--shadow-raised); }
+    .card__img-ph { width: 100%; aspect-ratio: 16/9; background: var(--color-soft-blue); display: flex; align-items: center; justify-content: center; font-family: var(--font-body); font-size: var(--text-label); color: var(--color-deep-teal); opacity: 0.5; }
+    .card__body  { padding: var(--sp-5); }
+    .card__eye   { font-family: var(--font-body); font-size: var(--text-label); font-weight: 700; letter-spacing: var(--ls-wide); text-transform: uppercase; color: var(--color-gold); margin-bottom: var(--sp-3); }
+    .card__title { font-family: var(--font-title); font-size: var(--text-h4); font-weight: 700; color: var(--color-black); line-height: var(--lh-card); margin-bottom: var(--sp-3); }
+    .card__text  { font-family: var(--font-body); font-size: var(--text-body); color: var(--color-espresso); line-height: var(--lh-body); opacity: 0.7; }
+
+    /* ── Section Color strips ── */
+    .ds-strip       { padding: var(--sp-5) var(--sp-6); display: flex; align-items: center; justify-content: space-between; gap: var(--sp-4); }
+    .ds-strip__name { font-family: var(--font-body); font-size: var(--text-label); font-weight: 700; letter-spacing: var(--ls-wide); }
+    .ds-strip__meta { font-family: monospace; font-size: var(--text-micro); opacity: 0.55; text-align: right; }
+
+    @media (max-width: 768px) {
+      .ds-type-row { grid-template-columns: 90px 1fr; }
+      .ds-type-effra { display: none; }
+      .ds-strip__meta { display: none; }
+    }
+
+    /* ── Hero demo toggle chrome ── */
+    details.hero-demo { margin-bottom: var(--sp-4); }
+    details.hero-demo > summary {
+      display: flex; align-items: center; gap: var(--sp-3);
+      cursor: pointer; list-style: none; user-select: none;
+      padding: var(--sp-4) var(--sp-5);
+      background: var(--color-white);
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: var(--radius-card);
+      font-family: var(--font-body); font-size: var(--text-label); font-weight: 700;
+      letter-spacing: var(--ls-wide); text-transform: uppercase;
+      color: var(--color-espresso);
+      transition: background .15s;
+    }
+    details.hero-demo > summary::-webkit-details-marker { display: none; }
+    details.hero-demo > summary::before {
+      content: '▶';
+      font-size: 0.6em;
+      color: var(--color-gold);
+      transition: transform .2s;
+      flex-shrink: 0;
+    }
+    details.hero-demo[open] > summary::before { transform: rotate(90deg); }
+    details.hero-demo > summary:hover { background: var(--color-cream); }
+    details.hero-demo > summary code {
+      font-family: monospace; font-size: var(--text-micro);
+      color: var(--color-gold-deep); font-weight: 400;
+      text-transform: none; letter-spacing: 0;
+      padding: 2px 6px; background: rgba(0,0,0,0.04);
+      border-radius: var(--radius-sm);
+    }
+
+    /* ── Hero B: floating masked shape ── */
+    .hero-float.wp-block-columns { align-items: center; }
+    .hero-float.wp-block-columns > .wp-block-column:first-child {
+      flex-basis: 55% !important;
+      padding-block: clamp(3rem, 2rem + 4vw, 6rem);
+      padding-inline: var(--sp-7);
+    }
+    .hero-float.wp-block-columns > .wp-block-column:last-child {
+      flex-basis: 45% !important;
+      position: relative;
+      display: flex; align-items: center; justify-content: center;
+      min-height: 380px;
+    }
+    .hero-float__bg-circle {
+      position: absolute;
+      width: 340px; height: 340px;
+      background: var(--color-soft-blue);
+      border-radius: 50%;
+      opacity: 0.45;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 0;
+    }
+    .hero-float__img {
+      position: relative; z-index: 1;
+      width: 82%; aspect-ratio: 1;
+      object-fit: cover;
+      clip-path: polygon(30% 0%, 70% 5%, 95% 25%, 100% 60%, 80% 90%, 50% 100%, 20% 95%, 0% 70%, 5% 30%);
+    }
+
+    /* ── Hero C: full background image ── */
+    .hero-bg {
+      position: relative;
+      min-height: clamp(500px, 70vh, 800px);
+      background-size: cover;
+      background-position: center;
+      display: flex; align-items: center;
+    }
+    .hero-bg__overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to right, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.35) 60%, transparent 100%);
+      z-index: 0;
+    }
+    .hero-bg__content {
+      position: relative; z-index: 1;
+      max-width: 50%;
+      padding: clamp(3rem, 2rem + 4vw, 6rem) var(--sp-7);
+    }
+    .hero-bg__content .hero-h1 { color: var(--color-white); }
+    .hero-bg__content .hero-body { color: rgba(255,255,255,0.8); opacity: 1; }
+    .hero-bg__content .hero-label { color: var(--color-gold); }
+
+    /* ── Hero D: round-cropped image ── */
+    .hero-round.wp-block-columns { align-items: center; }
+    .hero-round.wp-block-columns > .wp-block-column:first-child {
+      flex-basis: 40% !important;
+      display: flex; align-items: center; justify-content: center;
+      padding: clamp(2rem, 1.5rem + 2vw, 4rem);
+    }
+    .hero-round.wp-block-columns > .wp-block-column:last-child {
+      flex-basis: 60% !important;
+      padding-block: clamp(3rem, 2rem + 4vw, 6rem);
+      padding-right: var(--sp-7);
+    }
+    .hero-round__img {
+      width: clamp(220px, 30vw, 380px);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: var(--shadow-raised);
+    }
+
+    /* ── Hero E: decorative circle + parallax ── */
+    .hero-deco { position: relative; overflow: hidden; }
+    .hero-deco__shape {
+      position: absolute;
+      right: -8%; top: 50%;
+      transform: translateY(-50%);
+      width: clamp(300px, 40vw, 560px);
+      aspect-ratio: 1;
+      background: var(--color-soft-blue);
+      opacity: 0.3;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+      will-change: transform;
+    }
+    .hero-deco > .wp-block-column { position: relative; z-index: 1; }
+
+    /* ── Shared hero content helpers ── */
+    .hero-label {
+      font-family: var(--font-body); font-size: var(--text-label); font-weight: 700;
+      letter-spacing: var(--ls-wider); text-transform: uppercase;
+      color: var(--color-gold); margin-bottom: var(--sp-3);
+    }
+    .hero-h1 {
+      font-family: var(--font-title); font-size: var(--text-h1); font-weight: 700;
+      color: var(--color-black); line-height: var(--lh-tight);
+      letter-spacing: var(--ls-tight); margin-bottom: var(--sp-4);
+    }
+    .hero-body {
+      font-family: var(--font-body); font-size: var(--text-body-lg);
+      color: var(--color-espresso); line-height: var(--lh-body);
+      opacity: 0.75; margin-bottom: var(--sp-6);
+    }
+    .hero-btns { display: flex; flex-wrap: wrap; gap: var(--sp-4); align-items: center; }
+
+    /* ── Hero responsive ── */
+    @media (max-width: 767px) {
+      .hero-float.wp-block-columns,
+      .hero-round.wp-block-columns { flex-direction: column; }
+
+      .hero-float.wp-block-columns > .wp-block-column:last-child { order: -1; }
+      .hero-round.wp-block-columns > .wp-block-column:first-child { order: -1; }
+
+      .hero-float.wp-block-columns > .wp-block-column,
+      .hero-round.wp-block-columns > .wp-block-column { flex-basis: 100% !important; }
+
+      .hero-float.wp-block-columns > .wp-block-column:last-child { min-height: 55vw; }
+      .hero-float__img { clip-path: none; width: 70%; }
+
+      .hero-bg__overlay { background: linear-gradient(to bottom, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.3) 100%); }
+      .hero-bg__content { max-width: 100%; padding: var(--sp-6) var(--sp-5); }
+
+      .hero-round__img { width: clamp(160px, 50vw, 260px); }
+      .hero-round.wp-block-columns > .wp-block-column:last-child { padding: var(--sp-5) var(--sp-5) var(--sp-6); }
+    }
+    @media (max-width: 479px) {
+      .hero-btns { flex-direction: column; width: 100%; }
+      .hero-btns .ds-btn-primary { width: 100%; }
+      .hero-btns .wp-block-button { width: 100%; }
+      .hero-btns .wp-block-button__link { width: 100% !important; text-align: center; }
+    }
+
+    /* ══ Layout fix: prevent hero columns wrapping at large viewports ══
+       Root cause: _shared.css sets flex-wrap:wrap on .wp-block-columns.
+       blocks.css never overrides it. flex-basis total (61.8%+38.2%) plus
+       gap always exceeds 100%, so the second column wraps at every width.
+       Fix: force nowrap + use flex shorthand to control grow/shrink/basis. */
+
+    .hero-cols.wp-block-columns,
+    .hero-float.wp-block-columns,
+    .hero-round.wp-block-columns {
+      display: flex !important;
+      flex-wrap: nowrap !important;
+    }
+    .hero-cols.wp-block-columns > .wp-block-column,
+    .hero-float.wp-block-columns > .wp-block-column,
+    .hero-round.wp-block-columns > .wp-block-column {
+      min-width: 0 !important;  /* kill any WP core min-width */
+      flex-shrink: 0;
+    }
+
+    /* Hero A + E: first col fixed at 61.8%, last col fills the rest */
+    .hero-cols.wp-block-columns > .wp-block-column:first-child {
+      flex: 0 0 61.8% !important;
+    }
+    .hero-cols.wp-block-columns > .wp-block-column:last-child {
+      flex: 1 0 0 !important;   /* grow into remaining space after 61.8% + gap */
+    }
+
+    /* Hero B: first col 55%, last col fills the rest */
+    .hero-float.wp-block-columns > .wp-block-column:first-child {
+      flex: 0 0 55% !important;
+    }
+    .hero-float.wp-block-columns > .wp-block-column:last-child {
+      flex: 1 0 0 !important;
+    }
+
+    /* Hero D: first col 40%, last col fills the rest */
+    .hero-round.wp-block-columns > .wp-block-column:first-child {
+      flex: 0 0 40% !important;
+    }
+    .hero-round.wp-block-columns > .wp-block-column:last-child {
+      flex: 1 0 0 !important;
+    }
+
+    /* Mobile: re-enable wrapping and reset flex to natural stacking */
+    @media (max-width: 767px) {
+      .hero-cols.wp-block-columns,
+      .hero-float.wp-block-columns,
+      .hero-round.wp-block-columns {
+        flex-wrap: wrap !important;
+      }
+      .hero-cols.wp-block-columns > .wp-block-column,
+      .hero-float.wp-block-columns > .wp-block-column,
+      .hero-round.wp-block-columns > .wp-block-column {
+        flex: 0 0 100% !important;
+        min-width: 100% !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Design System Navigation ── -->
+<nav class="ds-nav" id="ds-nav">
+  <div class="ds-nav__inner">
+    <a href="index.html" class="ds-nav__logo">
+      <span class="ds-nav__logo-mark">HS</span>
+      <span class="ds-nav__logo-label">Design System</span>
+    </a>
+    <div class="ds-nav__links">
+      <a href="index.html"      class="ds-nav__link is-active">Tokens</a>
+      <a href="components.html" class="ds-nav__link">Components</a>
+      <a href="patterns.html"   class="ds-nav__link">Patterns</a>
+    </div>
+    <div class="ds-nav__ref">
+      <a href="hs2026-design-demo_2.html"       class="ds-nav__ref-link">Demo</a>
+      <a href="hs2026-sections.html"            class="ds-nav__ref-link">Sections</a>
+      <a href="hs2026-design-constitution.html" class="ds-nav__ref-link">Constitution</a>
+    </div>
+    <div class="ds-nav__vp">
+      <span class="ds-nav__vp-bp" id="vp-bp">—</span>
+      <span class="ds-nav__vp-px" id="vp-px">—</span>
+    </div>
+  </div>
+</nav>
+
+
+<div class="ds-page">
+
+  <header class="ds-header">
+    <div class="ds-header__title">Tokens</div>
+    <div class="ds-header__sub">Living specimen · real theme CSS variables · style.css + blocks.css · do not deploy</div>
+  </header>
+
+
+  <!-- ══════════════════════════════════════════
+       § 01  Colors
+  ══════════════════════════════════════════ -->
+  <section class="ds-section" id="colors">
+    <div class="ds-section-eyebrow">§ 01</div>
+    <div class="ds-section-heading">Colors</div>
+    <div class="ds-swatches">
+      <div class="ds-group-label">Core palette</div>
+      <div class="ds-swatch"><div class="ds-swatch__color" style="background:var(--color-black)"></div><div class="ds-swatch__info"><span class="ds-swatch__name">black</span><span class="ds-swatch__hex">#000000</span></div></div>
+      <div class="ds-swatch"><div class="ds-swatch__color" style="background:var(--color-gold)"></div><div class="ds-swatch__info"><span class="ds-swatch__name">gold</span><span class="ds-swatch__hex">#C1A868</span></div></div>
+      <div class="ds-swatch"><div class="ds-swatch__color" style="background:var(--color-green-dark)"></div><div class="ds-swatch__info"><span class="ds-swatch__name">green-dark</span><span class="ds-swatch__hex">#026360</span></div></div>
+      <div class="ds-swatch"><div class="ds-swatch__color" style="background:var(--color-peach)"></div><div class="ds-swatch__info"><span class="ds-swatch__name">peach</span><span class="ds-swatch__hex">#F7BAA4</span></div></div>
+      <div class="ds-swatch"><div class="ds-swatch__color" style="background:var(--color-teal)"></div><div class="ds-swatch__info"><span class="ds-swatch__name">teal</span><span class="ds-swatch__hex">#409690</span></div></div>
+      <div class="ds-swatch"><div class="ds-swatch__color" style="background:var(--color-soft-blue)"></div><div class="ds-swatch__info"><span class="ds-swatch__name">soft-blue</span><span class="ds-swatch__hex">#CBE3E5</span></div></div>
+      <div class="ds-swatch"><div class="ds-swatch__color" style="background:var(--color-light-blue);outline:1px solid #ddd"></div><div class="ds-swatch__info"><span class="ds-swatch__name">light-blue</span><span class="ds-swatch__hex">#F3F7FA</span></div></div>
+      <div class="ds-swatch"><div class="ds-swatch__color" style="background:var(--color-light-purple);outline:1px solid #ddd"></div><div class="ds-swatch__info"><span class="ds-swatch__name">light-purple</span><span class="ds-swatch__hex">#F7F2F9</span></div></div>
+      <div class="ds-swatch"><div class="ds-swatch__color" style="background:var(--color-pink);outline:1px solid #ddd"></div><div class="ds-swatch__info"><span class="ds-swatch__name">pink</span><span class="ds-swatch__hex">#F9F2F3</span></div></div>
+      <div class="ds-swatch"><div class="ds-swatch__color" style="background:var(--color-white);outline:1px solid #ddd"></div><div class="ds-swatch__info"><span class="ds-swatch__name">white</span><span class="ds-swatch__hex">#ffffff</span></div></div>
+
+      <div class="ds-group-label">Extended palette</div>
+      <div class="ds-swatch"><div class="ds-swatch__color" style="background:var(--color-espresso)"></div><div class="ds-swatch__info"><span class="ds-swatch__name">espresso</span><span class="ds-swatch__hex">#1A1410</span></div></div>
+      <div class="ds-swatch"><div class="ds-swatch__color" style="background:var(--color-gold-deep)"></div><div class="ds-swatch__info"><span class="ds-swatch__name">gold-deep</span><span class="ds-swatch__hex">#A8904F</span></div></div>
+      <div class="ds-swatch"><div class="ds-swatch__color" style="background:var(--color-cream);outline:1px solid #ddd"></div><div class="ds-swatch__info"><span class="ds-swatch__name">cream</span><span class="ds-swatch__hex">#FAF5EC</span></div></div>
+      <div class="ds-swatch"><div class="ds-swatch__color" style="background:var(--color-amber)"></div><div class="ds-swatch__info"><span class="ds-swatch__name">amber</span><span class="ds-swatch__hex">#6B4F2A</span></div></div>
+      <div class="ds-swatch"><div class="ds-swatch__color" style="background:var(--color-berry)"></div><div class="ds-swatch__info"><span class="ds-swatch__name">berry</span><span class="ds-swatch__hex">#8B3A52</span></div></div>
+      <div class="ds-swatch"><div class="ds-swatch__color" style="background:var(--color-terracotta)"></div><div class="ds-swatch__info"><span class="ds-swatch__name">terracotta</span><span class="ds-swatch__hex">#C4622D</span></div></div>
+      <div class="ds-swatch"><div class="ds-swatch__color" style="background:var(--color-slate)"></div><div class="ds-swatch__info"><span class="ds-swatch__name">slate</span><span class="ds-swatch__hex">#4A6E7A</span></div></div>
+      <div class="ds-swatch"><div class="ds-swatch__color" style="background:var(--color-deep-teal)"></div><div class="ds-swatch__info"><span class="ds-swatch__name">deep-teal</span><span class="ds-swatch__hex">#1E5E5B</span></div></div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       § 02  Type Scale
+  ══════════════════════════════════════════ -->
+  <section class="ds-section" id="type">
+    <div class="ds-section-eyebrow">§ 02</div>
+    <div class="ds-section-heading">Type Scale — fluid clamp 320px → 1536px</div>
+    <div class="ds-type-row"><div class="ds-type-token">--text-display</div><div class="ds-type-quincy" style="font-size:var(--text-display)">The quick brown fox</div><div class="ds-type-effra" style="font-size:var(--text-display)">The quick brown fox</div></div>
+    <div class="ds-type-row"><div class="ds-type-token">--text-h1</div><div class="ds-type-quincy" style="font-size:var(--text-h1)">The quick brown fox</div><div class="ds-type-effra" style="font-size:var(--text-h1)">The quick brown fox</div></div>
+    <div class="ds-type-row"><div class="ds-type-token">--text-h2</div><div class="ds-type-quincy" style="font-size:var(--text-h2)">The quick brown fox</div><div class="ds-type-effra" style="font-size:var(--text-h2)">The quick brown fox</div></div>
+    <div class="ds-type-row"><div class="ds-type-token">--text-h3</div><div class="ds-type-quincy" style="font-size:var(--text-h3)">The quick brown fox jumps over</div><div class="ds-type-effra" style="font-size:var(--text-h3)">The quick brown fox jumps over</div></div>
+    <div class="ds-type-row"><div class="ds-type-token">--text-h4</div><div class="ds-type-quincy" style="font-size:var(--text-h4)">The quick brown fox jumps over the lazy dog</div><div class="ds-type-effra" style="font-size:var(--text-h4)">The quick brown fox jumps over the lazy dog</div></div>
+    <div class="ds-type-row"><div class="ds-type-token">--text-body-lg</div><div class="ds-type-quincy" style="font-size:var(--text-body-lg)">The quick brown fox jumps over the lazy dog</div><div class="ds-type-effra" style="font-size:var(--text-body-lg)">The quick brown fox jumps over the lazy dog</div></div>
+    <div class="ds-type-row"><div class="ds-type-token">--text-body</div><div class="ds-type-quincy" style="font-size:var(--text-body)">The quick brown fox jumps over the lazy dog</div><div class="ds-type-effra" style="font-size:var(--text-body)">The quick brown fox jumps over the lazy dog</div></div>
+    <div class="ds-type-row"><div class="ds-type-token">--text-label</div><div class="ds-type-quincy" style="font-size:var(--text-label)">The quick brown fox jumps over the lazy dog</div><div class="ds-type-effra" style="font-size:var(--text-label)">The quick brown fox jumps over the lazy dog</div></div>
+    <div class="ds-type-row"><div class="ds-type-token">--text-micro</div><div class="ds-type-quincy" style="font-size:var(--text-micro)">The quick brown fox jumps over the lazy dog</div><div class="ds-type-effra" style="font-size:var(--text-micro)">The quick brown fox jumps over the lazy dog</div></div>
+    <div class="ds-type-legend">
+      <span style="font-family:var(--font-title);font-size:var(--text-label)">Quincy — --font-title</span>
+      <span style="font-family:var(--font-body);font-size:var(--text-label)">Effra — --font-body</span>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       § 03  Spacing Scale
+  ══════════════════════════════════════════ -->
+  <section class="ds-section" id="spacing">
+    <div class="ds-section-eyebrow">§ 03</div>
+    <div class="ds-section-heading">Spacing Scale — φ from 4px</div>
+    <div class="ds-sp-row"><div class="ds-sp-label">--sp-1</div><div class="ds-sp-bar" style="width:var(--sp-1)"></div><div class="ds-sp-value">0.25rem · 4px</div></div>
+    <div class="ds-sp-row"><div class="ds-sp-label">--sp-2</div><div class="ds-sp-bar" style="width:var(--sp-2)"></div><div class="ds-sp-value">0.375rem · 6px</div></div>
+    <div class="ds-sp-row"><div class="ds-sp-label">--sp-3</div><div class="ds-sp-bar" style="width:var(--sp-3)"></div><div class="ds-sp-value">0.625rem · 10px</div></div>
+    <div class="ds-sp-row"><div class="ds-sp-label">--sp-4</div><div class="ds-sp-bar" style="width:var(--sp-4)"></div><div class="ds-sp-value">1rem · 16px</div></div>
+    <div class="ds-sp-row"><div class="ds-sp-label">--sp-5</div><div class="ds-sp-bar" style="width:var(--sp-5)"></div><div class="ds-sp-value">1.625rem · 26px</div></div>
+    <div class="ds-sp-row"><div class="ds-sp-label">--sp-6</div><div class="ds-sp-bar" style="width:var(--sp-6)"></div><div class="ds-sp-value">2.625rem · 42px</div></div>
+    <div class="ds-sp-row"><div class="ds-sp-label">--sp-7</div><div class="ds-sp-bar" style="width:var(--sp-7)"></div><div class="ds-sp-value">4.25rem · 68px</div></div>
+    <div class="ds-sp-row"><div class="ds-sp-label">--sp-8</div><div class="ds-sp-bar" style="width:var(--sp-8)"></div><div class="ds-sp-value">6.875rem · 110px</div></div>
+    <div class="ds-sp-row"><div class="ds-sp-label">--sp-9</div><div class="ds-sp-bar" style="width:var(--sp-9)"></div><div class="ds-sp-value">11.125rem · 178px</div></div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       § 04  Shadows
+  ══════════════════════════════════════════ -->
+  <section class="ds-section" id="shadows">
+    <div class="ds-section-eyebrow">§ 04</div>
+    <div class="ds-section-heading">Shadows</div>
+    <div class="ds-shadows">
+      <div><div class="ds-shadow-card" style="box-shadow:var(--shadow-card)"><div class="ds-shadow-name">--shadow-card</div><div class="ds-shadow-val">0 4px 16px rgba(0,0,0,.05)</div></div></div>
+      <div><div class="ds-shadow-card" style="box-shadow:var(--shadow-button)"><div class="ds-shadow-name">--shadow-button</div><div class="ds-shadow-val">0 2px 6px rgba(0,0,0,.10)</div></div></div>
+      <div><div class="ds-shadow-card" style="box-shadow:var(--shadow-subtle)"><div class="ds-shadow-name">--shadow-subtle</div><div class="ds-shadow-val">two-layer warm tint</div></div></div>
+      <div><div class="ds-shadow-card" style="box-shadow:var(--shadow-raised)"><div class="ds-shadow-name">--shadow-raised</div><div class="ds-shadow-val">hover elevation</div></div></div>
+      <div><div class="ds-shadow-card" style="box-shadow:var(--shadow-float)"><div class="ds-shadow-name">--shadow-float</div><div class="ds-shadow-val">modal / popover</div></div></div>
+      <div><div class="ds-shadow-card" style="box-shadow:var(--shadow-gold)"><div class="ds-shadow-name">--shadow-gold</div><div class="ds-shadow-val">rgba(193,168,104,.25)</div></div></div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       § 05  Border Radius
+  ══════════════════════════════════════════ -->
+  <section class="ds-section" id="radius">
+    <div class="ds-section-eyebrow">§ 05</div>
+    <div class="ds-section-heading">Border Radius</div>
+    <div class="ds-radii">
+      <div class="ds-radius-item"><div class="ds-radius-box" style="border-radius:var(--radius-sm)"></div><div class="ds-radius-name">--radius-sm<br>0.375rem</div></div>
+      <div class="ds-radius-item"><div class="ds-radius-box" style="border-radius:var(--radius-card)"></div><div class="ds-radius-name">--radius-card<br>0.75rem</div></div>
+      <div class="ds-radius-item"><div class="ds-radius-box" style="border-radius:var(--radius-section)"></div><div class="ds-radius-name">--radius-section<br>clamp fluid</div></div>
+      <div class="ds-radius-item"><div class="ds-radius-box" style="border-radius:var(--radius-pill);width:180px;height:56px"></div><div class="ds-radius-name">--radius-pill<br>9999px</div></div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       § 06  Buttons
+  ══════════════════════════════════════════ -->
+  <section class="ds-section" id="buttons">
+    <div class="ds-section-eyebrow">§ 06</div>
+    <div class="ds-section-heading">Buttons</div>
+    <div class="ds-buttons">
+      <div class="ds-btn-group">
+        <a class="ds-btn-primary" href="#">Primary CTA</a>
+        <div class="ds-demo-label">primary (gold fill)</div>
+      </div>
+      <div class="ds-btn-group">
+        <div class="wp-block-button is-style-outline-gold"><a class="wp-block-button__link" href="#">Outline Gold</a></div>
+        <div class="ds-demo-label">is-style-outline-gold</div>
+      </div>
+      <div class="ds-btn-group">
+        <div style="background:var(--color-black);border-radius:var(--radius-card);padding:var(--sp-5)">
+          <div class="wp-block-button is-style-ghost"><a class="wp-block-button__link" href="#">Ghost Button</a></div>
+        </div>
+        <div class="ds-demo-label">is-style-ghost (on dark)</div>
+      </div>
+      <div class="ds-btn-group">
+        <div class="wp-block-button is-style-chip"><a class="wp-block-button__link" href="#">Filter Chip</a></div>
+        <div class="ds-demo-label">is-style-chip</div>
+      </div>
+      <div class="ds-btn-group">
+        <div class="wp-block-button is-style-chip is-active"><a class="wp-block-button__link" href="#">Active Chip</a></div>
+        <div class="ds-demo-label">is-style-chip.is-active</div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       § 07  Cards
+  ══════════════════════════════════════════ -->
+  <section class="ds-section" id="cards">
+    <div class="ds-section-eyebrow">§ 07</div>
+    <div class="ds-section-heading">Cards</div>
+    <p class="ds-note">Hover to see translateY(−4px) + --shadow-raised</p>
+    <div class="ds-demo-row">
+      <div class="card" style="max-width:280px">
+        <div class="card__img-ph">Image placeholder</div>
+        <div class="card__body">
+          <div class="card__eye">Category</div>
+          <div class="card__title">Card title in Quincy serif</div>
+          <div class="card__text">Body copy in Effra. Shadow-card at rest, shadow-raised on hover.</div>
+        </div>
+      </div>
+      <div class="wp-block-group is-style-hs-card" style="max-width:280px">
+        <div class="wp-block-group__inner-container">
+          <div class="card__eye">is-style-hs-card</div>
+          <div class="card__title" style="font-family:var(--font-title);font-size:var(--text-h4);line-height:var(--lh-card)">Block group card</div>
+          <div class="card__text">Uses .wp-block-group.is-style-hs-card from blocks.css</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- § 08  Section Colors heading -->
+  <section class="ds-section" style="margin-bottom:var(--sp-5)" id="section-colors">
+    <div class="ds-section-eyebrow">§ 08</div>
+    <div class="ds-section-heading">Section Background Colors</div>
+    <p class="ds-note">Full-width strips — each is a usable section background with its utility class</p>
+  </section>
+
+  <!-- § 09  Hero Image Patterns heading -->
+  <section class="ds-section" style="margin-bottom:var(--sp-3)" id="hero-patterns">
+    <div class="ds-section-eyebrow">§ 09</div>
+    <div class="ds-section-heading">Hero Image Patterns</div>
+    <p class="ds-note">5 layout variations — expand each to preview. <strong>A</strong> + <strong>E</strong> reuse <code style="font-family:monospace">.hero-cols</code> from blocks.css. New classes (.hero-float, .hero-bg, .hero-round, .hero-deco) live in this file only.</p>
+  </section>
+
+</div><!-- /.ds-page -->
+
+
+<!-- Full-width color strips -->
+<div>
+  <div class="ds-strip" style="background:var(--color-white);outline:1px solid #eee"><span class="ds-strip__name" style="color:var(--color-black)">--color-white</span><span class="ds-strip__meta" style="color:var(--color-black)">#ffffff · .bg-white</span></div>
+  <div class="ds-strip" style="background:var(--color-light-blue)"><span class="ds-strip__name" style="color:var(--color-deep-teal)">--color-light-blue</span><span class="ds-strip__meta" style="color:var(--color-deep-teal)">#F3F7FA · .bg-light-blue</span></div>
+  <div class="ds-strip" style="background:var(--color-light-purple)"><span class="ds-strip__name" style="color:var(--color-berry)">--color-light-purple</span><span class="ds-strip__meta" style="color:var(--color-berry)">#F7F2F9 · .bg-light-purple</span></div>
+  <div class="ds-strip" style="background:var(--color-pink)"><span class="ds-strip__name" style="color:var(--color-berry)">--color-pink</span><span class="ds-strip__meta" style="color:var(--color-berry)">#F9F2F3 · .bg-pink</span></div>
+  <div class="ds-strip" style="background:var(--color-cream)"><span class="ds-strip__name" style="color:var(--color-amber)">--color-cream</span><span class="ds-strip__meta" style="color:var(--color-amber)">#FAF5EC</span></div>
+  <div class="ds-strip" style="background:var(--color-soft-blue)"><span class="ds-strip__name" style="color:var(--color-deep-teal)">--color-soft-blue</span><span class="ds-strip__meta" style="color:var(--color-deep-teal)">#CBE3E5 · .bg-soft-blue</span></div>
+  <div class="ds-strip" style="background:var(--color-peach)"><span class="ds-strip__name" style="color:var(--color-terracotta)">--color-peach</span><span class="ds-strip__meta" style="color:var(--color-terracotta)">#F7BAA4 · .bg-peach</span></div>
+  <div class="ds-strip" style="background:var(--color-teal)"><span class="ds-strip__name" style="color:var(--color-white)">--color-teal</span><span class="ds-strip__meta" style="color:var(--color-white)">#409690 · .bg-teal</span></div>
+  <div class="ds-strip" style="background:var(--color-gold)"><span class="ds-strip__name" style="color:var(--color-black)">--color-gold</span><span class="ds-strip__meta" style="color:var(--color-black)">#C1A868 · .bg-gold</span></div>
+  <div class="ds-strip" style="background:var(--color-green-dark)"><span class="ds-strip__name" style="color:var(--color-white)">--color-green-dark</span><span class="ds-strip__meta" style="color:var(--color-white)">#026360 · .bg-green-dark</span></div>
+  <div class="ds-strip" style="background:var(--color-black)"><span class="ds-strip__name" style="color:var(--color-gold)">--color-black</span><span class="ds-strip__meta" style="color:var(--color-gold)">#000000 · .bg-black</span></div>
+  <div class="ds-strip" style="background:var(--color-espresso)"><span class="ds-strip__name" style="color:var(--color-gold)">--color-espresso</span><span class="ds-strip__meta" style="color:var(--color-gold)">#1A1410</span></div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     § 09  Hero Image Patterns — full-width previews
+═══════════════════════════════════════════════════════ -->
+<div style="padding: var(--sp-5) 0; background: var(--color-cream);">
+
+  <!-- ── Hero A: Golden Ratio columns · .hero-cols ── -->
+  <div class="ds-page" style="padding-top:0;padding-bottom:var(--sp-4)">
+    <details class="hero-demo">
+      <summary>Hero A — Golden Ratio (61.8 / 38.2) &nbsp;<code>.hero-cols.wp-block-columns</code>&nbsp; · bg: --color-pink</summary>
+      <div class="wp-block-columns hero-cols" style="background:var(--color-pink);margin-top:var(--sp-3)">
+        <div class="wp-block-column">
+          <div class="hero-label">Pronunciation · Fluency · Confidence</div>
+          <h1 class="hero-h1">Speak English<br>with confidence</h1>
+          <p class="hero-body">Clear structure, real practice, and proven techniques to help you communicate naturally.</p>
+          <div class="hero-btns">
+            <a class="ds-btn-primary" href="#">Start Here →</a>
+            <div class="wp-block-button is-style-outline-gold"><a class="wp-block-button__link" href="#">Free Resources</a></div>
+          </div>
+        </div>
+        <div class="wp-block-column">
+          <img src="https://picsum.photos/seed/hadar/800/1000" alt="Woman speaking confidently" loading="lazy" style="display:block">
+        </div>
+      </div>
+    </details>
+  </div>
+
+  <!-- ── Hero B: Floating blob shape · .hero-float ── -->
+  <div class="ds-page" style="padding-top:0;padding-bottom:var(--sp-4)">
+    <details class="hero-demo">
+      <summary>Hero B — Floating Blob Mask (55 / 45) &nbsp;<code>.hero-float.wp-block-columns</code>&nbsp; · bg: --color-light-blue</summary>
+      <div class="wp-block-columns hero-float" style="background:var(--color-light-blue);margin-top:var(--sp-3)">
+        <div class="wp-block-column">
+          <div class="hero-label">Pronunciation · Fluency · Confidence</div>
+          <h1 class="hero-h1">Speak English<br>with confidence</h1>
+          <p class="hero-body">Clear structure, real practice, and proven techniques to help you communicate naturally.</p>
+          <div class="hero-btns">
+            <a class="ds-btn-primary" href="#">Start Here →</a>
+            <div class="wp-block-button is-style-outline-gold"><a class="wp-block-button__link" href="#">Free Resources</a></div>
+          </div>
+        </div>
+        <div class="wp-block-column">
+          <div class="hero-float__bg-circle"></div>
+          <img class="hero-float__img" src="https://picsum.photos/seed/hadar/800/1000" alt="Woman speaking confidently" loading="lazy">
+        </div>
+      </div>
+    </details>
+  </div>
+
+  <!-- ── Hero C: Full background image · .hero-bg ── -->
+  <div class="ds-page" style="padding-top:0;padding-bottom:var(--sp-4)">
+    <details class="hero-demo">
+      <summary>Hero C — Full Background Image &nbsp;<code>.hero-bg</code>&nbsp; · gradient overlay L→R</summary>
+      <div class="hero-bg" style="background-image:url('https://picsum.photos/seed/hadar/1600/900');margin-top:var(--sp-3)">
+        <div class="hero-bg__overlay"></div>
+        <div class="hero-bg__content">
+          <div class="hero-label">Pronunciation · Fluency · Confidence</div>
+          <h1 class="hero-h1">Speak English<br>with confidence</h1>
+          <p class="hero-body">Clear structure, real practice, and proven techniques to help you communicate naturally.</p>
+          <div class="hero-btns">
+            <a class="ds-btn-primary" href="#">Start Here →</a>
+            <div class="wp-block-button is-style-ghost"><a class="wp-block-button__link" href="#">Free Resources</a></div>
+          </div>
+        </div>
+      </div>
+    </details>
+  </div>
+
+  <!-- ── Hero D: Circular image · .hero-round ── -->
+  <div class="ds-page" style="padding-top:0;padding-bottom:var(--sp-4)">
+    <details class="hero-demo">
+      <summary>Hero D — Circular Image (40 / 60) &nbsp;<code>.hero-round.wp-block-columns</code>&nbsp; · bg: --color-cream</summary>
+      <div class="wp-block-columns hero-round" style="background:var(--color-cream);margin-top:var(--sp-3)">
+        <div class="wp-block-column">
+          <img class="hero-round__img" src="https://picsum.photos/seed/hadar2/600/600" alt="Portrait" loading="lazy">
+        </div>
+        <div class="wp-block-column">
+          <div class="hero-label">Pronunciation · Fluency · Confidence</div>
+          <h1 class="hero-h1">Speak English<br>with confidence</h1>
+          <p class="hero-body">Clear structure, real practice, and proven techniques to help you communicate naturally.</p>
+          <div class="hero-btns">
+            <a class="ds-btn-primary" href="#">Start Here →</a>
+            <div class="wp-block-button is-style-outline-gold"><a class="wp-block-button__link" href="#">Free Resources</a></div>
+          </div>
+        </div>
+      </div>
+    </details>
+  </div>
+
+  <!-- ── Hero E: Decorative circle + parallax · .hero-cols + .hero-deco ── -->
+  <div class="ds-page" style="padding-top:0;padding-bottom:var(--sp-4)">
+    <details class="hero-demo">
+      <summary>Hero E — Decorative Background + Parallax &nbsp;<code>.hero-cols.hero-deco.wp-block-columns</code>&nbsp; · bg: --color-white</summary>
+      <div class="wp-block-columns hero-cols hero-deco" style="background:var(--color-white);margin-top:var(--sp-3)">
+        <div class="hero-deco__shape" id="hero-e-shape"></div>
+        <div class="wp-block-column">
+          <div class="hero-label">Pronunciation · Fluency · Confidence</div>
+          <h1 class="hero-h1">Speak English<br>with confidence</h1>
+          <p class="hero-body">Clear structure, real practice, and proven techniques to help you communicate naturally.</p>
+          <div class="hero-btns">
+            <a class="ds-btn-primary" href="#">Start Here →</a>
+            <div class="wp-block-button is-style-outline-gold"><a class="wp-block-button__link" href="#">Free Resources</a></div>
+          </div>
+        </div>
+        <div class="wp-block-column">
+          <img src="https://picsum.photos/seed/hadar/800/1000" alt="Woman speaking confidently" loading="lazy" style="display:block">
+        </div>
+      </div>
+    </details>
+  </div>
+
+</div><!-- /.hero patterns wrapper -->
+
+
+<div class="ds-page">
+  <footer class="ds-footer">
+    HS2026 Design System · Tokens · style.css + blocks.css + theme.json · Do not deploy
+  </footer>
+</div>
+
+
+<script>
+  const nav = document.getElementById('ds-nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 20), { passive: true });
+
+  const bpEl = document.getElementById('vp-bp');
+  const pxEl = document.getElementById('vp-px');
+  const breakpoints = [[1536,'2xl'],[1280,'xl'],[1024,'lg'],[768,'md'],[640,'sm'],[0,'xs']];
+  function updateBadge() {
+    const w = window.innerWidth;
+    bpEl.textContent = breakpoints.find(([min]) => w >= min)[1];
+    pxEl.textContent = w + 'px';
+  }
+  updateBadge();
+  window.addEventListener('resize', updateBadge);
+
+  // Hero E parallax — shape drifts at 15% scroll speed
+  const heroEShape = document.getElementById('hero-e-shape');
+  if (heroEShape) {
+    window.addEventListener('scroll', () => {
+      if (window.innerWidth <= 479) {
+        heroEShape.style.transform = 'translateY(-50%)';
+        return;
+      }
+      heroEShape.style.transform = `translateY(calc(-50% + ${window.scrollY * 0.15}px))`;
+    }, { passive: true });
+  }
+</script>
+</body>
+</html>

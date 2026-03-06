@@ -16,9 +16,27 @@ Scope: active theme runtime files (excluding `_legacy`, which is optional refere
 Anonymous hooks in this file:
 - `add_action('add_meta_boxes', function() { ... })` - adds related post metabox to `podcast`.
 - `add_action('rest_api_init', function() { ... })` - registers `/hs/v1/testimonial-modal/{id}` route.
-- `add_action('init', function() { ... })` - registers block pattern category and group block style.
-- `add_action('init', function() { ... })` (added 2026‑03‑04) - registers a custom heading block style named "Big Title" (`core/heading`).
+- `add_action('init', function() { ... })` - registers `hs2026` block pattern category only. Patterns in `/patterns/` are auto-loaded by WordPress 6.0+ from file headers — no manual `require` loop.
 - `add_filter('is_protected_meta', '__return_false')` - exposes protected meta for current implementation.
+
+## `includes/theme-setup.php`
+
+| Function | Purpose | Hooks / Filters |
+| --- | --- | --- |
+| `hs2026_img($filename)` | Returns the absolute URL for a file inside the theme's `/images/` directory. Used in block patterns as a portable placeholder image source. | None (called directly in pattern files) |
+
+## `includes/fse-setup.php`
+
+| Function | Purpose | Hooks / Filters |
+| --- | --- | --- |
+| `hs2026_fse_should_override()` | Gate function — returns true only on FSE (non-Elementor) frontend requests: block theme active, not in Elementor editor, and current singular post not built with Elementor. | None (called internally) |
+
+Anonymous hooks in this file:
+- `add_action('wp', function() { ... }, 5)` — sets `$hs2026_disable_elementor_assets = true` to signal the Elementor dominator to strip assets on FSE pages.
+- `add_filter('template_include', function($template) { ... }, 99999)` — restores the WP block-template canvas if Elementor has replaced it, so FSE templates win.
+- `add_action('wp', function() { ... }, 20)` — removes Elementor Pro Theme Builder header/footer action hooks so FSE template parts render unobstructed.
+
+**Coexistence rule:** `hs2026_fse_should_override()` checks `_elementor_edit_mode = builder` on the current post. Pages built with Elementor are left untouched; only non-Elementor pages get the FSE canvas treatment.
 
 ## `includes/index/load.php`
 
@@ -28,9 +46,13 @@ Anonymous hooks in this file:
 
 Module loading behavior:
 - Loads `post-type.php`.
+- Loads `includes/theme-setup.php` (asset helpers + `hs2026_img()`).
+- Loads `includes/block-styles.php`.
 - Loads Elementor dominator from `src/includes/elementor-dominator.php` with fallback to `includes/elementor-dominator.php`.
+- Loads `includes/fse-setup.php` (FSE/Elementor coexistence).
 - Loads inline video module from `includes/shortcodes/inline-video.php`.
 - Autoloads additional `includes/shortcodes/*.php`.
+- Loads `includes/block-inspector/block-inspector.php`.
 
 ## `includes/shortcodes/inline-video.php`
 

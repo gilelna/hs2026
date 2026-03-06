@@ -1,0 +1,666 @@
+<!-- HS2026 Design System — Patterns — do not deploy -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HS2026 DS · Patterns</title>
+
+  <link rel="stylesheet" href="../css/output.css">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../css/blocks.css">
+  <link rel="stylesheet" href="_shared.css">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-body); background: var(--color-cream); color: var(--color-espresso); min-height: 100vh; line-height: var(--lh-body); overflow-x: hidden; }
+
+    /* ── Primary button (re-usable inline) ── */
+    .btn-p {
+      display: inline-flex; align-items: center; justify-content: center;
+      font-family: var(--font-body); font-size: var(--text-label); font-weight: 700;
+      letter-spacing: var(--ls-wide); text-transform: uppercase;
+      border-radius: var(--radius-pill); min-height: 44px; padding: 0 var(--sp-6);
+      background: var(--color-gold); color: var(--color-white);
+      border: none; cursor: pointer; text-decoration: none;
+      transition: background .2s; box-shadow: var(--shadow-button);
+    }
+    .btn-p:hover { background: var(--color-gold-deep); }
+    .wp-block-button__link { padding: var(--sp-3) var(--sp-6) !important; }
+
+    /* Pattern section separators */
+    .pat-gap { height: var(--sp-3); background: rgba(0,0,0,0.04); }
+
+    /* Stats cell */
+    .stat-cell { transition: background .2s; }
+    .stat-cell:hover { background: rgba(255,255,255,0.04); }
+
+    /* Floating chips */
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-7px)} }
+    .chip-a { animation: float 4s ease-in-out infinite; }
+    .chip-b { animation: float 4s ease-in-out 1.8s infinite; }
+
+    /* Reveal on scroll */
+    .reveal { opacity:0; transform:translateY(20px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal.visible { opacity:1; transform:none; }
+
+    /* Squiggle underline */
+    .squiggle { position: relative; display: inline-block; }
+    .squiggle svg { position: absolute; bottom: -6px; left: 0; width: 100%; overflow: visible; pointer-events: none; }
+
+    /* ── Page intro ── */
+    .pat-intro {
+      background: var(--color-cream);
+      padding: var(--sp-7) var(--sp-5);
+      text-align: center;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    /* Collections grid card innards */
+    .col-card__eye   { font-family:var(--font-body);font-size:var(--text-label);font-weight:700;letter-spacing:var(--ls-wide);text-transform:uppercase;color:var(--color-gold);margin-bottom:var(--sp-3); }
+    .col-card__title { font-family:var(--font-title);font-size:var(--text-h4);font-weight:700;color:var(--color-black);line-height:var(--lh-card);margin-bottom:var(--sp-3); }
+    .col-card__text  { font-family:var(--font-body);font-size:var(--text-body);color:var(--color-espresso);opacity:0.7;line-height:var(--lh-body); }
+
+    /* Testimonial card portrait */
+    .testi-portrait {
+      position: relative;
+      border-radius: var(--radius-card);
+      overflow: hidden;
+      aspect-ratio: 4/6;
+    }
+    .testi-portrait__bg { position: absolute; inset:0; }
+    .testi-portrait__overlay {
+      position: absolute; inset:0; z-index:2;
+      display:flex; flex-direction:column; justify-content:flex-end;
+      padding: var(--sp-5);
+      background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 60%);
+      color: var(--color-white);
+    }
+
+    /* Footer innards */
+    .footer-logo { font-family: var(--font-title); font-weight: 700; font-size: var(--text-h3); color: var(--color-white); line-height: var(--lh-tight); }
+    .footer-tagline { font-family: var(--font-body); font-size: var(--text-body); color: rgba(255,255,255,0.5); margin-top: var(--sp-3); line-height: var(--lh-body); }
+    .footer-link { display: block; font-family: var(--font-body); font-size: var(--text-body); color: rgba(255,255,255,0.65); text-decoration: none; margin-bottom: var(--sp-3); transition: color .15s; }
+    .footer-link:hover { color: var(--color-gold); }
+    .footer-link-title { font-family: var(--font-body); font-size: var(--text-label); font-weight: 700; letter-spacing: var(--ls-wide); text-transform: uppercase; color: var(--color-gold); margin-bottom: var(--sp-4); }
+
+    @media (max-width: 767px) {
+      .hide-sm { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="ds-nav" id="ds-nav">
+  <div class="ds-nav__inner">
+    <a href="index.html" class="ds-nav__logo">
+      <span class="ds-nav__logo-mark">HS</span>
+      <span class="ds-nav__logo-label">Design System</span>
+    </a>
+    <div class="ds-nav__links">
+      <a href="index.html"      class="ds-nav__link">Tokens</a>
+      <a href="components.html" class="ds-nav__link">Components</a>
+      <a href="patterns.html"   class="ds-nav__link is-active">Patterns</a>
+    </div>
+    <div class="ds-nav__ref">
+      <a href="hs2026-design-demo_2.html"       class="ds-nav__ref-link">Demo</a>
+      <a href="hs2026-sections.html"            class="ds-nav__ref-link">Sections</a>
+      <a href="hs2026-design-constitution.html" class="ds-nav__ref-link">Constitution</a>
+    </div>
+    <div class="ds-nav__vp">
+      <span class="ds-nav__vp-bp" id="vp-bp">—</span>
+      <span class="ds-nav__vp-px" id="vp-px">—</span>
+    </div>
+  </div>
+</nav>
+
+
+<!-- Intro -->
+<div class="ds-page pat-intro" style="padding-top:var(--sp-7);padding-bottom:var(--sp-6);max-width:100%">
+  <div style="max-width:640px;margin:0 auto;text-align:center">
+    <div style="font-family:var(--font-body);font-size:var(--text-label);font-weight:700;letter-spacing:var(--ls-wider);text-transform:uppercase;color:var(--color-gold);margin-bottom:var(--sp-3)">Page Patterns</div>
+    <h1 style="font-family:var(--font-title);font-size:var(--text-h2);font-weight:700;color:var(--color-black);line-height:var(--lh-tight);letter-spacing:var(--ls-tight);margin-bottom:var(--sp-4)">Section templates</h1>
+    <p style="font-family:var(--font-body);font-size:var(--text-body-lg);color:var(--color-espresso);opacity:0.65;line-height:var(--lh-body)">Each section below uses the real CSS classes from blocks.css. Scroll to preview them all before translating into WordPress block patterns.</p>
+  </div>
+</div>
+
+<div class="pat-gap"></div>
+
+
+<!-- ══════════════════════════════════════════
+     § 01  HERO
+     .hero-cols.wp-block-columns — golden ratio 61.8/38.2
+     stacks at 767px
+══════════════════════════════════════════ -->
+<div class="ds-pattern-band">
+  <div class="ds-pattern-band__inner">
+    <span class="ds-pattern-band__class">.wp-block-columns.hero-cols</span>
+    <span class="ds-pattern-band__sep"></span>
+    <span class="ds-pattern-band__desc">Golden ratio columns · 61.8% text / 38.2% image · stacks at 767px · padding-block on text column</span>
+  </div>
+</div>
+
+<div class="wp-block-group section" style="background:var(--color-pink);overflow:hidden;padding:0">
+  <div class="wp-block-columns hero-cols" style="max-width:var(--max-width);margin-inline:auto;padding-inline:var(--container-px)">
+
+    <!-- Left: text content -->
+    <div class="wp-block-column">
+      <div style="display:flex;align-items:center;gap:var(--sp-3);margin-bottom:var(--sp-4)">
+        <span style="width:8px;height:8px;border-radius:50%;background:var(--color-gold);flex-shrink:0"></span>
+        <span class="label-text">English Coach · Pronunciation Expert</span>
+      </div>
+      <h1 style="font-family:var(--font-title);font-weight:900;color:var(--color-black);line-height:0.95;letter-spacing:var(--ls-tightest);margin-bottom:var(--sp-5)" class="squiggle">
+        <span style="font-size:var(--text-display)">Speak<br></span>
+        <span style="font-size:var(--text-display);color:var(--color-green-dark)">English</span><br>
+        <span style="font-size:var(--text-display)">with
+          <span class="squiggle">confidence
+            <svg viewBox="0 0 260 12" fill="none" aria-hidden="true">
+              <path d="M2 9 C55 2,110 13,165 6 C200 1,235 11,258 5" stroke="#C1A868" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+          </span>
+        </span>
+      </h1>
+      <p style="font-family:var(--font-body);font-size:var(--text-body-lg);color:var(--color-espresso);opacity:0.7;line-height:var(--lh-body);max-width:36ch;margin-bottom:var(--sp-5)">
+        Weekly lessons, free resources and proven programs to help you speak clearly, freely, and without fear.
+      </p>
+      <form style="display:flex;flex-wrap:wrap;gap:var(--sp-3);margin-bottom:var(--sp-5)" onsubmit="return false">
+        <input type="email" placeholder="Your email address" style="flex:1;min-width:180px">
+        <button class="btn-p" type="submit">Get weekly lessons &rarr;</button>
+      </form>
+      <div style="display:flex;flex-wrap:wrap;gap:var(--sp-3)">
+        <div class="wp-block-button is-style-chip is-active"><a class="wp-block-button__link" href="#">Pronunciation</a></div>
+        <div class="wp-block-button is-style-chip"><a class="wp-block-button__link" href="#">Fluency</a></div>
+        <div class="wp-block-button is-style-chip"><a class="wp-block-button__link" href="#">Confidence</a></div>
+        <div class="wp-block-button is-style-chip"><a class="wp-block-button__link" href="#">Grammar</a></div>
+      </div>
+    </div>
+
+    <!-- Right: image + floating stats -->
+    <div class="wp-block-column" style="position:relative;display:flex;align-items:flex-end;justify-content:center;min-height:420px">
+      <div style="position:absolute;bottom:0;right:0;width:82%;height:90%;background:var(--color-soft-blue);border-top-left-radius:9999px;border-bottom-left-radius:9999px;border-top-right-radius:9999px;z-index:0"></div>
+      <!-- Floating stat chips -->
+      <div class="chip-a" style="position:absolute;top:18%;left:0;z-index:10;background:var(--color-white);border-radius:var(--radius-card);padding:var(--sp-3) var(--sp-5);display:flex;align-items:center;gap:var(--sp-4);box-shadow:var(--shadow-raised)">
+        <span style="width:10px;height:10px;border-radius:50%;background:var(--color-gold);flex-shrink:0"></span>
+        <div>
+          <div style="font-family:var(--font-title);font-weight:700;font-size:var(--text-h3);line-height:1">622k</div>
+          <div style="font-family:var(--font-body);font-size:var(--text-micro);color:var(--color-espresso);opacity:0.5;margin-top:2px">YouTube subscribers</div>
+        </div>
+      </div>
+      <div class="chip-b" style="position:absolute;bottom:28%;right:var(--sp-3);z-index:10;background:var(--color-white);border-radius:var(--radius-card);padding:var(--sp-3) var(--sp-5);display:flex;align-items:center;gap:var(--sp-4);box-shadow:var(--shadow-raised)">
+        <span style="width:10px;height:10px;border-radius:50%;background:var(--color-teal);flex-shrink:0"></span>
+        <div>
+          <div style="font-family:var(--font-title);font-weight:700;font-size:var(--text-h3);line-height:1">130k+</div>
+          <div style="font-family:var(--font-body);font-size:var(--text-micro);color:var(--color-espresso);opacity:0.5;margin-top:2px">Weekly readers</div>
+        </div>
+      </div>
+      <!-- Person photo placeholder -->
+      <div class="img-ph img-ph--hero" style="position:relative;z-index:2;width:85%;max-width:460px;border-radius:var(--radius-card) var(--radius-card) 0 0">Person photo</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="pat-gap"></div>
+
+
+<!-- ══════════════════════════════════════════
+     § 02  SOCIAL PROOF — dark inset
+     Pattern: light bg wrapper → dark rounded inner
+══════════════════════════════════════════ -->
+<div class="ds-pattern-band">
+  <div class="ds-pattern-band__inner">
+    <span class="ds-pattern-band__class">Social Proof — dark inset section</span>
+    <span class="ds-pattern-band__sep"></span>
+    <span class="ds-pattern-band__desc">--color-light-blue wrapper · --color-black inner with --radius-section · stats grid · logo strip</span>
+  </div>
+</div>
+
+<div style="background:var(--color-light-blue);padding:var(--sp-3)">
+  <div class="wp-block-group section" style="background:var(--color-black);border-radius:var(--radius-section);overflow:hidden">
+    <div class="wp-block-group container reveal">
+
+      <!-- Heading -->
+      <div style="text-align:center;margin-bottom:var(--sp-7)">
+        <p style="font-family:var(--font-body);font-size:var(--text-micro);letter-spacing:var(--ls-wider);text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:var(--sp-4)">Trusted worldwide</p>
+        <h2 style="font-family:var(--font-title);font-weight:900;color:var(--color-white);line-height:var(--lh-snug);font-size:var(--text-h1);max-width:720px;margin-inline:auto">
+          Real people.<br><span style="color:var(--color-gold);font-style:italic">Real results.</span><br>Every single day.
+        </h2>
+      </div>
+
+      <!-- Stats grid -->
+      <div style="border:1px solid rgba(255,255,255,0.1);border-radius:var(--radius-card);overflow:hidden;display:grid;grid-template-columns:repeat(4,1fr);margin-bottom:var(--sp-7)">
+        <div class="stat-cell" style="display:flex;flex-direction:column;align-items:center;gap:var(--sp-3);padding:var(--sp-6) var(--sp-5);border-right:1px solid rgba(255,255,255,0.08)">
+          <div style="width:24px;height:2px;background:var(--color-gold);border-radius:9999px"></div>
+          <div style="font-family:var(--font-title);font-weight:900;color:var(--color-white);font-size:var(--text-h1);line-height:1">622<sup style="font-size:0.5em;color:var(--color-gold)">k</sup></div>
+          <div style="font-family:var(--font-body);font-size:var(--text-micro);letter-spacing:var(--ls-wider);text-transform:uppercase;color:rgba(255,255,255,0.35);text-align:center">YouTube<br>subscribers</div>
+        </div>
+        <div class="stat-cell" style="display:flex;flex-direction:column;align-items:center;gap:var(--sp-3);padding:var(--sp-6) var(--sp-5);border-right:1px solid rgba(255,255,255,0.08)">
+          <div style="width:24px;height:2px;background:var(--color-gold);border-radius:9999px"></div>
+          <div style="font-family:var(--font-title);font-weight:900;color:var(--color-white);font-size:var(--text-h1);line-height:1">130<sup style="font-size:0.5em;color:var(--color-gold)">k+</sup></div>
+          <div style="font-family:var(--font-body);font-size:var(--text-micro);letter-spacing:var(--ls-wider);text-transform:uppercase;color:rgba(255,255,255,0.35);text-align:center">Weekly<br>readers</div>
+        </div>
+        <div class="stat-cell" style="display:flex;flex-direction:column;align-items:center;gap:var(--sp-3);padding:var(--sp-6) var(--sp-5);border-right:1px solid rgba(255,255,255,0.08)">
+          <div style="width:24px;height:2px;background:var(--color-gold);border-radius:9999px"></div>
+          <div style="font-family:var(--font-title);font-weight:900;color:var(--color-white);font-size:var(--text-h1);line-height:1">10<sup style="font-size:0.5em;color:var(--color-gold)">yr</sup></div>
+          <div style="font-family:var(--font-body);font-size:var(--text-micro);letter-spacing:var(--ls-wider);text-transform:uppercase;color:rgba(255,255,255,0.35);text-align:center">Teaching<br>English</div>
+        </div>
+        <div class="stat-cell" style="display:flex;flex-direction:column;align-items:center;gap:var(--sp-3);padding:var(--sp-6) var(--sp-5)">
+          <div style="width:24px;height:2px;background:var(--color-gold);border-radius:9999px"></div>
+          <div style="font-family:var(--font-title);font-weight:900;color:var(--color-white);font-size:var(--text-h1);line-height:1">50<sup style="font-size:0.5em;color:var(--color-gold)">+</sup></div>
+          <div style="font-family:var(--font-body);font-size:var(--text-micro);letter-spacing:var(--ls-wider);text-transform:uppercase;color:rgba(255,255,255,0.35);text-align:center">Countries<br>represented</div>
+        </div>
+      </div>
+
+      <!-- Logo strip -->
+      <div style="text-align:center">
+        <p style="font-family:var(--font-body);font-size:var(--text-micro);letter-spacing:var(--ls-wider);text-transform:uppercase;color:rgba(255,255,255,0.2);margin-bottom:var(--sp-5)">Students from</p>
+        <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:var(--sp-7);opacity:0.25">
+          <span style="font-family:var(--font-body);font-weight:700;font-size:var(--text-body-lg);color:var(--color-white);letter-spacing:var(--ls-wide)">Google</span>
+          <span style="font-family:var(--font-body);font-weight:700;font-size:var(--text-body-lg);color:var(--color-white);letter-spacing:var(--ls-wide)">Microsoft</span>
+          <span style="font-family:var(--font-body);font-weight:700;font-size:var(--text-body-lg);color:var(--color-white);letter-spacing:var(--ls-wide)">Waze</span>
+          <span style="font-family:var(--font-body);font-weight:700;font-size:var(--text-body-lg);color:var(--color-white);letter-spacing:var(--ls-wide)">WeWork</span>
+          <span style="font-family:var(--font-body);font-weight:700;font-size:var(--text-body-lg);color:var(--color-white);letter-spacing:var(--ls-wide)">General Motors</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="pat-gap"></div>
+
+
+<!-- ══════════════════════════════════════════
+     § 03  PILL CTA — 4 color variants
+     .pill-cta from blocks.css
+══════════════════════════════════════════ -->
+<div class="ds-pattern-band">
+  <div class="ds-pattern-band__inner">
+    <span class="ds-pattern-band__class">.pill-cta</span>
+    <span class="ds-pattern-band__sep"></span>
+    <span class="ds-pattern-band__desc">border-radius:9999px · overflow:hidden · person photo left · content right at 38% padding-left · 4 color treatments below</span>
+  </div>
+</div>
+
+<div class="wp-block-group section" style="background:var(--color-white)">
+  <div class="wp-block-group container" style="display:flex;flex-direction:column;gap:var(--sp-5)">
+
+    <!-- A: Pink standard -->
+    <div class="pill-cta reveal" style="background:var(--color-pink)">
+      <div class="img-ph" style="position:absolute;left:0;bottom:0;height:100%;width:38%;border-radius:0;opacity:0.5">Photo</div>
+      <div style="position:relative;z-index:2;display:flex;flex-direction:column;gap:var(--sp-4)">
+        <h2 style="font-family:var(--font-title);font-weight:700;font-size:var(--text-h3);color:var(--color-black);line-height:var(--lh-heading)">Gosh.. There's so much<br>to choose from!</h2>
+        <p style="font-family:var(--font-body);font-size:var(--text-body);color:var(--color-espresso);opacity:0.7;line-height:var(--lh-body);max-width:38ch">Hundreds of lessons and free downloads to improve on your own. I'll show you exactly where to start.</p>
+        <a class="btn-p" href="#" style="align-self:flex-start">Start Here &rarr;</a>
+      </div>
+    </div>
+
+    <!-- B: Espresso dark + dot texture -->
+    <div class="pill-cta tex-dots reveal" style="background:var(--color-espresso)">
+      <div class="img-ph" style="position:absolute;left:0;bottom:0;height:100%;width:38%;border-radius:0;background:var(--color-deep-teal);opacity:0.4">Photo</div>
+      <div style="position:absolute;top:var(--sp-5);right:var(--sp-7);width:100px;height:100px;border-radius:50%;background:var(--color-gold);opacity:0.08"></div>
+      <div style="position:relative;z-index:2;display:flex;flex-direction:column;gap:var(--sp-4)">
+        <span class="label-text" style="color:rgba(232,213,176,0.6)">New here?</span>
+        <h2 style="font-family:var(--font-title);font-weight:900;font-size:var(--text-h2);color:var(--color-white);line-height:0.93">Gosh.. There's<br><em style="color:var(--color-gold)">so much</em><br>to choose from!</h2>
+        <p style="font-family:var(--font-body);font-size:var(--text-body);color:rgba(255,255,255,0.5);line-height:var(--lh-body);max-width:38ch">Hundreds of lessons, free downloads, and courses. Let me show you where to start.</p>
+        <a class="btn-p" href="#" style="align-self:flex-start">Start Here &rarr;</a>
+      </div>
+    </div>
+
+    <!-- C: Warm cream + berry -->
+    <div class="pill-cta tex-cross reveal" style="background:var(--color-cream)">
+      <div class="img-ph" style="position:absolute;left:0;bottom:0;height:100%;width:38%;border-radius:0;background:var(--color-peach);opacity:0.6">Photo</div>
+      <div style="position:relative;z-index:2;display:flex;flex-direction:column;gap:var(--sp-4)">
+        <span class="label-text" style="color:var(--color-berry)">New here?</span>
+        <h2 style="font-family:var(--font-title);font-weight:900;font-size:var(--text-h2);color:var(--color-espresso);line-height:0.93">Gosh.. There's<br><em style="color:var(--color-berry)">so much</em><br>to choose from!</h2>
+        <p style="font-family:var(--font-body);font-size:var(--text-body);color:var(--color-amber);line-height:var(--lh-body);max-width:38ch">Hundreds of lessons and free downloads — let me show you where to begin.</p>
+        <a href="#" style="align-self:flex-start;display:inline-flex;align-items:center;font-family:var(--font-body);font-size:var(--text-label);font-weight:700;letter-spacing:var(--ls-wide);text-transform:uppercase;background:var(--color-berry);color:var(--color-white);border-radius:var(--radius-pill);min-height:44px;padding:0 var(--sp-6);text-decoration:none">Start Here &rarr;</a>
+      </div>
+    </div>
+
+    <!-- D: Deep teal + terracotta -->
+    <div class="pill-cta tex-dots reveal" style="background:var(--color-deep-teal)">
+      <div class="img-ph" style="position:absolute;left:0;bottom:0;height:100%;width:38%;border-radius:0;background:var(--color-green-dark);opacity:0.6">Photo</div>
+      <div style="position:relative;z-index:2;display:flex;flex-direction:column;gap:var(--sp-4)">
+        <span class="label-text" style="color:rgba(255,255,255,0.4)">New here?</span>
+        <h2 style="font-family:var(--font-title);font-weight:900;font-size:var(--text-h2);color:var(--color-white);line-height:0.93">Gosh.. There's<br><em style="color:var(--color-peach)">so much</em><br>to choose from!</h2>
+        <p style="font-family:var(--font-body);font-size:var(--text-body);color:rgba(255,255,255,0.55);line-height:var(--lh-body);max-width:38ch">Hundreds of lessons and free downloads — let me show you where to begin.</p>
+        <a href="#" style="align-self:flex-start;display:inline-flex;align-items:center;font-family:var(--font-body);font-size:var(--text-label);font-weight:700;letter-spacing:var(--ls-wide);text-transform:uppercase;background:var(--color-terracotta);color:var(--color-white);border-radius:var(--radius-pill);min-height:44px;padding:0 var(--sp-6);text-decoration:none">Start Here &rarr;</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="pat-gap"></div>
+
+
+<!-- ══════════════════════════════════════════
+     § 04  HELP CARDS
+     .help-cols.wp-block-columns — 3 cards, hover lift
+══════════════════════════════════════════ -->
+<div class="ds-pattern-band">
+  <div class="ds-pattern-band__inner">
+    <span class="ds-pattern-band__class">.wp-block-columns.help-cols</span>
+    <span class="ds-pattern-band__sep"></span>
+    <span class="ds-pattern-band__desc">3 equal columns · each col: --radius-card + --shadow-card · hover: translateY(−4px) + --shadow-raised · stacks at 767px</span>
+  </div>
+</div>
+
+<div class="wp-block-group section" style="background:var(--color-light-blue)">
+  <div class="wp-block-group container">
+    <div style="text-align:center;margin-bottom:var(--sp-7)">
+      <span class="label-text">Ways to learn</span>
+      <h2 style="font-family:var(--font-title);font-size:var(--text-h2);font-weight:700;color:var(--color-black);line-height:var(--lh-heading);margin-top:var(--sp-3)">What are you working on?</h2>
+    </div>
+    <div class="wp-block-columns help-cols">
+      <div class="wp-block-column" style="background:var(--color-white);display:flex;flex-direction:column">
+        <div class="img-ph img-ph--landscape">Pronunciation image</div>
+        <div style="padding:var(--sp-5);flex:1;display:flex;flex-direction:column;gap:var(--sp-3)">
+          <div class="col-card__eye">Free resource</div>
+          <div class="col-card__title">Pronunciation clarity</div>
+          <div class="col-card__text">Build the foundation of clear, confident sound. Start with the most common problem sounds for non-native speakers.</div>
+          <a class="arrow-btn" href="#" aria-label="Read more" style="margin-top:auto;align-self:flex-start">&rarr;</a>
+        </div>
+      </div>
+      <div class="wp-block-column" style="background:var(--color-white);display:flex;flex-direction:column">
+        <div class="img-ph img-ph--landscape" style="background:var(--color-peach)">Fluency image</div>
+        <div style="padding:var(--sp-5);flex:1;display:flex;flex-direction:column;gap:var(--sp-3)">
+          <div class="col-card__eye">Course</div>
+          <div class="col-card__title">Fluency & natural rhythm</div>
+          <div class="col-card__text">Stop translating in your head. Learn to think and speak in English naturally with these structured practice techniques.</div>
+          <a class="arrow-btn" href="#" aria-label="Read more" style="margin-top:auto;align-self:flex-start">&rarr;</a>
+        </div>
+      </div>
+      <div class="wp-block-column" style="background:var(--color-white);display:flex;flex-direction:column">
+        <div class="img-ph img-ph--landscape" style="background:var(--color-light-purple)">Confidence image</div>
+        <div style="padding:var(--sp-5);flex:1;display:flex;flex-direction:column;gap:var(--sp-3)">
+          <div class="col-card__eye">Free training</div>
+          <div class="col-card__title">Confidence in real life</div>
+          <div class="col-card__text">Overcome English anxiety and speak up in meetings, presentations, and everyday conversations without hesitation.</div>
+          <a class="arrow-btn" href="#" aria-label="Read more" style="margin-top:auto;align-self:flex-start">&rarr;</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="pat-gap"></div>
+
+
+<!-- ══════════════════════════════════════════
+     § 05  COLLECTIONS GRID
+     .collections-grid — 3 col + last full width
+══════════════════════════════════════════ -->
+<div class="ds-pattern-band">
+  <div class="ds-pattern-band__inner">
+    <span class="ds-pattern-band__class">.collections-grid</span>
+    <span class="ds-pattern-band__sep"></span>
+    <span class="ds-pattern-band__desc">3-col CSS grid · last child spans full width · hover: translateY(−3px) + --shadow-raised · responsive to 2-col at 767px</span>
+  </div>
+</div>
+
+<div class="wp-block-group section" style="background:var(--color-cream)">
+  <div class="wp-block-group container">
+    <div style="text-align:center;margin-bottom:var(--sp-7)">
+      <span class="label-text">Browse by goal</span>
+      <h2 style="font-family:var(--font-title);font-size:var(--text-h2);font-weight:700;color:var(--color-black);line-height:var(--lh-heading);margin-top:var(--sp-3)">Find your path to fluency</h2>
+    </div>
+    <div class="collections-grid">
+      <div class="wp-block-group">
+        <div class="col-card__eye">Pronunciation</div>
+        <div class="col-card__title">American Accent Essentials</div>
+        <div class="col-card__text">Master the sounds, stress patterns, and rhythm that make English click.</div>
+        <div style="margin-top:var(--sp-4);padding-top:var(--sp-4);border-top:1px solid rgba(0,0,0,0.07);font-family:var(--font-body);font-size:var(--text-micro);color:var(--color-espresso);opacity:0.4">24 lessons · Free</div>
+      </div>
+      <div class="wp-block-group">
+        <div class="col-card__eye">Fluency</div>
+        <div class="col-card__title">Think in English Method</div>
+        <div class="col-card__text">Stop the internal translation loop and start responding naturally in real time.</div>
+        <div style="margin-top:var(--sp-4);padding-top:var(--sp-4);border-top:1px solid rgba(0,0,0,0.07);font-family:var(--font-body);font-size:var(--text-micro);color:var(--color-espresso);opacity:0.4">18 lessons · Course</div>
+      </div>
+      <div class="wp-block-group">
+        <div class="col-card__eye">Confidence</div>
+        <div class="col-card__title">Speak Without Fear</div>
+        <div class="col-card__text">Build the mindset and speaking habits that let you show up fully in English.</div>
+        <div style="margin-top:var(--sp-4);padding-top:var(--sp-4);border-top:1px solid rgba(0,0,0,0.07);font-family:var(--font-body);font-size:var(--text-micro);color:var(--color-espresso);opacity:0.4">12 lessons · Free + Course</div>
+      </div>
+      <!-- Last card: full width -->
+      <div class="wp-block-group" style="flex-direction:row;align-items:center;justify-content:space-between;gap:var(--sp-6)">
+        <div style="flex:1">
+          <div class="col-card__eye">Full program</div>
+          <div class="col-card__title" style="font-size:var(--text-h3)">The Accent Makeover — 12 weeks</div>
+          <div class="col-card__text">The complete transformation. From unclear and hesitant to confident and clear in 3 months.</div>
+        </div>
+        <a class="btn-p" href="#" style="flex-shrink:0">Explore Program &rarr;</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="pat-gap"></div>
+
+
+<!-- ══════════════════════════════════════════
+     § 06  MAGAZINE GRID
+     .magazine-grid.wp-block-columns — 5→3→2→1
+══════════════════════════════════════════ -->
+<div class="ds-pattern-band">
+  <div class="ds-pattern-band__inner">
+    <span class="ds-pattern-band__class">.wp-block-columns.magazine-grid</span>
+    <span class="ds-pattern-band__sep"></span>
+    <span class="ds-pattern-band__desc">display:grid · 5-col → 3 at 1023px → 2 at 767px → 1 at 479px · .magazine-card inside each column</span>
+  </div>
+</div>
+
+<div class="wp-block-group section" style="background:var(--color-white)">
+  <div class="wp-block-group container">
+    <div style="display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:var(--sp-4);margin-bottom:var(--sp-7)">
+      <div>
+        <span class="label-text">Fresh from the blog</span>
+        <h2 style="font-family:var(--font-title);font-size:var(--text-h2);font-weight:700;color:var(--color-black);line-height:var(--lh-heading);margin-top:var(--sp-3)">This week in English</h2>
+      </div>
+      <a class="btn-p" href="#">See all articles &rarr;</a>
+    </div>
+    <div class="wp-block-columns magazine-grid">
+      <div class="wp-block-column"><div class="magazine-card"><div class="img-ph img-ph--portrait" style="background:var(--color-soft-blue)">Cover</div><div style="padding:var(--sp-4);background:var(--color-white)"><div style="font-family:var(--font-body);font-size:var(--text-micro);font-weight:700;color:var(--color-gold);text-transform:uppercase;letter-spacing:var(--ls-wide);margin-bottom:var(--sp-2)">Pronunciation</div><div style="font-family:var(--font-title);font-size:var(--text-label);font-weight:700;line-height:1.3;color:var(--color-black)">The TH sound: why it's so hard and how to finally nail it</div></div></div></div>
+      <div class="wp-block-column"><div class="magazine-card"><div class="img-ph img-ph--portrait" style="background:var(--color-peach)">Cover</div><div style="padding:var(--sp-4);background:var(--color-white)"><div style="font-family:var(--font-body);font-size:var(--text-micro);font-weight:700;color:var(--color-gold);text-transform:uppercase;letter-spacing:var(--ls-wide);margin-bottom:var(--sp-2)">Fluency</div><div style="font-family:var(--font-title);font-size:var(--text-label);font-weight:700;line-height:1.3;color:var(--color-black)">Stop translating in your head — here's what to do instead</div></div></div></div>
+      <div class="wp-block-column"><div class="magazine-card"><div class="img-ph img-ph--portrait" style="background:var(--color-light-purple)">Cover</div><div style="padding:var(--sp-4);background:var(--color-white)"><div style="font-family:var(--font-body);font-size:var(--text-micro);font-weight:700;color:var(--color-gold);text-transform:uppercase;letter-spacing:var(--ls-wide);margin-bottom:var(--sp-2)">Confidence</div><div style="font-family:var(--font-title);font-size:var(--text-label);font-weight:700;line-height:1.3;color:var(--color-black)">How to stop freezing up when speaking to native speakers</div></div></div></div>
+      <div class="wp-block-column"><div class="magazine-card"><div class="img-ph img-ph--portrait" style="background:var(--color-teal)">Cover</div><div style="padding:var(--sp-4);background:var(--color-white)"><div style="font-family:var(--font-body);font-size:var(--text-micro);font-weight:700;color:var(--color-gold);text-transform:uppercase;letter-spacing:var(--ls-wide);margin-bottom:var(--sp-2)">Vocabulary</div><div style="font-family:var(--font-title);font-size:var(--text-label);font-weight:700;line-height:1.3;color:var(--color-black)">5 phrases that make you sound instantly more natural</div></div></div></div>
+      <div class="wp-block-column"><div class="magazine-card"><div class="img-ph img-ph--portrait" style="background:var(--color-gold)">Cover</div><div style="padding:var(--sp-4);background:var(--color-white)"><div style="font-family:var(--font-body);font-size:var(--text-micro);font-weight:700;color:var(--color-gold);text-transform:uppercase;letter-spacing:var(--ls-wide);margin-bottom:var(--sp-2)">Grammar</div><div style="font-family:var(--font-title);font-size:var(--text-label);font-weight:700;line-height:1.3;color:var(--color-black)">Present perfect vs past simple: the rule nobody explains clearly</div></div></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="pat-gap"></div>
+
+
+<!-- ══════════════════════════════════════════
+     § 07  TESTIMONIALS
+     .testimonials-cols.wp-block-columns — 50/50
+══════════════════════════════════════════ -->
+<div class="ds-pattern-band">
+  <div class="ds-pattern-band__inner">
+    <span class="ds-pattern-band__class">.wp-block-columns.testimonials-cols</span>
+    <span class="ds-pattern-band__sep"></span>
+    <span class="ds-pattern-band__desc">50/50 columns · left: stacked portrait cards · right: single full-height card · stacks at 767px</span>
+  </div>
+</div>
+
+<div class="wp-block-group section" style="background:var(--color-light-purple)">
+  <div class="wp-block-group container">
+    <div style="text-align:center;margin-bottom:var(--sp-7)">
+      <span class="label-text">Student stories</span>
+      <h2 style="font-family:var(--font-title);font-size:var(--text-h2);font-weight:700;color:var(--color-black);line-height:var(--lh-heading);margin-top:var(--sp-3)">The results speak for themselves</h2>
+    </div>
+    <div class="wp-block-columns testimonials-cols">
+
+      <!-- Left: stacked testimonial cards -->
+      <div class="wp-block-column">
+        <!-- Card-two style text card -->
+        <div class="card-two" style="background:var(--color-white);box-shadow:var(--shadow-card)">
+          <div class="hs-badge hs-badge-gold" style="width:44px;height:44px;font-family:var(--font-body);font-weight:700;font-size:var(--text-label)">M</div>
+          <div class="card-two desc">"My colleagues started asking me to lead meetings. My accent changed completely in just 6 weeks."</div>
+          <div class="card-name">Maria C. — São Paulo, Brazil</div>
+        </div>
+        <!-- Second text card -->
+        <div class="card-two" style="background:var(--color-white);box-shadow:var(--shadow-card)">
+          <div class="hs-badge hs-badge-teal" style="width:44px;height:44px;font-family:var(--font-body);font-weight:700;font-size:var(--text-label)">R</div>
+          <div class="card-two desc">"I stopped dreading phone calls. Hadar's method actually works — I feel like a different person."</div>
+          <div class="card-name">Rami A. — Tel Aviv, Israel</div>
+        </div>
+      </div>
+
+      <!-- Right: portrait testimonial card -->
+      <div class="wp-block-column">
+        <div class="testi-portrait">
+          <div class="testi-portrait__bg img-ph" style="height:100%;border-radius:0;background:var(--color-teal)">Photo</div>
+          <div class="testi-portrait__overlay">
+            <div style="font-family:var(--font-title);font-weight:400;font-size:var(--text-h4);line-height:1.2;margin-bottom:var(--sp-4)">"I got promoted because I finally had the confidence to speak up. Hadar changed my career."</div>
+            <div class="card-name">Priya S. — Bangalore, India</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="pat-gap"></div>
+
+
+<!-- ══════════════════════════════════════════
+     § 08  NEWSLETTER SECTION
+     .newsletter-form from blocks.css
+══════════════════════════════════════════ -->
+<div class="ds-pattern-band">
+  <div class="ds-pattern-band__inner">
+    <span class="ds-pattern-band__class">.newsletter-form</span>
+    <span class="ds-pattern-band__sep"></span>
+    <span class="ds-pattern-band__desc">grid: 1fr 1fr auto · max-width: --content-zone · stacks to 1-col at 767px</span>
+  </div>
+</div>
+
+<div class="wp-block-group section" style="background:var(--color-green-dark)">
+  <div class="wp-block-group container">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-7);align-items:center">
+
+      <div>
+        <span class="label-text" style="color:rgba(193,168,104,0.8)">Free weekly lessons</span>
+        <h2 style="font-family:var(--font-title);font-size:var(--text-h2);font-weight:700;color:var(--color-white);line-height:var(--lh-heading);margin-top:var(--sp-3);margin-bottom:var(--sp-4)">Get better at English every week</h2>
+        <p style="font-family:var(--font-body);font-size:var(--text-body-lg);color:rgba(255,255,255,0.65);line-height:var(--lh-body)">Join 130,000+ learners. One email a week — pronunciation tips, vocabulary, and real English practice. No spam, ever.</p>
+      </div>
+
+      <div>
+        <form class="newsletter-form" onsubmit="return false" style="--content-zone:100%">
+          <input type="text"  placeholder="First name" style="background:rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.2);color:white;">
+          <input type="email" placeholder="Email address" style="background:rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.2);color:white;">
+          <button class="btn-p" type="submit">Subscribe &rarr;</button>
+        </form>
+        <p style="font-family:var(--font-body);font-size:var(--text-micro);color:rgba(255,255,255,0.35);margin-top:var(--sp-3)">Free forever · Unsubscribe anytime · 130k+ subscribers</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="pat-gap"></div>
+
+
+<!-- ══════════════════════════════════════════
+     § 09  FOOTER
+     .footer-cols.wp-block-columns
+══════════════════════════════════════════ -->
+<div class="ds-pattern-band">
+  <div class="ds-pattern-band__inner">
+    <span class="ds-pattern-band__class">.wp-block-columns.footer-cols</span>
+    <span class="ds-pattern-band__sep"></span>
+    <span class="ds-pattern-band__desc">first col 40% · remaining cols 30% each · gap: --sp-7 · stacks at 767px</span>
+  </div>
+</div>
+
+<div class="wp-block-group section" style="background:var(--color-espresso)">
+  <div class="wp-block-group container">
+    <div class="wp-block-columns footer-cols">
+
+      <!-- Brand column -->
+      <div class="wp-block-column">
+        <div class="footer-logo">Hadar<br>Shemesh</div>
+        <div class="footer-tagline">Helping non-native English speakers speak with clarity, confidence, and ease. Based in Tel Aviv, teaching the world.</div>
+        <div style="margin-top:var(--sp-6);display:flex;gap:var(--sp-4)">
+          <a class="btn-p" href="#">Join Now &rarr;</a>
+        </div>
+      </div>
+
+      <!-- Learn column -->
+      <div class="wp-block-column">
+        <div class="footer-link-title">Learn</div>
+        <a class="footer-link" href="#">Start Here</a>
+        <a class="footer-link" href="#">Free Resources</a>
+        <a class="footer-link" href="#">Courses</a>
+        <a class="footer-link" href="#">Magazine</a>
+        <a class="footer-link" href="#">YouTube</a>
+      </div>
+
+      <!-- About column -->
+      <div class="wp-block-column">
+        <div class="footer-link-title">About</div>
+        <a class="footer-link" href="#">About Hadar</a>
+        <a class="footer-link" href="#">Community</a>
+        <a class="footer-link" href="#">Podcast</a>
+        <a class="footer-link" href="#">Contact</a>
+        <a class="footer-link" href="#">Privacy Policy</a>
+      </div>
+
+    </div>
+
+    <!-- Bottom bar -->
+    <div style="margin-top:var(--sp-7);padding-top:var(--sp-5);border-top:1px solid rgba(255,255,255,0.08);display:flex;flex-wrap:wrap;justify-content:space-between;gap:var(--sp-4)">
+      <p style="font-family:var(--font-body);font-size:var(--text-micro);color:rgba(255,255,255,0.25)">&copy; 2026 Hadar Shemesh. All rights reserved.</p>
+      <p style="font-family:var(--font-body);font-size:var(--text-micro);color:rgba(255,255,255,0.25)">Made with intention.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- DS footer note -->
+<div class="ds-page">
+  <footer class="ds-footer">
+    HS2026 Design System · Patterns · CSS classes from blocks.css · Do not deploy
+  </footer>
+</div>
+
+
+<script>
+  const nav = document.getElementById('ds-nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 20), { passive: true });
+
+  const bpEl = document.getElementById('vp-bp');
+  const pxEl = document.getElementById('vp-px');
+  const breakpoints = [[1536,'2xl'],[1280,'xl'],[1024,'lg'],[768,'md'],[640,'sm'],[0,'xs']];
+  function updateBadge() {
+    const w = window.innerWidth;
+    bpEl.textContent = breakpoints.find(([min]) => w >= min)[1];
+    pxEl.textContent = w + 'px';
+  }
+  updateBadge();
+  window.addEventListener('resize', updateBadge);
+
+  // Chip toggle
+  document.querySelectorAll('.wp-block-button.is-style-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const row = chip.closest('div');
+      row?.querySelectorAll('.wp-block-button.is-style-chip').forEach(c => c.classList.remove('is-active'));
+      chip.classList.add('is-active');
+    });
+  });
+
+  // Scroll reveal
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+  }, { threshold: 0.06 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>

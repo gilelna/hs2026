@@ -17,7 +17,17 @@
         { "slug": "sm", "size": "1rem", "name": "SM" },
         { "slug": "md", "size": "1.5rem", "name": "MD" },
         { "slug": "lg", "size": "2.5rem", "name": "LG" },
-        { "slug": "xl", "size": "4rem", "name": "XL" }
+        { "slug": "xl", "size": "4rem", "name": "XL" },
+        { "slug": "sp-1", "size": "0.25rem",   "name": "SP1 4px" },
+        { "slug": "sp-2", "size": "0.375rem",  "name": "SP2 6px" },
+        { "slug": "sp-3", "size": "0.625rem",  "name": "SP3 10px" },
+        { "slug": "sp-4", "size": "1rem",      "name": "SP4 16px" },
+        { "slug": "sp-5", "size": "1.625rem",  "name": "SP5 26px" },
+        { "slug": "sp-6", "size": "2.625rem",  "name": "SP6 42px" },
+        { "slug": "sp-7", "size": "4.25rem",   "name": "SP7 68px" },
+        { "slug": "sp-8", "size": "6.875rem",  "name": "SP8 110px" },
+        { "slug": "sp-9", "size": "11.125rem", "name": "SP9 178px" },
+        { "slug": "section", "size": "clamp(3.5rem, 2rem + 6.5vw, 8rem)", "name": "Section Pad" }
       ]
     },
     "color": {
@@ -35,7 +45,12 @@
         { "slug": "light-blue", "color": "#F3F7FA", "name": "Light Blue" },
         { "slug": "light-purple", "color": "#F7F2F9", "name": "Light Purple" },
         { "slug": "pink", "color": "#F9F2F3", "name": "Pink" },
-        { "slug": "white", "color": "#ffffff", "name": "White" }
+        { "slug": "white",     "color": "#ffffff", "name": "White" },
+        { "slug": "espresso",  "color": "#1A1410", "name": "Espresso" },
+        { "slug": "gold-deep", "color": "#A8904F", "name": "Gold Deep" },
+        { "slug": "cream",     "color": "#FAF5EC", "name": "Cream" },
+        { "slug": "berry",     "color": "#8B3A52", "name": "Berry" },
+        { "slug": "deep-teal", "color": "#1E5E5B", "name": "Deep Teal" }
       ]
     },
     "typography": {
@@ -59,7 +74,15 @@
         { "slug": "xl", "size": "clamp(1.56rem, 1.3rem + 1vw, 1.82rem)", "name": "XL" },
         { "slug": "2xl", "size": "clamp(1.95rem, 1.6rem + 1.2vw, 2.28rem)", "name": "2XL" },
         { "slug": "3xl", "size": "clamp(2.44rem, 1.9rem + 1.4vw, 2.85rem)", "name": "3XL" },
-        { "slug": "4xl", "size": "clamp(3.05rem, 2.3rem + 1.6vw, 3.56rem)", "name": "4XL" }
+        { "slug": "4xl",     "size": "clamp(3.05rem, 2.3rem + 1.6vw, 3.56rem)",        "name": "4XL" },
+        { "slug": "display", "size": "clamp(3rem, 1.133rem + 7.671vw, 6.5rem)",        "name": "Display" },
+        { "slug": "h1",      "size": "clamp(2.5rem, 1.367rem + 4.658vw, 4.5rem)",      "name": "H1" },
+        { "slug": "h2",      "size": "clamp(2rem, 1.467rem + 2.192vw, 3rem)",          "name": "H2" },
+        { "slug": "h3",      "size": "clamp(1.625rem, 1.358rem + 1.096vw, 2.125rem)",  "name": "H3" },
+        { "slug": "h4",      "size": "clamp(1.25rem, 1.05rem + 0.822vw, 1.625rem)",    "name": "H4" },
+        { "slug": "body-lg", "size": "clamp(1.125rem, 0.991rem + 0.548vw, 1.375rem)",  "name": "Body LG" },
+        { "slug": "label",   "size": "clamp(0.75rem, 0.683rem + 0.274vw, 0.875rem)",   "name": "Label" },
+        { "slug": "micro",   "size": "clamp(0.625rem, 0.558rem + 0.274vw, 0.75rem)",   "name": "Micro" }
       ],
       "customFontSize": true,
       "customLineHeight": true

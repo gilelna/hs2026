@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>HS2026 · Responsive Constitution</title>
+<style>
+@font-face{font-family:'Quincy';src:url('https://wordpress-1521687-5899197.cloudwaysapps.com/wp-content/themes/hs2026/fonts/quincy_cf_regular-webfont.woff2') format('woff2');font-weight:400;font-display:swap;}
+@font-face{font-family:'Quincy';src:url('https://wordpress-1521687-5899197.cloudwaysapps.com/wp-content/themes/hs2026/fonts/quincy_cf_bold-webfont.woff2') format('woff2');font-weight:700;font-display:swap;}
+@font-face{font-family:'Quincy';src:url('https://wordpress-1521687-5899197.cloudwaysapps.com/wp-content/themes/hs2026/fonts/quincy_cf_black-webfont.woff2') format('woff2');font-weight:900;font-display:swap;}
+@font-face{font-family:'Effra';src:url('https://wordpress-1521687-5899197.cloudwaysapps.com/wp-content/themes/hs2026/fonts/effra_medium-webfont.ttf') format('truetype');font-weight:400;font-display:swap;}
+@font-face{font-family:'Effra';src:url('https://wordpress-1521687-5899197.cloudwaysapps.com/wp-content/themes/hs2026/fonts/effra_bold-webfont.ttf') format('truetype');font-weight:700;font-display:swap;}
+
+/* ══════════════════════════════════════════════════════════════
+   HS2026 RESPONSIVE DESIGN SYSTEM
+   
+   BREAKPOINTS — content-first, not device-first:
+   xs:  0     → 479px   mobile portrait
+   sm:  480px → 767px   mobile landscape / small tablet
+   md:  768px → 1023px  iPad portrait / tablet
+   lg:  1024px→ 1279px  iPad landscape / laptop
+   xl:  1280px→ 1535px  desktop
+   2xl: 1536px+         wide desktop / large monitor
+   
+   TYPE SCALE — fluid clamp, 320px → 1536px range:
+   clamp(MIN, INTERCEPT + SLOPE×vw, MAX)
+   Slope = (max - min) / (1536 - 320) × 100
+   Intercept = min - slope × (320/100)
+   
+   All sizes in rem (base: 16px, never override)
+   All spacing in rem, φ-derived from 4px atom
+   Container: 1100px — = content-zone × φ (680 × 1.618 = 1100)
+══════════════════════════════════════════════════════════════ */
+
+:root {
+  /* FONTS */
+  --f-display: 'Quincy', Georgia, serif;
+  --f-body:    'Effra', 'Helvetica Neue', sans-serif;
+
+  /* ── FLUID TYPE SCALE ──────────────────────────────────────
+     Formula: clamp(minRem, INTERCEPTrem + SLOPEvw, maxRem)
+     Intercept and slope derived for 320px → 1536px viewport range.
+     
+     Verification at 320px:  INTERCEPT + SLOPE×3.2  ≈ MIN  ✓
+     Verification at 1536px: INTERCEPT + SLOPE×15.36 ≈ MAX  ✓
+     
+     Why these min/max values?
+     — micro:   10px min (smallest readable on mobile) → 12px desktop
+     — label:   12px → 14px (uppercase, +tracking)
+     — body:    16px → 18px (never below 16 on mobile)
+     — body-lg: 18px → 22px (lead paragraphs, preambles)
+     — h4:      20px → 26px (card titles, inline headings)
+     — h3:      26px → 34px (sub-section headings)
+     — h2:      32px → 48px (section headings — main landmark)
+     — h1:      40px → 72px (page title)
+     — display: 48px → 96px (hero only — never used in cards)
+  ─────────────────────────────────────────────────────────── */
+  --text-micro:    clamp(0.625rem, 0.558rem + 0.274vw, 0.750rem);
+  --text-label:    clamp(0.750rem, 0.683rem + 0.274vw, 0.875rem);
+  --text-body:     clamp(1.000rem, 0.933rem + 0.274vw, 1.125rem);
+  --text-body-lg:  clamp(1.125rem, 0.991rem + 0.548vw, 1.375rem);
+  --text-h4:       clamp(1.250rem, 1.050rem + 0.822vw, 1.625rem);
+  --text-h3:       clamp(1.625rem, 1.358rem + 1.096vw, 2.125rem);
+  --text-h2:       clamp(2.000rem, 1.467rem + 2.192vw, 3.000rem);
+  --text-h1:       clamp(2.500rem, 1.367rem + 4.658vw, 4.500rem);
+  --text-display:  clamp(3.000rem, 1.133rem + 7.671vw, 6.500rem);
+
+  /* ── LINE HEIGHT ── */
+  --lh-tight:   1.05;   /* display: tight intentional */
+  --lh-snug:    1.15;   /* h1: large serif, optical */
+  --lh-heading: 1.25;   /* h2–h3: breathing but controlled */
+  --lh-card:    1.35;   /* h4: card context, more air */
+  --lh-body:    1.618;  /* body: φ exactly */
+  --lh-loose:   1.75;   /* captions, small labels */
+
+  /* ── LETTER SPACING ── */
+  --ls-tightest: -0.04em;  /* display 96px+ */
+  --ls-tight:    -0.02em;  /* h1, h2 bold */
+  --ls-normal:    0em;     /* body — never touch */
+  --ls-wide:      0.08em;  /* labels uppercase */
+  --ls-wider:     0.12em;  /* micro badge */
+  --ls-widest:    0.18em;  /* decorative all-caps */
+
+  /* ── SPACING SCALE (φ from 4px atom) ── */
+  --sp-1:  0.250rem;   /*   4px  — icon gap */
+  --sp-2:  0.375rem;   /*   6px  — tight inline */
+  --sp-3:  0.625rem;   /*  10px  — sibling gap */
+  --sp-4:  1.000rem;   /*  16px  — component gap = body base */
+  --sp-5:  1.625rem;   /*  26px  — card rhythm */
+  --sp-6:  2.625rem;   /*  42px  — card padding */
+  --sp-7:  4.250rem;   /*  68px  — section padding (tight) */
+  --sp-8:  6.875rem;   /* 110px  — section padding (standard) */
+  --sp-9: 11.125rem;   /* 178px  — hero breathing room */
+
+  /* ── FLUID SECTION PADDING ──────────────────────────────
+     Sections breathe MORE on large screens, LESS on mobile.
+     This is the most impactful responsive spacing decision.
+     clamp: xs minimum → comfortable desktop maximum.
+  ─────────────────────────────────────────────────────── */
+  --section-pad:  clamp(3.5rem, 2rem + 6.5vw, 8rem);   /* 56px → 128px */
+  --section-gap:  clamp(2.5rem, 1.5rem + 4.5vw, 6rem);  /* 40px → 96px (between sections) */
+
+  /* ── FLUID CONTAINER PADDING (inline) ──────────────────
+     The horizontal padding of the container shrinks on mobile.
+     Never let content touch the viewport edge.
+  ─────────────────────────────────────────────────────── */
+  --container-px: clamp(1rem, 0.5rem + 2.5vw, 4rem);   /* 16px → 64px */
+
+  /* ── LAYOUT ── */
+  --container:    1100px;
+  --content-zone: 680px;  /* = container / φ */
+  --sidebar:      420px;  /* = container / φ² */
+
+  /* ── RADIUS ── */
+  --r-sm:      0.375rem;
+  --r-card:    0.75rem;
+  --r-section: 1.5rem;
+  --r-section-lg: clamp(1rem, 0.5rem + 2.5vw, 2.5rem);  /* fluid: less rounding on mobile */
+  --r-pill:    9999px;
+
+  /* ── SHADOWS ── */
+  --sh-card:  0 2px 6px rgba(26,20,16,.06), 0 8px 24px rgba(26,20,16,.08);
+  --sh-up:    0 4px 12px rgba(26,20,16,.08), 0 16px 48px rgba(26,20,16,.10);
+  --sh-gold:  0 4px 20px rgba(193,168,104,.25);
+
+  /* ── COLORS ── */
+  --c-gold:       #C1A868;  --c-gold-d:   #A8904F;
+  --c-green:      #026360;  --c-teal:     #409690;
+  --c-peach:      #F7BAA4;  --c-soft-blue:#CBE3E5;
+  --c-lt-blue:    #F3F7FA;  --c-lt-purple:#F7F2F9;
+  --c-pink:       #F9F2F3;  --c-cream:    #FAF5EC;
+  --c-espresso:   #1A1410;  --c-amber:    #6B4F2A;
+  --c-berry:      #8B3A52;  --c-terra:    #C4622D;
+  --c-slate:      #4A6E7A;  --c-d-teal:   #1E5E5B;
+  --c-white:      #FFFFFF;
+  
+  /* Gutenberg maps */
+  --wp-align-wide:  1100px;
+  --wp-align-full:  100vw;
+  --wp-content:     680px;
+}
+
+/* ── BASE RESET ── */
+*, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+html { font-size:16px; -webkit-font-smoothing:antialiased; scroll-behavior:smooth; }
+body { font-family:var(--f-body); font-size:var(--text-body); line-height:var(--lh-body); color:var(--c-espresso); background:#fff; overflow-x:hidden; }
+img  { max-width:100%; display:block; }
+
+/* ── TYPOGRAPHY CLASSES ── */
+.t-display { font-family:var(--f-display); font-size:var(--text-display); font-weight:900; line-height:var(--lh-tight);   letter-spacing:var(--ls-tightest); }
+.t-h1      { font-family:var(--f-display); font-size:var(--text-h1);      font-weight:900; line-height:var(--lh-snug);    letter-spacing:var(--ls-tight);    }
+.t-h2      { font-family:var(--f-display); font-size:var(--text-h2);      font-weight:700; line-height:var(--lh-heading); letter-spacing:var(--ls-tight);    }
+.t-h3      { font-family:var(--f-display); font-size:var(--text-h3);      font-weight:700; line-height:var(--lh-heading); }
+.t-h4      { font-family:var(--f-display); font-size:var(--text-h4);      font-weight:700; line-height:var(--lh-card);    }
+.t-lg      { font-family:var(--f-body);    font-size:var(--text-body-lg); line-height:var(--lh-body);   }
+.t-body    { font-family:var(--f-body);    font-size:var(--text-body);    line-height:var(--lh-body);   }
+.t-label   { font-family:var(--f-body);    font-size:var(--text-label);   font-weight:700; line-height:1; letter-spacing:var(--ls-wide);  text-transform:uppercase; color:var(--c-gold); }
+.t-micro   { font-family:var(--f-body);    font-size:var(--text-micro);   font-weight:700; line-height:1; letter-spacing:var(--ls-wider); text-transform:uppercase; }
+
+/* ── LAYOUT ── */
+.hs-wrap         { max-width:var(--container);    margin-inline:auto; padding-inline:var(--container-px); }
+.hs-wrap-narrow  { max-width:var(--content-zone); margin-inline:auto; padding-inline:var(--container-px); }
+.hs-section      { padding-block:var(--section-pad); }
+
+/* ── GUTENBERG ALIGNMENT MIRRORS ──────────────────────────
+   These classes mirror exactly what wp:group with alignWide/
+   alignFull produces. So our HTML demo = what Gutenberg renders.
+─────────────────────────────────────────────────────────── */
+.wp-align-full  { width:100%; max-width:none; }
+.wp-align-wide  { max-width:var(--wp-align-wide); margin-inline:auto; padding-inline:var(--container-px); }
+.wp-content     { max-width:var(--wp-content); margin-inline:auto; padding-inline:var(--container-px); }
+
+/* ── GUTENBERG COLUMNS SIMULATION ─────────────────────────
+   wp:columns sets --wp--style--block-gap on the columns block.
+   We mirror it with CSS grid so our demo matches exactly.
+─────────────────────────────────────────────────────────── */
+.wp-cols         { display:grid; gap:var(--sp-5); }
+.wp-cols-2       { grid-template-columns:repeat(2,1fr); }
+.wp-cols-3       { grid-template-columns:repeat(3,1fr); }
+.wp-cols-5       { grid-template-columns:repeat(5,1fr); }
+.wp-cols-golden  { grid-template-columns:61.8fr 38.2fr; }
+.wp-cols-golden-inv { grid-template-columns:38.2fr 61.8fr; }
+
+/* ── RESPONSIVE COLUMN STACKING ─────────────────────────── */
+@media (max-width:1023px) {
+  .wp-cols-5 { grid-template-columns:repeat(3,1fr); }
+}
+@media (max-width:767px) {
+  .wp-cols-2, .wp-cols-3, .wp-cols-5,
+  .wp-cols-golden, .wp-cols-golden-inv { grid-template-columns:1fr; }
+  .wp-cols-2-sm { grid-template-columns:repeat(2,1fr); }
+}
+@media (max-width:479px) {
+  .wp-cols-2-sm { grid-template-columns:1fr; }
+}
+
+/* ── COMPONENTS ── */
+.hs-card  { background:#fff; border-radius:var(--r-card); box-shadow:var(--sh-card); padding:var(--sp-6); transition:transform .2s, box-shadow .2s; }
+.hs-card:hover { transform:translateY(-3px); box-shadow:var(--sh-up); }
+.hs-btn   { display:inline-flex; align-items:center; gap:var(--sp-3); font-family:var(--f-body); font-size:var(--text-label); font-weight:700; letter-spacing:var(--ls-wide); text-transform:uppercase; border-radius:var(--r-pill); border:2px solid transparent; cursor:pointer; text-decoration:none; transition:all .2s; padding:var(--sp-3) var(--sp-5); white-space:nowrap; min-height:44px; /* tap target */ }
+.hs-btn-primary { background:var(--c-gold); color:#fff; box-shadow:var(--sh-gold); }
+.hs-btn-primary:hover { background:var(--c-gold-d); }
+.hs-btn-outline { background:transparent; color:var(--c-espresso); border-color:var(--c-espresso); }
+.hs-btn-outline:hover { background:var(--c-espresso); color:#fff; }
+.hs-btn-soft { background:var(--c-soft-blue); color:var(--c-espresso); }
+.hs-btn-soft:hover { background:var(--c-teal); color:#fff; }
+.hs-btn-lg { padding:var(--sp-4) var(--sp-6); }
+.hs-input { font-family:var(--f-body); font-size:var(--text-body); border:1.5px solid #E2E0DB; border-radius:var(--r-sm); padding:var(--sp-3) var(--sp-5); width:100%; background:#fff; color:var(--c-espresso); transition:border-color .2s, box-shadow .2s; min-height:44px; }
+.hs-input::placeholder { color:#C0BCBA; }
+.hs-input:focus { outline:none; border-color:var(--c-gold); box-shadow:0 0 0 3px rgba(193,168,104,.14); }
+.hs-chip { display:inline-flex; align-items:center; font-family:var(--f-body); font-size:var(--text-micro); font-weight:700; letter-spacing:var(--ls-wide); text-transform:uppercase; border:1.5px solid var(--c-gold); border-radius:var(--r-pill); padding:var(--sp-2) var(--sp-4); cursor:pointer; transition:all .18s; min-height:36px; }
+.hs-chip:hover, .hs-chip.on { background:var(--c-gold); color:#fff; border-color:var(--c-gold); }
+
+/* ── DOC HELPERS ── */
+.doc-divider { display:flex; align-items:center; gap:var(--sp-5); padding-block:var(--sp-6) var(--sp-4); }
+.doc-divider span { font-family:var(--f-body); font-size:var(--text-micro); font-weight:700; letter-spacing:var(--ls-widest); text-transform:uppercase; color:#C0BCBA; white-space:nowrap; }
+.doc-divider::after { content:''; flex:1; height:1px; background:#EBEBEA; }
+.code { font-family:'SF Mono','Fira Code','Consolas',monospace; font-size:var(--text-micro); background:#F7F5F1; border:1px solid #EDE9E2; border-radius:var(--r-sm); padding:var(--sp-4) var(--sp-5); line-height:1.8; color:#7A7065; display:block; overflow-x:auto; white-space:pre; }
+.note-box { background:var(--c-cream); border-left:3px solid var(--c-gold); border-radius:var(--r-card); padding:var(--sp-5); }
+.note-box p { font-size:var(--text-label); line-height:var(--lh-loose); color:#7A7065; }
+.note-box strong { color:var(--c-espresso); }
+
+/* ── DEVICE FRAMES ── */
+.frame-wrap { display:grid; gap:var(--sp-5); align-items:start; }
+.device-frame { border-radius:var(--r-section); border:2px solid #E0DDD8; overflow:hidden; background:#fff; box-shadow:var(--sh-up); position:relative; }
+.device-bar { height:32px; background:var(--c-espresso); display:flex; align-items:center; padding-inline:var(--sp-5); gap:var(--sp-2); }
+.device-bar span { width:8px; height:8px; border-radius:50%; background:rgba(255,255,255,.25); }
+.device-screen { padding:var(--sp-5); overflow:hidden; }
+.device-label { font-family:var(--f-body); font-size:var(--text-micro); font-weight:700; letter-spacing:var(--ls-wider); text-transform:uppercase; color:#AAA; text-align:center; margin-bottom:var(--sp-3); }
+
+/* ── REVEAL ── */
+.reveal { opacity:0; transform:translateY(16px); transition:opacity .55s ease, transform .55s ease; }
+.reveal.visible { opacity:1; transform:none; }
+.d1{transition-delay:.07s}.d2{transition-delay:.14s}.d3{transition-delay:.21s}
+.d4{transition-delay:.28s}.d5{transition-delay:.35s}.d6{transition-delay:.42s}
+
+/* ── bp ruler line ── */
+.bp-ruler { display:grid; gap:0; border-radius:var(--r-section); overflow:hidden; }
+.bp-seg { display:flex; flex-direction:column; justify-content:center; align-items:center; padding:var(--sp-4) var(--sp-3); text-align:center; }
+</style>
+</head>
+<body style="background:#FAFAF8;">
+
+<!-- ══ HEADER ══ -->
+<header style="background:var(--c-espresso); padding-block:var(--sp-8) var(--sp-7);">
+  <div class="hs-wrap">
+    <div class="reveal">
+      <p class="t-micro" style="color:rgba(255,255,255,.3); margin-bottom:var(--sp-4)">HS2026 · Design System Vol. 2</p>
+      <h1 class="t-display" style="color:#fff; max-width:12ch">Responsive<br><em style="color:var(--c-gold); font-style:italic">Constitution</em></h1>
+      <p class="t-lg" style="color:rgba(255,255,255,.5); margin-top:var(--sp-5); max-width:44ch">Breakpoints, fluid type, responsive spacing — and the exact Gutenberg block structure behind every section. Resize this window to see the system in action.</p>
+    </div>
+
+    <!-- live viewport readout -->
+    <div class="reveal d1" style="margin-top:var(--sp-6); display:flex; flex-wrap:wrap; gap:var(--sp-3);">
+      <div id="vp-badge" style="background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.12); border-radius:var(--r-pill); padding:var(--sp-2) var(--sp-5); display:flex; align-items:center; gap:var(--sp-3);">
+        <span class="t-micro" style="color:var(--c-gold)" id="bp-label">xl</span>
+        <span class="t-micro" style="color:rgba(255,255,255,.4)" id="vp-size">— px</span>
+      </div>
+      <div style="background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.12); border-radius:var(--r-pill); padding:var(--sp-2) var(--sp-5);">
+        <span class="t-micro" style="color:rgba(255,255,255,.4)">Resize window to test breakpoints</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+<!-- ══════════════════════════════════════════════
+     §1  BREAKPOINT MAP
+══════════════════════════════════════════════ -->
+<section class="hs-section" style="background:#fff;">
+  <div class="hs-wrap">
+    <div class="doc-divider reveal"><span>§1 · Breakpoint Map</span></div>
+
+    <div class="note-box reveal" style="margin-block:var(--sp-5);">
+      <p><strong>Content-first breakpoints, not device-first.</strong> We don't break at "iPhone 14 width." We break when the <em>content</em> breaks: when the golden 2-column layout can no longer hold both columns comfortably, when a 5-column magazine strip becomes illegible, when body text drops below 52 characters per line. The breakpoints are set at those exact content collapse points. Gutenberg's native breakpoints (600px, 781px) are too early for our 1100px container — so we extend with custom CSS in <code style="background:rgba(193,168,104,.15); padding:1px 5px; border-radius:3px; font-size:.85em">blocks.css</code>.</p>
+    </div>
+
+    <!-- visual breakpoint ruler -->
+    <div class="reveal" style="margin-block:var(--sp-6);">
+      <div class="bp-ruler" style="grid-template-columns:4fr 6fr 8fr 9fr 10fr 9fr;">
+        <div class="bp-seg" style="background:var(--c-berry)">
+          <span class="t-micro" style="color:rgba(255,255,255,.9)">xs</span>
+          <span class="t-micro" style="color:rgba(255,255,255,.5); margin-top:4px">0–479px</span>
+          <span class="t-micro" style="color:rgba(255,255,255,.4); margin-top:4px">Mobile</span>
+        </div>
+        <div class="bp-seg" style="background:var(--c-terra)">
+          <span class="t-micro" style="color:rgba(255,255,255,.9)">sm</span>
+          <span class="t-micro" style="color:rgba(255,255,255,.5); margin-top:4px">480–767px</span>
+          <span class="t-micro" style="color:rgba(255,255,255,.4); margin-top:4px">Landscape</span>
+        </div>
+        <div class="bp-seg" style="background:var(--c-gold)">
+          <span class="t-micro" style="color:rgba(255,255,255,.9)">md</span>
+          <span class="t-micro" style="color:rgba(255,255,255,.5); margin-top:4px">768–1023px</span>
+          <span class="t-micro" style="color:rgba(255,255,255,.4); margin-top:4px">iPad / Tablet</span>
+        </div>
+        <div class="bp-seg" style="background:var(--c-teal)">
+          <span class="t-micro" style="color:rgba(255,255,255,.9)">lg</span>
+          <span class="t-micro" style="color:rgba(255,255,255,.5); margin-top:4px">1024–1279px</span>
+          <span class="t-micro" style="color:rgba(255,255,255,.4); margin-top:4px">Laptop</span>
+        </div>
+        <div class="bp-seg" style="background:var(--c-green)">
+          <span class="t-micro" style="color:rgba(255,255,255,.9)">xl</span>
+          <span class="t-micro" style="color:rgba(255,255,255,.5); margin-top:4px">1280–1535px</span>
+          <span class="t-micro" style="color:rgba(255,255,255,.4); margin-top:4px">Desktop</span>
+        </div>
+        <div class="bp-seg" style="background:var(--c-espresso)">
+          <span class="t-micro" style="color:rgba(255,255,255,.9)">2xl</span>
+          <span class="t-micro" style="color:rgba(255,255,255,.5); margin-top:4px">1536px+</span>
+          <span class="t-micro" style="color:rgba(255,255,255,.4); margin-top:4px">Wide</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- bp detail table -->
+    <div class="reveal" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:var(--sp-4); margin-top:var(--sp-5);">
+
+      <div class="hs-card" style="border-top:3px solid var(--c-berry);">
+        <p class="t-label" style="color:var(--c-berry); margin-bottom:var(--sp-4)">xs · 0 – 479px · Mobile</p>
+        <div style="display:flex; flex-direction:column; gap:var(--sp-3);">
+          <p class="t-body" style="color:#666">→ Single column. Everything stacks.</p>
+          <p class="t-body" style="color:#666">→ Container padding: 1rem (16px) each side.</p>
+          <p class="t-body" style="color:#666">→ Min tap target: 44×44px (Apple HIG).</p>
+          <p class="t-body" style="color:#666">→ Type at minimum clamp values.</p>
+          <p class="t-body" style="color:#666">→ Section padding: ~56px (space-7).</p>
+          <p class="t-body" style="color:#666">→ wp:columns stack to 1 column.</p>
+        </div>
+      </div>
+
+      <div class="hs-card" style="border-top:3px solid var(--c-terra);">
+        <p class="t-label" style="color:var(--c-terra); margin-bottom:var(--sp-4)">sm · 480 – 767px · Landscape</p>
+        <div style="display:flex; flex-direction:column; gap:var(--sp-3);">
+          <p class="t-body" style="color:#666">→ 2-col grid viable for small cards.</p>
+          <p class="t-body" style="color:#666">→ Container padding: 1.5rem (24px).</p>
+          <p class="t-body" style="color:#666">→ Pill-CTAs: image hidden or reduced.</p>
+          <p class="t-body" style="color:#666">→ Nav: hamburger or icon-only.</p>
+          <p class="t-body" style="color:#666">→ Section padding: ~72px.</p>
+          <p class="t-body" style="color:#666">→ Magazine: 2 columns.</p>
+        </div>
+      </div>
+
+      <div class="hs-card" style="border-top:3px solid var(--c-gold);">
+        <p class="t-label" style="color:var(--c-gold); margin-bottom:var(--sp-4)">md · 768 – 1023px · iPad</p>
+        <div style="display:flex; flex-direction:column; gap:var(--sp-3);">
+          <p class="t-body" style="color:#666">→ Golden 2-col layout activates (61.8/38.2).</p>
+          <p class="t-body" style="color:#666">→ Container padding: 2.5rem (40px).</p>
+          <p class="t-body" style="color:#666">→ 3-col cards grid activates.</p>
+          <p class="t-body" style="color:#666">→ Full nav visible. Floating pill nav.</p>
+          <p class="t-body" style="color:#666">→ Section padding: ~96px.</p>
+          <p class="t-body" style="color:#666">→ Magazine: 3 columns.</p>
+        </div>
+      </div>
+
+      <div class="hs-card" style="border-top:3px solid var(--c-teal);">
+        <p class="t-label" style="color:var(--c-teal); margin-bottom:var(--sp-4)">lg · 1024 – 1279px · Laptop</p>
+        <div style="display:flex; flex-direction:column; gap:var(--sp-3);">
+          <p class="t-body" style="color:#666">→ Container approaches max-width.</p>
+          <p class="t-body" style="color:#666">→ Container padding: 3.5rem (56px).</p>
+          <p class="t-body" style="color:#666">→ 5-col magazine activates.</p>
+          <p class="t-body" style="color:#666">→ Hero image full height.</p>
+          <p class="t-body" style="color:#666">→ Section padding: ~110px.</p>
+          <p class="t-body" style="color:#666">→ All grids at full column count.</p>
+        </div>
+      </div>
+
+      <div class="hs-card" style="border-top:3px solid var(--c-green);">
+        <p class="t-label" style="color:var(--c-green); margin-bottom:var(--sp-4)">xl · 1280 – 1535px · Desktop</p>
+        <div style="display:flex; flex-direction:column; gap:var(--sp-3);">
+          <p class="t-body" style="color:#666">→ Full 1100px container, centered.</p>
+          <p class="t-body" style="color:#666">→ Container padding: 4rem (64px).</p>
+          <p class="t-body" style="color:#666">→ Type at comfortable reading size.</p>
+          <p class="t-body" style="color:#666">→ Generous negative space on sides.</p>
+          <p class="t-body" style="color:#666">→ Section padding: clamp max ~128px.</p>
+          <p class="t-body" style="color:#666">→ Optimal experience target.</p>
+        </div>
+      </div>
+
+      <div class="hs-card" style="border-top:3px solid var(--c-espresso); background:var(--c-espresso);">
+        <p class="t-label" style="color:rgba(193,168,104,.7); margin-bottom:var(--sp-4)">2xl · 1536px+ · Wide Screen</p>
+        <div style="display:flex; flex-direction:column; gap:var(--sp-3);">
+          <p class="t-body" style="color:rgba(255,255,255,.6)">→ Container locked at 1100px.</p>
+          <p class="t-body" style="color:rgba(255,255,255,.6)">→ Auto side margins grow — intentional whitespace.</p>
+          <p class="t-body" style="color:rgba(255,255,255,.6)">→ Full-width section BGs still span 100vw.</p>
+          <p class="t-body" style="color:rgba(255,255,255,.6)">→ Type at maximum clamp values.</p>
+          <p class="t-body" style="color:rgba(255,255,255,.6)">→ Never increase container. Whitespace is content.</p>
+          <p class="t-body" style="color:rgba(255,255,255,.6)">→ Section backgrounds fill edge to edge.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     §2  FLUID TYPE — LIVE AT ALL SIZES
+══════════════════════════════════════════════ -->
+<section class="hs-section" style="background:var(--c-lt-blue);">
+  <div class="hs-wrap">
+    <div class="doc-divider reveal" style="border-color:#D5E5EA;"><span>§2 · Fluid Type · Live Specimen — Resize Window</span></div>
+
+    <div class="note-box reveal" style="margin-block:var(--sp-5);">
+      <p><strong>One formula, all screens.</strong> Each type size uses a single CSS <code style="background:rgba(193,168,104,.15); padding:1px 5px; border-radius:3px; font-size:.85em">clamp()</code> value — no media queries for type ever. The formula interpolates linearly between a minimum (at 320px viewport) and maximum (at 1536px). This means type is always perfectly proportional at every in-between size. Breakpoints only control <em>layout</em> (columns, stacking) never type size.</p>
+    </div>
+
+    <div class="reveal" style="display:flex; flex-direction:column; gap:0; background:#fff; border-radius:var(--r-section); overflow:hidden; box-shadow:var(--sh-card);">
+
+      <div style="padding:var(--sp-5) var(--sp-6); border-bottom:1px solid #F0EFEC; display:flex; align-items:baseline; gap:var(--sp-5); flex-wrap:wrap;">
+        <span class="t-micro" style="color:#C0BCBA; width:76px; flex-shrink:0">display</span>
+        <span class="t-display">English</span>
+        <code class="t-micro" style="color:#DDD; margin-left:auto">48px → 104px · clamp(3rem,…,6.5rem)</code>
+      </div>
+      <div style="padding:var(--sp-4) var(--sp-6); border-bottom:1px solid #F0EFEC; display:flex; align-items:baseline; gap:var(--sp-5); flex-wrap:wrap;">
+        <span class="t-micro" style="color:#C0BCBA; width:76px; flex-shrink:0">h1</span>
+        <span class="t-h1">Speak with confidence</span>
+        <code class="t-micro" style="color:#DDD; margin-left:auto">40px → 72px · wt 900 · ls -0.02em</code>
+      </div>
+      <div style="padding:var(--sp-4) var(--sp-6); border-bottom:1px solid #F0EFEC; display:flex; align-items:baseline; gap:var(--sp-5); flex-wrap:wrap;">
+        <span class="t-micro" style="color:#C0BCBA; width:76px; flex-shrink:0">h2</span>
+        <span class="t-h2">How I can help</span>
+        <code class="t-micro" style="color:#DDD; margin-left:auto">32px → 48px · wt 700 · lh 1.25</code>
+      </div>
+      <div style="padding:var(--sp-4) var(--sp-6); border-bottom:1px solid #F0EFEC; display:flex; align-items:baseline; gap:var(--sp-5); flex-wrap:wrap;">
+        <span class="t-micro" style="color:#C0BCBA; width:76px; flex-shrink:0">h3</span>
+        <span class="t-h3">Your English is amazing</span>
+        <code class="t-micro" style="color:#DDD; margin-left:auto">26px → 34px · wt 700</code>
+      </div>
+      <div style="padding:var(--sp-4) var(--sp-6); border-bottom:1px solid #F0EFEC; display:flex; align-items:baseline; gap:var(--sp-5); flex-wrap:wrap;">
+        <span class="t-micro" style="color:#C0BCBA; width:76px; flex-shrink:0">h4</span>
+        <span class="t-h4">Start practicing today</span>
+        <code class="t-micro" style="color:#DDD; margin-left:auto">20px → 26px · wt 700</code>
+      </div>
+      <div style="padding:var(--sp-4) var(--sp-6); border-bottom:1px solid #F0EFEC; display:flex; align-items:baseline; gap:var(--sp-5); flex-wrap:wrap;">
+        <span class="t-micro" style="color:#C0BCBA; width:76px; flex-shrink:0">body-lg</span>
+        <span class="t-lg" style="color:#666">Weekly lessons and free resources to help you thrive.</span>
+        <code class="t-micro" style="color:#DDD; margin-left:auto">18px → 22px · lh φ=1.618</code>
+      </div>
+      <div style="padding:var(--sp-4) var(--sp-6); border-bottom:1px solid #F0EFEC; display:flex; align-items:baseline; gap:var(--sp-5); flex-wrap:wrap;">
+        <span class="t-micro" style="color:#C0BCBA; width:76px; flex-shrink:0">body</span>
+        <span class="t-body" style="color:#777; max-width:52ch">Hundreds of lessons and free downloads to improve on your own. Click here and I'll show you exactly where to start.</span>
+        <code class="t-micro" style="color:#DDD; margin-left:auto">16px → 18px · lh 1.618</code>
+      </div>
+      <div style="padding:var(--sp-4) var(--sp-6); border-bottom:1px solid #F0EFEC; display:flex; align-items:center; gap:var(--sp-5); flex-wrap:wrap;">
+        <span class="t-micro" style="color:#C0BCBA; width:76px; flex-shrink:0">label</span>
+        <span class="t-label">Free Downloads · Pronunciation</span>
+        <code class="t-micro" style="color:#DDD; margin-left:auto">12px → 14px · wt 700 · +0.08em · UC</code>
+      </div>
+      <div style="padding:var(--sp-4) var(--sp-6); display:flex; align-items:center; gap:var(--sp-5); flex-wrap:wrap;">
+        <span class="t-micro" style="color:#C0BCBA; width:76px; flex-shrink:0">micro</span>
+        <span class="t-micro" style="color:#AAA">Week 1–6 · Grammar · New Sound</span>
+        <code class="t-micro" style="color:#DDD; margin-left:auto">10px → 12px · wt 700 · +0.12em · UC</code>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     §3  GUTENBERG BLOCK MAP
+══════════════════════════════════════════════ -->
+<section class="hs-section" style="background:#fff;">
+  <div class="hs-wrap">
+    <div class="doc-divider reveal"><span>§3 · Gutenberg Block Architecture</span></div>
+
+    <div class="note-box reveal" style="margin-block:var(--sp-5);">
+      <p><strong>Every section = Cover or Group + Columns + Groups.</strong> The outer wrapper is always a <code style="background:rgba(193,168,104,.15); padding:1px 5px; border-radius:3px; font-size:.85em">wp:group</code> or <code style="background:rgba(193,168,104,.15); padding:1px 5px; border-radius:3px; font-size:.85em">wp:cover</code> set to <strong>align: full</strong> (100vw background). Inside sits a nested group set to <strong>align: wide</strong> (1100px container). Inside that: <code style="background:rgba(193,168,104,.15); padding:1px 5px; border-radius:3px; font-size:.85em">wp:columns</code> for multi-column layouts. Inside each column: <code style="background:rgba(193,168,104,.15); padding:1px 5px; border-radius:3px; font-size:.85em">wp:group</code> as card wrapper. Custom responsive CSS lives in <code style="background:rgba(193,168,104,.15); padding:1px 5px; border-radius:3px; font-size:.85em">css/blocks.css</code>.</p>
+    </div>
+
+    <!-- Section architecture cards -->
+    <div class="reveal" style="display:flex; flex-direction:column; gap:var(--sp-4); margin-top:var(--sp-6);">
+
+      <!-- Hero -->
+      <div style="border:1.5px solid #EDE9E2; border-radius:var(--r-section); overflow:hidden;">
+        <div style="background:var(--c-pink); padding:var(--sp-4) var(--sp-5); display:flex; align-items:center; gap:var(--sp-4);">
+          <span class="t-micro" style="background:var(--c-berry); color:#fff; padding:2px 8px; border-radius:var(--r-pill)">Hero</span>
+          <span class="t-label">wp:cover — alignFull — min-height: 90vh</span>
+        </div>
+        <div style="padding:var(--sp-5); display:flex; flex-direction:column; gap:var(--sp-3);">
+          <code class="code">wp:cover {
+  align: full            ← 100vw background
+  minHeight: 90vh
+  backgroundColor: pink
+}
+  └── wp:group {
+        align: wide      ← 1100px max-width container
+        layout: constrained
+      }
+        └── wp:columns {
+              columnCount: 2
+              isStackedOnMobile: true
+              style: { gap: "var(--sp-5)" }
+            }
+              ├── wp:column { width: "61.8%" }
+              │     ├── wp:paragraph  (label/eyebrow)
+              │     ├── wp:heading    (h1 display)
+              │     ├── wp:paragraph  (body lead)
+              │     ├── wp:buttons
+              │     └── wp:group      (pill chips row)
+              └── wp:column { width: "38.2%" }
+                    └── wp:image      (Hadar photo, full height)</code>
+          <div style="display:flex; flex-wrap:wrap; gap:var(--sp-3); padding-top:var(--sp-2);">
+            <span class="hs-chip on">xs: stacked</span>
+            <span class="hs-chip">sm: stacked</span>
+            <span class="hs-chip">md: 2-col 61.8/38.2</span>
+            <span class="hs-chip">lg+: same</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- How I Help -->
+      <div style="border:1.5px solid #EDE9E2; border-radius:var(--r-section); overflow:hidden;">
+        <div style="background:var(--c-lt-blue); padding:var(--sp-4) var(--sp-5); display:flex; align-items:center; gap:var(--sp-4);">
+          <span class="t-micro" style="background:var(--c-teal); color:#fff; padding:2px 8px; border-radius:var(--r-pill)">How I Help</span>
+          <span class="t-label">wp:group — alignFull — backgroundColor: light-blue</span>
+        </div>
+        <div style="padding:var(--sp-5); display:flex; flex-direction:column; gap:var(--sp-3);">
+          <code class="code">wp:group {
+  align: full
+  backgroundColor: light-blue
+  style: { spacing: { padding: { top: "var(--section-pad)", bottom: "var(--section-pad)" } } }
+}
+  └── wp:group { align: wide }    ← 1100px container
+        ├── wp:group               ← heading block (label + h2 + lead)
+        │     ├── wp:paragraph     (label)
+        │     ├── wp:heading       (h2)
+        │     └── wp:paragraph     (body)
+        └── wp:columns {
+              columnCount: 3
+              isStackedOnMobile: true
+            }
+              ├── wp:column        ← card 1 (wp:group with image + content)
+              ├── wp:column        ← card 2
+              └── wp:column        ← card 3</code>
+          <div style="display:flex; flex-wrap:wrap; gap:var(--sp-3); padding-top:var(--sp-2);">
+            <span class="hs-chip on">xs: 1-col</span>
+            <span class="hs-chip">sm: 1-col</span>
+            <span class="hs-chip">md: 3-col</span>
+            <span class="hs-chip">lg+: 3-col</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Magazine -->
+      <div style="border:1.5px solid #EDE9E2; border-radius:var(--r-section); overflow:hidden;">
+        <div style="background:#fff8f0; padding:var(--sp-4) var(--sp-5); display:flex; align-items:center; gap:var(--sp-4);">
+          <span class="t-micro" style="background:var(--c-terra); color:#fff; padding:2px 8px; border-radius:var(--r-pill)">Magazine</span>
+          <span class="t-label">wp:group — alignFull — backgroundColor: white</span>
+        </div>
+        <div style="padding:var(--sp-5); display:flex; flex-direction:column; gap:var(--sp-3);">
+          <code class="code">wp:group { align: full }
+  └── wp:group { align: wide }
+        ├── wp:group { layout: flex, justification: space-between }
+        │     ├── wp:group (heading + subtext)
+        │     └── wp:buttons (See All Episodes →)
+        └── wp:columns {
+              columnCount: 5          ← lg+ desktop
+              isStackedOnMobile: true
+              className: "hs-magazine-cols"   ← custom CSS handles responsive
+            }
+              └── wp:column × 5       ← each = image + label + heading
+
+  /* css/blocks.css */
+  .hs-magazine-cols {
+    grid-template-columns: repeat(5, 1fr);      /* lg+ */
+  }
+  @media (max-width: 1023px) {
+    .hs-magazine-cols { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 767px) {
+    .hs-magazine-cols { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 479px) {
+    .hs-magazine-cols { grid-template-columns: 1fr; }
+  }</code>
+          <div style="display:flex; flex-wrap:wrap; gap:var(--sp-3); padding-top:var(--sp-2);">
+            <span class="hs-chip on">xs: 1-col</span>
+            <span class="hs-chip">sm: 2-col</span>
+            <span class="hs-chip">md: 3-col</span>
+            <span class="hs-chip">lg+: 5-col</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Collections -->
+      <div style="border:1.5px solid #EDE9E2; border-radius:var(--r-section); overflow:hidden;">
+        <div style="background:var(--c-lt-blue); padding:var(--sp-4) var(--sp-5); display:flex; align-items:center; gap:var(--sp-4);">
+          <span class="t-micro" style="background:var(--c-gold); color:#fff; padding:2px 8px; border-radius:var(--r-pill)">Collections</span>
+          <span class="t-label">wp:group — alignFull — CSS grid override</span>
+        </div>
+        <div style="padding:var(--sp-5); display:flex; flex-direction:column; gap:var(--sp-3);">
+          <code class="code">wp:group { align: full, backgroundColor: light-blue }
+  └── wp:group { align: wide }
+        ├── wp:heading  (Collections)
+        ├── wp:paragraph
+        ├── wp:group { className: "hs-pill-row", layout: flex, flexWrap: wrap }
+        │     └── wp:button × N   (pill filter chips — JS toggling)
+        └── wp:group { className: "hs-collections-grid" }
+              └── wp:group × 7   (each collection card — custom HTML)
+                    ├── wp:heading    (collection name)
+                    ├── wp:paragraph  (episode count)
+                    └── (leaf SVG decoration via className)
+
+  /* css/blocks.css */
+  .hs-collections-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--sp-5);
+  }
+  .hs-collections-grid > .wp-block-group:last-child {
+    grid-column: 1 / -1;     ← full-width last card
+  }
+  @media (max-width: 767px) {
+    .hs-collections-grid { grid-template-columns: 1fr; }
+  }</code>
+          <div style="display:flex; flex-wrap:wrap; gap:var(--sp-3); padding-top:var(--sp-2);">
+            <span class="hs-chip on">xs: 1-col</span>
+            <span class="hs-chip">sm: 2-col</span>
+            <span class="hs-chip">md–lg+: 3-col</span>
+            <span class="hs-chip">last card: always full</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Testimonials -->
+      <div style="border:1.5px solid #EDE9E2; border-radius:var(--r-section); overflow:hidden;">
+        <div style="background:var(--c-cream); padding:var(--sp-4) var(--sp-5); display:flex; align-items:center; gap:var(--sp-4);">
+          <span class="t-micro" style="background:var(--c-amber); color:#fff; padding:2px 8px; border-radius:var(--r-pill)">Testimonials</span>
+          <span class="t-label">wp:group — alignFull — 2-col mixed layout</span>
+        </div>
+        <div style="padding:var(--sp-5);">
+          <code class="code">wp:group { align: full, backgroundColor: warm-cream }
+  └── wp:group { align: wide }
+        ├── wp:group  (label + h2 + drawn underline)
+        └── wp:columns {
+              columnCount: 2
+              isStackedOnMobile: true
+              className: "hs-testimonials-cols"
+            }
+              ├── wp:column               ← left: small cards
+              │     ├── wp:group (card 1)
+              │     └── wp:group (card 2)
+              └── wp:column               ← right: featured quote
+                    └── wp:group (featured — full height)
+
+  ⚠ Featured card spans full height of right column:
+  .hs-testimonials-cols > .wp-block-column:last-child
+    .wp-block-group:first-child { height: 100%; }</code>
+        </div>
+      </div>
+
+      <!-- Pill CTA -->
+      <div style="border:1.5px solid #EDE9E2; border-radius:var(--r-section); overflow:hidden;">
+        <div style="background:var(--c-pink); padding:var(--sp-4) var(--sp-5); display:flex; align-items:center; gap:var(--sp-4);">
+          <span class="t-micro" style="background:var(--c-berry); color:#fff; padding:2px 8px; border-radius:var(--r-pill)">Pill CTA</span>
+          <span class="t-label">wp:group — alignFull — custom HTML + CSS</span>
+        </div>
+        <div style="padding:var(--sp-5);">
+          <code class="code">wp:group { align: full }
+  └── wp:group {
+        align: wide
+        className: "hs-pill-cta"    ← CSS handles pill shape + image
+      }
+        ├── wp:image    (Hadar — absolute positioned left, className: "hs-pill-cta__img")
+        └── wp:group    (content — padded left to clear image)
+              ├── wp:paragraph  (label)
+              ├── wp:heading    (h2)
+              ├── wp:paragraph  (body)
+              └── wp:buttons
+
+  /* css/blocks.css */
+  .hs-pill-cta {
+    position: relative;
+    border-radius: 9999px;
+    overflow: hidden;
+    padding: var(--sp-7) var(--sp-6) var(--sp-7) 36%;
+    min-height: 220px;
+  }
+  .hs-pill-cta__img {
+    position: absolute;
+    left: 0; bottom: 0;
+    height: 115%; width: auto;
+    object-fit: contain;
+    object-position: bottom;
+  }
+  @media (max-width: 767px) {
+    .hs-pill-cta {
+      border-radius: var(--r-section-lg);   ← not pill on mobile
+      padding: var(--sp-6);
+    }
+    .hs-pill-cta__img { display: none; }    ← image hidden on mobile
+  }</code>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div style="border:1.5px solid #EDE9E2; border-radius:var(--r-section); overflow:hidden;">
+        <div style="background:#fff; padding:var(--sp-4) var(--sp-5); display:flex; align-items:center; gap:var(--sp-4); border-bottom:1px solid #EDE9E2;">
+          <span class="t-micro" style="background:var(--c-espresso); color:#fff; padding:2px 8px; border-radius:var(--r-pill)">Footer</span>
+          <span class="t-label">wp:group — alignFull — bg white</span>
+        </div>
+        <div style="padding:var(--sp-5);">
+          <code class="code">wp:group { align: full, tagName: footer }
+  └── wp:group { align: wide }
+        ├── wp:group { layout: flex, justification: space-between }   ← logo + divider
+        ├── wp:columns { columnCount: 3, isStackedOnMobile: true }
+        │     ├── wp:column  (signup form — wp:html or shortcode)
+        │     ├── wp:column  (Company links — wp:list or wp:navigation)
+        │     └── wp:column  (Courses links)
+        └── wp:group { layout: flex, justification: space-between }   ← bottom bar
+              ├── wp:group { layout: flex }   (Terms · Privacy · etc)
+              └── wp:paragraph                (© 2026)</code>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     §4  DEVICE PREVIEWS — LIVE SCALED MOCKUPS
+══════════════════════════════════════════════ -->
+<section class="hs-section" style="background:var(--c-lt-purple);">
+  <div class="hs-wrap">
+    <div class="doc-divider reveal" style="border-color:#E0D8E8;"><span>§4 · Section Preview — All Breakpoints</span></div>
+
+    <div class="note-box reveal" style="margin-block:var(--sp-5);">
+      <p><strong>Same HTML, same CSS variables — different container width.</strong> The frames below simulate different viewport widths using CSS scaling. The "How I Help" section is rendered 4 times: xs (375px), md (768px), lg (1024px), 2xl (1536px). Observe how type grows, columns stack/expand, and padding breathes.</p>
+    </div>
+
+    <!-- 4 device frames -->
+    <div class="reveal" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:var(--sp-5); margin-top:var(--sp-6);">
+
+      <!-- XS — 375px mobile -->
+      <div>
+        <p class="device-label">xs · 375px · Mobile</p>
+        <div class="device-frame">
+          <div class="device-bar"><span></span><span></span><span></span></div>
+          <div class="device-screen" style="padding:0;">
+            <div style="background:var(--c-lt-blue); padding:2.5rem 1rem 2.5rem;">
+              <span class="t-micro" style="color:var(--c-gold)">How I Can Help</span>
+              <h2 style="font-family:var(--f-display); font-size:1.6rem; font-weight:700; line-height:1.2; margin-top:.75rem; margin-bottom:.75rem;">Start making change</h2>
+              <p style="font-size:.875rem; color:#777; line-height:1.5; margin-bottom:1.5rem">This website is where you start.</p>
+              <!-- 1-col stacked cards -->
+              <div style="display:flex; flex-direction:column; gap:.75rem;">
+                <div style="background:#fff; border-radius:.625rem; padding:1rem; box-shadow:var(--sh-card);">
+                  <span class="t-micro" style="color:var(--c-gold)">Downloads</span>
+                  <p style="font-family:var(--f-display); font-size:.95rem; font-weight:700; margin-top:.375rem">Free resources</p>
+                </div>
+                <div style="background:var(--c-green); border-radius:.625rem; padding:1rem;">
+                  <span class="t-micro" style="color:rgba(193,168,104,.8)">App</span>
+                  <p style="font-family:var(--f-display); font-size:.95rem; font-weight:700; color:#fff; margin-top:.375rem">14-day Plan</p>
+                </div>
+                <div style="background:var(--c-espresso); border-radius:.625rem; padding:1rem;">
+                  <span class="t-micro" style="color:rgba(193,168,104,.7)">Courses</span>
+                  <p style="font-family:var(--f-display); font-size:.95rem; font-weight:700; color:#fff; margin-top:.375rem">Transform English</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="t-micro" style="color:#BBB; text-align:center; margin-top:var(--sp-3)">1 column · padding 1rem · type minimum</p>
+      </div>
+
+      <!-- MD — 768px iPad -->
+      <div>
+        <p class="device-label">md · 768px · iPad</p>
+        <div class="device-frame">
+          <div class="device-bar"><span></span><span></span><span></span></div>
+          <div class="device-screen" style="padding:0;">
+            <div style="background:var(--c-lt-blue); padding:3rem 2.5rem;">
+              <span class="t-micro" style="color:var(--c-gold)">How I Can Help</span>
+              <h2 style="font-family:var(--f-display); font-size:2rem; font-weight:700; line-height:1.2; margin-top:.75rem; margin-bottom:.75rem">Start making change</h2>
+              <p style="font-size:1rem; color:#777; line-height:1.5; margin-bottom:2rem">This website is where you start.</p>
+              <!-- 3-col grid -->
+              <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:.75rem;">
+                <div style="background:#fff; border-radius:.625rem; padding:.875rem; box-shadow:var(--sh-card);">
+                  <span class="t-micro" style="color:var(--c-gold); font-size:.55rem">Downloads</span>
+                  <p style="font-family:var(--f-display); font-size:.8rem; font-weight:700; margin-top:.25rem; line-height:1.2">Free resources</p>
+                </div>
+                <div style="background:var(--c-green); border-radius:.625rem; padding:.875rem;">
+                  <span class="t-micro" style="color:rgba(193,168,104,.8); font-size:.55rem">App</span>
+                  <p style="font-family:var(--f-display); font-size:.8rem; font-weight:700; color:#fff; margin-top:.25rem; line-height:1.2">14-day Plan</p>
+                </div>
+                <div style="background:var(--c-espresso); border-radius:.625rem; padding:.875rem;">
+                  <span class="t-micro" style="color:rgba(193,168,104,.7); font-size:.55rem">Courses</span>
+                  <p style="font-family:var(--f-display); font-size:.8rem; font-weight:700; color:#fff; margin-top:.25rem; line-height:1.2">Transform</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="t-micro" style="color:#BBB; text-align:center; margin-top:var(--sp-3)">3 columns · padding 2.5rem · type growing</p>
+      </div>
+
+      <!-- LG — 1024px laptop -->
+      <div>
+        <p class="device-label">lg · 1024px · Laptop</p>
+        <div class="device-frame">
+          <div class="device-bar"><span></span><span></span><span></span></div>
+          <div class="device-screen" style="padding:0;">
+            <div style="background:var(--c-lt-blue); padding:3.5rem 3rem;">
+              <span class="t-micro" style="color:var(--c-gold)">How I Can Help</span>
+              <h2 style="font-family:var(--f-display); font-size:2.2rem; font-weight:700; line-height:1.2; margin-top:.75rem; margin-bottom:.75rem">Start making change</h2>
+              <p style="font-size:1rem; color:#777; line-height:1.6; margin-bottom:2.5rem">This website is the place where you can start making change.</p>
+              <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:1rem;">
+                <div style="background:#fff; border-radius:.75rem; padding:1.25rem; box-shadow:var(--sh-card);">
+                  <span class="t-micro" style="color:var(--c-gold); font-size:.6rem">Downloads</span>
+                  <p style="font-family:var(--f-display); font-size:.9rem; font-weight:700; margin-top:.375rem; line-height:1.25">Start practicing with my free resources</p>
+                </div>
+                <div style="background:var(--c-green); border-radius:.75rem; padding:1.25rem;">
+                  <span class="t-micro" style="color:rgba(193,168,104,.8); font-size:.6rem">App Access</span>
+                  <p style="font-family:var(--f-display); font-size:.9rem; font-weight:700; color:#fff; margin-top:.375rem; line-height:1.25">Free 14-day pronunciation Plan</p>
+                </div>
+                <div style="background:var(--c-espresso); border-radius:.75rem; padding:1.25rem;">
+                  <span class="t-micro" style="color:rgba(193,168,104,.7); font-size:.6rem">Courses</span>
+                  <p style="font-family:var(--f-display); font-size:.9rem; font-weight:700; color:#fff; margin-top:.375rem; line-height:1.25">Transform your English fast</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="t-micro" style="color:#BBB; text-align:center; margin-top:var(--sp-3)">3 columns full · padding 3.5rem · type near max</p>
+      </div>
+
+      <!-- 2XL — wide desktop -->
+      <div>
+        <p class="device-label">2xl · 1536px+ · Wide Desktop</p>
+        <div class="device-frame">
+          <div class="device-bar"><span></span><span></span><span></span></div>
+          <div class="device-screen" style="padding:0;">
+            <div style="background:var(--c-lt-blue); padding:4rem 4rem;">
+              <span class="t-micro" style="color:var(--c-gold)">How I Can Help</span>
+              <h2 style="font-family:var(--f-display); font-size:2.5rem; font-weight:700; line-height:1.2; margin-top:1rem; margin-bottom:1rem">Start making change — right here</h2>
+              <p style="font-size:1.125rem; color:#777; line-height:1.618; margin-bottom:3rem">This website is the place where you can start making change. Container is 1100px — generous margins auto on both sides.</p>
+              <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:1.25rem;">
+                <div style="background:#fff; border-radius:.75rem; padding:1.5rem; box-shadow:var(--sh-card);">
+                  <span class="t-micro" style="color:var(--c-gold)">Free Downloads</span>
+                  <p style="font-family:var(--f-display); font-size:1rem; font-weight:700; margin-top:.5rem; line-height:1.3">Start practicing with my free resources</p>
+                  <p style="font-size:.8rem; color:#AAA; margin-top:.5rem; line-height:1.5">Dozens of PDFs and audio recordings available free.</p>
+                </div>
+                <div style="background:var(--c-green); border-radius:.75rem; padding:1.5rem;">
+                  <span class="t-micro" style="color:rgba(193,168,104,.8)">Exclusive App</span>
+                  <p style="font-family:var(--f-display); font-size:1rem; font-weight:700; color:#fff; margin-top:.5rem; line-height:1.3">Free 14-day pronunciation Plan</p>
+                  <p style="font-size:.8rem; color:rgba(255,255,255,.5); margin-top:.5rem; line-height:1.5">Daily video lessons and practice sheets.</p>
+                </div>
+                <div style="background:var(--c-espresso); border-radius:.75rem; padding:1.5rem;">
+                  <span class="t-micro" style="color:rgba(193,168,104,.7)">Online Courses</span>
+                  <p style="font-family:var(--f-display); font-size:1rem; font-weight:700; color:#fff; margin-top:.5rem; line-height:1.3">Transform your English</p>
+                  <p style="font-size:.8rem; color:rgba(255,255,255,.5); margin-top:.5rem; line-height:1.5">Pronunciation, mindset, fluency — fast.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="t-micro" style="color:#BBB; text-align:center; margin-top:var(--sp-3)">Container capped · generous margins · max type · full body copy</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     §5  CSS VARIABLES — COPY-READY FOR theme.json + blocks.css
+══════════════════════════════════════════════ -->
+<section class="hs-section" style="background:var(--c-espresso);">
+  <div class="hs-wrap">
+    <div class="doc-divider reveal" style="border-color:rgba(255,255,255,.07);"><span style="color:rgba(255,255,255,.25)">§5 · Copy-Ready Code — theme.json + blocks.css</span></div>
+
+    <div class="reveal" style="margin-top:var(--sp-6); display:grid; grid-template-columns:repeat(auto-fit,minmax(440px,1fr)); gap:var(--sp-5);">
+
+      <div>
+        <p class="t-label" style="margin-bottom:var(--sp-4)">theme.json — typography + spacing tokens</p>
+        <code class="code" style="background:rgba(0,0,0,.4); border-color:rgba(255,255,255,.07); color:rgba(255,255,255,.45);">"settings": {
+  "layout": {
+    "contentSize": "680px",
+    "wideSize":    "1100px"
+  },
+  "typography": {
+    "fluid": true,
+    "fontSizes": [
+      { "slug":"micro",   "fluid":{"min":"0.625rem","max":"0.75rem"},  "size":"0.7rem"  },
+      { "slug":"label",   "fluid":{"min":"0.75rem", "max":"0.875rem"}, "size":"0.8rem"  },
+      { "slug":"body",    "fluid":{"min":"1rem",    "max":"1.125rem"}, "size":"1rem"    },
+      { "slug":"body-lg", "fluid":{"min":"1.125rem","max":"1.375rem"}, "size":"1.25rem" },
+      { "slug":"h4",      "fluid":{"min":"1.25rem", "max":"1.625rem"}, "size":"1.4rem"  },
+      { "slug":"h3",      "fluid":{"min":"1.625rem","max":"2.125rem"}, "size":"1.875rem"},
+      { "slug":"h2",      "fluid":{"min":"2rem",    "max":"3rem"},     "size":"2.5rem"  },
+      { "slug":"h1",      "fluid":{"min":"2.5rem",  "max":"4.5rem"},   "size":"3.5rem"  },
+      { "slug":"display", "fluid":{"min":"3rem",    "max":"6.5rem"},   "size":"4.5rem"  }
+    ]
+  },
+  "spacing": {
+    "spacingSizes": [
+      { "slug":"sp-1","size":"0.25rem", "name":"4px" },
+      { "slug":"sp-2","size":"0.375rem","name":"6px" },
+      { "slug":"sp-3","size":"0.625rem","name":"10px"},
+      { "slug":"sp-4","size":"1rem",    "name":"16px"},
+      { "slug":"sp-5","size":"1.625rem","name":"26px"},
+      { "slug":"sp-6","size":"2.625rem","name":"42px"},
+      { "slug":"sp-7","size":"4.25rem", "name":"68px"},
+      { "slug":"sp-8","size":"6.875rem","name":"110px"},
+      { "slug":"sp-9","size":"11.125rem","name":"178px"}
+    ],
+    "customSpacingSize": false
+  }
+}</code>
+      </div>
+
+      <div>
+        <p class="t-label" style="margin-bottom:var(--sp-4)">css/blocks.css — responsive grid overrides</p>
+        <code class="code" style="background:rgba(0,0,0,.4); border-color:rgba(255,255,255,.07); color:rgba(255,255,255,.45);">/* hs2026 — responsive column overrides
+   These CSS classes are set via the className
+   attribute in each wp:group / wp:columns block */
+
+/* ── MAGAZINE 5→3→2→1 ── */
+.hs-magazine-cols { grid-template-columns:repeat(5,1fr); }
+@media (max-width:1023px) {
+  .hs-magazine-cols { grid-template-columns:repeat(3,1fr); }
+}
+@media (max-width:767px) {
+  .hs-magazine-cols { grid-template-columns:repeat(2,1fr); }
+}
+@media (max-width:479px) {
+  .hs-magazine-cols { grid-template-columns:1fr; }
+}
+
+/* ── COLLECTIONS 3→2→1 with full-span last ── */
+.hs-collections-grid {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:var(--wp--preset--spacing--sp-5);
+}
+.hs-collections-grid > .wp-block-group:last-child {
+  grid-column:1/-1;
+}
+@media (max-width:767px) {
+  .hs-collections-grid { grid-template-columns:repeat(2,1fr); }
+}
+@media (max-width:479px) {
+  .hs-collections-grid { grid-template-columns:1fr; }
+}
+
+/* ── PILL CTA responsive pill ── */
+.hs-pill-cta {
+  position:relative; border-radius:9999px;
+  overflow:hidden; min-height:220px;
+  padding:var(--sp-7) var(--sp-6) var(--sp-7) 36%;
+}
+.hs-pill-cta__img {
+  position:absolute; left:0; bottom:0;
+  height:115%; width:auto;
+  object-fit:contain; object-position:bottom;
+}
+@media (max-width:767px) {
+  .hs-pill-cta {
+    border-radius:var(--r-section-lg);
+    padding:var(--sp-6);
+  }
+  .hs-pill-cta__img { display:none; }
+}
+
+/* ── SECTION FLUID PADDING ── */
+.hs-section-pad {
+  padding-block:clamp(3.5rem, 2rem + 6.5vw, 8rem);
+}</code>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+// live viewport label
+function updateBP() {
+  const w = window.innerWidth;
+  document.getElementById('vp-size').textContent = w + 'px';
+  const bp = w < 480 ? 'xs' : w < 768 ? 'sm' : w < 1024 ? 'md' : w < 1280 ? 'lg' : w < 1536 ? 'xl' : '2xl';
+  const colors = {xs:'#8B3A52',sm:'#C4622D',md:'#C1A868',lg:'#409690',xl:'#026360','2xl':'#1A1410'};
+  const el = document.getElementById('bp-label');
+  el.textContent = bp;
+  el.style.color = colors[bp];
+}
+updateBP();
+window.addEventListener('resize', updateBP, {passive:true});
+
+// reveal
+const io = new IntersectionObserver(es=>{
+  es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);}});
+},{threshold:.04});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+// chips
+document.querySelectorAll('.hs-chip').forEach(c=>{
+  c.addEventListener('click',()=>{
+    c.closest('div')?.querySelectorAll('.hs-chip').forEach(x=>x.classList.remove('on'));
+    c.classList.add('on');
+  });
+});
+</script>
+</body>
+</html>

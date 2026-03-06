@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HS2026 Design Demo</title>
+
+  <!-- Real theme fonts -->
+  <link rel="stylesheet" href="https://wordpress-1521687-5899197.cloudwaysapps.com/wp-content/themes/hs2026/fonts/fonts.css" />
+
+  <!-- Tailwind CDN (replace with css/output.css in WP) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            title: ['Quincy', 'serif'],
+            body:  ['Effra', 'sans-serif'],
+          },
+          colors: {
+            gold:           '#C1A868',
+            'green-dark':   '#026360',
+            peach:          '#F7BAA4',
+            teal:           '#409690',
+            'soft-blue':    '#CBE3E5',
+            'light-blue':   '#F3F7FA',
+            'light-purple': '#F7F2F9',
+            pink:           '#F9F2F3',
+          },
+          maxWidth: { site: '1100px' },
+          borderRadius: { section: '2.5rem', card: '1rem' },
+          boxShadow: {
+            card: '0 4px 16px rgba(0,0,0,0.06)',
+            form: '0 4px 40px rgba(0,0,0,0.08)',
+            chip: '0 8px 30px rgba(0,0,0,0.10)',
+          },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body { font-family: 'Effra', sans-serif; }
+
+    /* squiggle underline */
+    .drawn { position: relative; display: inline-block; }
+    .drawn svg { position: absolute; bottom: -8px; left: 0; width: 100%; overflow: visible; pointer-events: none; }
+
+    /* float animation */
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-7px)} }
+    .chip-a { animation: float 4.0s ease-in-out infinite; }
+    .chip-b { animation: float 4.0s ease-in-out 1.6s infinite; }
+
+    /* scroll reveal */
+    .reveal { opacity:0; transform:translateY(22px); transition:opacity .6s ease,transform .6s ease; }
+    .reveal.visible { opacity:1; transform:none; }
+
+    /* pill interactive */
+    .pill { transition: background .18s, color .18s, border-color .18s; }
+    .pill.on, .pill:hover { background:#C1A868 !important; color:#fff !important; border-color:#C1A868 !important; }
+    .pill-inv.on, .pill-inv:hover { background:#fff !important; color:#000 !important; border-color:#fff !important; }
+
+    /* input focus ring */
+    .hs-input { transition: border-color .2s, box-shadow .2s; }
+    .hs-input:focus { outline:none; border-color:#C1A868; box-shadow:0 0 0 3px rgba(193,168,104,.14); background:#fff; }
+
+    /* stat hover */
+    .stat-cell:hover { background: rgba(255,255,255,0.04); }
+  </style>
+</head>
+<body class="bg-white text-black overflow-x-hidden">
+
+
+<!-- ══════════════════════════════════════
+     §1  HERO
+══════════════════════════════════════ -->
+<section class="bg-pink min-h-[95vh] grid grid-cols-1 md:grid-cols-2 items-end overflow-hidden">
+
+  <!-- text col -->
+  <div class="flex flex-col gap-6 px-6 md:px-10 lg:px-16 pt-16 md:pt-24 pb-16 md:pb-24 max-w-xl">
+
+    <div class="flex items-center gap-2">
+      <span class="w-2 h-2 rounded-full bg-gold"></span>
+      <span class="font-body text-[0.7rem] tracking-[0.12em] uppercase text-gold">English Coach · Pronunciation Expert</span>
+    </div>
+
+    <h1 class="font-title font-black text-black leading-[0.95]" style="font-size:clamp(3.2rem,6vw,6rem)">
+      Speak<br>
+      <em class="not-italic text-green-dark">English</em><br>
+      <span class="drawn">with confidence
+        <svg viewBox="0 0 260 12" fill="none" aria-hidden="true">
+          <path d="M2 9 C55 2,110 13,165 6 C200 1,235 11,258 5" stroke="#C1A868" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+      </span>
+    </h1>
+
+    <p class="font-body text-base md:text-lg text-gray-500 leading-relaxed max-w-sm">
+      Weekly lessons, free resources and proven programs to help you speak clearly, freely, and without fear — wherever you are in the world.
+    </p>
+
+    <form class="flex flex-wrap gap-2" onsubmit="return false">
+      <input type="email" placeholder="Your email address"
+        class="hs-input flex-1 min-w-[180px] border border-black/15 bg-white rounded-full px-5 py-3 font-body text-sm placeholder-gray-300" />
+      <button class="bg-gold text-white font-body font-medium text-sm px-6 py-3 rounded-full hover:bg-[#a8904f] transition-colors">
+        Get weekly lessons →
+      </button>
+    </form>
+
+    <div class="flex flex-wrap gap-2">
+      <span class="pill on border border-gold rounded-full px-4 py-1.5 font-body text-[0.78rem] cursor-pointer">Pronunciation</span>
+      <span class="pill border border-gold text-black rounded-full px-4 py-1.5 font-body text-[0.78rem] cursor-pointer">Fluency</span>
+      <span class="pill border border-gold text-black rounded-full px-4 py-1.5 font-body text-[0.78rem] cursor-pointer">Confidence</span>
+      <span class="pill border border-gold text-black rounded-full px-4 py-1.5 font-body text-[0.78rem] cursor-pointer">Grammar</span>
+    </div>
+  </div>
+
+  <!-- image col -->
+  <div class="relative flex items-end justify-center px-4 min-h-[420px]">
+    <div class="absolute bottom-0 right-0 w-[82%] h-[88%] bg-soft-blue rounded-t-[50%] rounded-bl-[50%] z-0"></div>
+
+    <div class="chip-a absolute top-[20%] left-0 z-10 bg-white rounded-2xl px-4 py-3 flex items-center gap-3 shadow-chip">
+      <span class="w-2.5 h-2.5 rounded-full bg-gold flex-shrink-0"></span>
+      <div>
+        <div class="font-title font-bold text-2xl leading-none">622k</div>
+        <div class="font-body text-[0.68rem] text-gray-400 mt-0.5 max-w-[72px]">YouTube subscribers</div>
+      </div>
+    </div>
+
+    <div class="chip-b absolute bottom-[28%] right-2 z-10 bg-white rounded-2xl px-4 py-3 flex items-center gap-3 shadow-chip">
+      <span class="w-2.5 h-2.5 rounded-full bg-teal flex-shrink-0"></span>
+      <div>
+        <div class="font-title font-bold text-2xl leading-none">130k+</div>
+        <div class="font-body text-[0.68rem] text-gray-400 mt-0.5 max-w-[72px]">Weekly readers</div>
+      </div>
+    </div>
+
+    <img
+      src="https://wordpress-1521687-5899197.cloudwaysapps.com/wp-content/uploads/hadar-hero-new-website-200.webp"
+      alt="Hadar Shemesh"
+      class="relative z-[2] w-full max-w-[500px] block"
+    />
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     §2  SOCIAL PROOF — dark inset section
+══════════════════════════════════════ -->
+<div class="bg-light-blue py-2 px-3 md:px-4">
+  <section class="bg-black rounded-section overflow-hidden">
+    <div class="max-w-site mx-auto px-6 md:px-10 lg:px-16 py-24 md:py-32 flex flex-col items-center gap-16">
+
+      <div class="reveal text-center">
+        <p class="font-body text-[0.7rem] tracking-[0.14em] uppercase text-white/40 mb-5">Trusted worldwide</p>
+        <h2 class="font-title font-black text-white leading-[1.05] max-w-3xl" style="font-size:clamp(2.4rem,5vw,5rem)">
+          Real people.<br>
+          <span class="text-gold italic">Real results.</span><br>
+          Every single day.
+        </h2>
+      </div>
+
+      <!-- stats -->
+      <div class="reveal w-full border border-white/10 rounded-card overflow-hidden grid grid-cols-2 md:grid-cols-4">
+        <div class="stat-cell flex flex-col items-center gap-2 px-6 py-10 border-r border-b md:border-b-0 border-white/[0.08] transition-colors">
+          <div class="w-6 h-0.5 bg-gold rounded mb-1"></div>
+          <div class="font-title font-black text-white leading-none" style="font-size:clamp(2.5rem,4vw,3.8rem)">622<sup class="text-[0.5em] text-gold align-super">k</sup></div>
+          <div class="font-body text-[0.72rem] uppercase tracking-widest text-white/40 text-center mt-1">YouTube<br>subscribers</div>
+        </div>
+        <div class="stat-cell flex flex-col items-center gap-2 px-6 py-10 border-r border-b md:border-b-0 border-white/[0.08] transition-colors">
+          <div class="w-6 h-0.5 bg-gold rounded mb-1"></div>
+          <div class="font-title font-black text-white leading-none" style="font-size:clamp(2.5rem,4vw,3.8rem)">130<sup class="text-[0.5em] text-gold align-super">k+</sup></div>
+          <div class="font-body text-[0.72rem] uppercase tracking-widest text-white/40 text-center mt-1">Weekly<br>readers</div>
+        </div>
+        <div class="stat-cell flex flex-col items-center gap-2 px-6 py-10 border-r border-white/[0.08] transition-colors">
+          <div class="w-6 h-0.5 bg-gold rounded mb-1"></div>
+          <div class="font-title font-black text-white leading-none" style="font-size:clamp(2.5rem,4vw,3.8rem)">10<sup class="text-[0.5em] text-gold align-super">yr</sup></div>
+          <div class="font-body text-[0.72rem] uppercase tracking-widest text-white/40 text-center mt-1">Teaching<br>English</div>
+        </div>
+        <div class="stat-cell flex flex-col items-center gap-2 px-6 py-10 transition-colors">
+          <div class="w-6 h-0.5 bg-gold rounded mb-1"></div>
+          <div class="font-title font-black text-white leading-none" style="font-size:clamp(2.5rem,4vw,3.8rem)">50<sup class="text-[0.5em] text-gold align-super">+</sup></div>
+          <div class="font-body text-[0.72rem] uppercase tracking-widest text-white/40 text-center mt-1">Countries<br>represented</div>
+        </div>
+      </div>
+
+      <!-- logos -->
+      <div class="reveal flex flex-col items-center gap-5 w-full">
+        <p class="font-body text-[0.68rem] uppercase tracking-widest text-white/25">Students from</p>
+        <div class="flex flex-wrap items-center justify-center gap-8 opacity-30 grayscale brightness-[10]">
+          <img src="https://wordpress-1521687-5899197.cloudwaysapps.com/wp-content/uploads/google-white-bg.webp" alt="Google" class="h-5 object-contain">
+          <img src="https://wordpress-1521687-5899197.cloudwaysapps.com/wp-content/uploads/Microsoft_logo_2012-white-bg.svg.webp" alt="Microsoft" class="h-5 object-contain">
+          <img src="https://wordpress-1521687-5899197.cloudwaysapps.com/wp-content/uploads/Waze_logo_white-bg-1.webp" alt="Waze" class="h-5 object-contain">
+          <img src="https://wordpress-1521687-5899197.cloudwaysapps.com/wp-content/uploads/General_Motors_logo.svg-white-background-1.webp" alt="GM" class="h-5 object-contain">
+          <img src="https://wordpress-1521687-5899197.cloudwaysapps.com/wp-content/uploads/wework-white-bg-1.webp" alt="WeWork" class="h-5 object-contain">
+          <img src="https://wordpress-1521687-5899197.cloudwaysapps.com/wp-content/uploads/honeybook-white-bg.webp" alt="HoneyBook" class="h-5 object-contain">
+        </div>
+      </div>
+
+    </div>
+  </section>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     §3  CONTENT + FORM
+══════════════════════════════════════ -->
+<section class="bg-light-blue py-24 md:py-32">
+  <div class="max-w-site mx-auto px-6 md:px-10 lg:px-16">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-start">
+
+      <!-- left -->
+      <div class="reveal flex flex-col gap-8">
+
+        <div class="flex flex-col gap-3">
+          <span class="font-body text-[0.7rem] tracking-[0.12em] uppercase text-gold">Free 14-day plan</span>
+          <h2 class="font-title font-bold text-black leading-tight" style="font-size:clamp(2rem,3.5vw,3.2rem)">
+            Start speaking<br>
+            <span class="drawn">better English
+              <svg viewBox="0 0 200 8" fill="none" aria-hidden="true">
+                <path d="M1 5 C45 1,95 8,145 4 C170 2,190 7,199 4" stroke="#C1A868" stroke-width="2.5" stroke-linecap="round"/>
+              </svg>
+            </span><br>
+            in 2 weeks.
+          </h2>
+        </div>
+
+        <p class="font-body text-base md:text-lg text-gray-500 leading-relaxed">
+          My free 14-day pronunciation plan gives you daily video lessons, practice sheets, and audio recordings — structured to fit into your actual life.
+        </p>
+
+        <div class="flex flex-col gap-2">
+          <span class="font-body text-[0.7rem] tracking-[0.12em] uppercase text-gold">Focus areas</span>
+          <div class="flex flex-wrap gap-2">
+            <span class="pill on border border-gold rounded-full px-4 py-1.5 font-body text-[0.78rem] cursor-pointer">All</span>
+            <span class="pill border border-gold text-black rounded-full px-4 py-1.5 font-body text-[0.78rem] cursor-pointer">Pronunciation</span>
+            <span class="pill border border-gold text-black rounded-full px-4 py-1.5 font-body text-[0.78rem] cursor-pointer">Fluency</span>
+            <span class="pill border border-gold text-black rounded-full px-4 py-1.5 font-body text-[0.78rem] cursor-pointer">Confidence</span>
+            <span class="pill border border-gold text-black rounded-full px-4 py-1.5 font-body text-[0.78rem] cursor-pointer">Grammar</span>
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-3">
+          <div class="flex gap-4 items-start bg-white rounded-card p-5 shadow-card hover:-translate-y-1 transition-transform cursor-default">
+            <div class="w-11 h-11 rounded-xl bg-soft-blue flex items-center justify-center text-xl flex-shrink-0">🎙️</div>
+            <div>
+              <h4 class="font-title font-bold text-base mb-1">Daily Audio Lessons</h4>
+              <p class="font-body text-sm text-gray-500 leading-relaxed">Short, focused recordings you can listen to anywhere — commute, gym, kitchen.</p>
+            </div>
+          </div>
+          <div class="flex gap-4 items-start bg-white rounded-card p-5 shadow-card hover:-translate-y-1 transition-transform cursor-default">
+            <div class="w-11 h-11 rounded-xl bg-peach flex items-center justify-center text-xl flex-shrink-0">📄</div>
+            <div>
+              <h4 class="font-title font-bold text-base mb-1">Printable Practice Sheets</h4>
+              <p class="font-body text-sm text-gray-500 leading-relaxed">PDF drills matched to each day's lesson so you can practice speaking out loud.</p>
+            </div>
+          </div>
+          <div class="flex gap-4 items-start bg-white rounded-card p-5 shadow-card hover:-translate-y-1 transition-transform cursor-default">
+            <div class="w-11 h-11 rounded-xl bg-light-purple flex items-center justify-center text-xl flex-shrink-0">✅</div>
+            <div>
+              <h4 class="font-title font-bold text-base mb-1">Progress Checkpoints</h4>
+              <p class="font-body text-sm text-gray-500 leading-relaxed">Built-in checkpoints every 3 days to make sure you're tracking real improvement.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- right: form -->
+      <div class="reveal flex flex-col gap-5">
+
+        <div class="bg-white rounded-[1.5rem] p-8 md:p-10 shadow-form sticky top-8">
+          <div class="flex flex-col gap-2 mb-7 pb-6 border-b border-gray-100">
+            <span class="font-body text-[0.7rem] tracking-[0.12em] uppercase text-gold">Free access — no credit card</span>
+            <h3 class="font-title font-bold leading-tight" style="font-size:clamp(1.5rem,2.5vw,2rem)">Get my 14-day<br>Pronunciation Plan</h3>
+            <p class="font-body text-sm text-gray-400 leading-relaxed">Sign up and get instant access to the private app with daily lessons and audio recordings.</p>
+          </div>
+
+          <form class="flex flex-col gap-4" onsubmit="return false">
+            <div class="grid grid-cols-2 gap-3">
+              <div class="flex flex-col gap-1.5">
+                <label class="font-body text-[0.78rem] font-medium">First name</label>
+                <input type="text" placeholder="Hadar" class="hs-input px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 font-body text-sm placeholder-gray-300" />
+              </div>
+              <div class="flex flex-col gap-1.5">
+                <label class="font-body text-[0.78rem] font-medium">Last name</label>
+                <input type="text" placeholder="Shemesh" class="hs-input px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 font-body text-sm placeholder-gray-300" />
+              </div>
+            </div>
+            <div class="flex flex-col gap-1.5">
+              <label class="font-body text-[0.78rem] font-medium">Email address</label>
+              <input type="email" placeholder="you@example.com" class="hs-input px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 font-body text-sm placeholder-gray-300" />
+            </div>
+            <div class="flex flex-col gap-1.5">
+              <label class="font-body text-[0.78rem] font-medium">Biggest challenge?</label>
+              <select class="hs-input px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 font-body text-sm text-gray-500">
+                <option value="">Choose one...</option>
+                <option>Pronunciation &amp; accent</option>
+                <option>Speaking fluency</option>
+                <option>Building confidence</option>
+                <option>Grammar</option>
+                <option>Vocabulary</option>
+              </select>
+            </div>
+            <button type="submit" class="w-full mt-1 bg-green-dark text-white font-body font-medium text-base py-3.5 rounded-xl hover:bg-[#024f4c] active:scale-[0.98] transition-all">
+              Send me the plan →
+            </button>
+            <p class="font-body text-xs text-gray-300 text-center">No spam, ever. Unsubscribe anytime.</p>
+          </form>
+        </div>
+
+        <!-- quote -->
+        <div class="bg-peach rounded-card p-6 relative overflow-hidden">
+          <span class="font-title font-black text-gold/30 absolute -top-2 left-4 select-none" style="font-size:5rem;line-height:1">"</span>
+          <p class="font-title italic text-base leading-relaxed pt-7">
+            I had no confidence and avoided talking. This program was just what I needed. Now I join conversations freely and without fear.
+          </p>
+          <div class="flex items-center gap-3 mt-4">
+            <img src="https://hadarshemesh.com/wp-content/uploads/Monica-Guarin.webp" alt="Marco Aurelio" class="w-9 h-9 rounded-full object-cover border-2 border-white" />
+            <span class="font-body text-[0.72rem] font-semibold uppercase tracking-widest text-green-dark">Marco Aurelio · Brazil</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     STYLE WATERFALL
+══════════════════════════════════════ -->
+<section class="bg-white border-t border-gray-100 py-20">
+  <div class="max-w-site mx-auto px-6 md:px-10 lg:px-16 flex flex-col gap-14">
+
+    <div class="flex items-center gap-4">
+      <span class="font-body text-[0.62rem] tracking-[0.2em] uppercase text-gray-300 whitespace-nowrap">HS2026 Design System · Style Waterfall</span>
+      <div class="flex-1 h-px bg-gray-100"></div>
+    </div>
+
+    <!-- palette -->
+    <div class="flex flex-col gap-4">
+      <span class="font-body text-[0.7rem] tracking-[0.12em] uppercase text-gold">Color Palette</span>
+      <div class="flex flex-wrap gap-4">
+        <div class="flex flex-col items-center gap-1.5"><div class="w-16 h-16 rounded-2xl" style="background:#C1A868"></div><span class="font-mono text-[0.6rem] text-gray-400 text-center">gold<br>#C1A868</span></div>
+        <div class="flex flex-col items-center gap-1.5"><div class="w-16 h-16 rounded-2xl" style="background:#026360"></div><span class="font-mono text-[0.6rem] text-gray-400 text-center">green-dark<br>#026360</span></div>
+        <div class="flex flex-col items-center gap-1.5"><div class="w-16 h-16 rounded-2xl" style="background:#409690"></div><span class="font-mono text-[0.6rem] text-gray-400 text-center">teal<br>#409690</span></div>
+        <div class="flex flex-col items-center gap-1.5"><div class="w-16 h-16 rounded-2xl" style="background:#F7BAA4"></div><span class="font-mono text-[0.6rem] text-gray-400 text-center">peach<br>#F7BAA4</span></div>
+        <div class="flex flex-col items-center gap-1.5"><div class="w-16 h-16 rounded-2xl" style="background:#CBE3E5;border:1px solid #ddd"></div><span class="font-mono text-[0.6rem] text-gray-400 text-center">soft-blue<br>#CBE3E5</span></div>
+        <div class="flex flex-col items-center gap-1.5"><div class="w-16 h-16 rounded-2xl" style="background:#F3F7FA;border:1px solid #ddd"></div><span class="font-mono text-[0.6rem] text-gray-400 text-center">light-blue<br>#F3F7FA</span></div>
+        <div class="flex flex-col items-center gap-1.5"><div class="w-16 h-16 rounded-2xl" style="background:#F7F2F9;border:1px solid #ddd"></div><span class="font-mono text-[0.6rem] text-gray-400 text-center">light-purple<br>#F7F2F9</span></div>
+        <div class="flex flex-col items-center gap-1.5"><div class="w-16 h-16 rounded-2xl" style="background:#F9F2F3;border:1px solid #ddd"></div><span class="font-mono text-[0.6rem] text-gray-400 text-center">pink<br>#F9F2F3</span></div>
+        <div class="flex flex-col items-center gap-1.5"><div class="w-16 h-16 rounded-2xl bg-black"></div><span class="font-mono text-[0.6rem] text-gray-400 text-center">black<br>#000000</span></div>
+      </div>
+    </div>
+
+    <!-- type scale -->
+    <div class="flex flex-col gap-7">
+      <span class="font-body text-[0.7rem] tracking-[0.12em] uppercase text-gold">Typography Scale · Quincy + Effra</span>
+      <div><p class="font-mono text-[0.6rem] text-gray-300 mb-1">Display · clamp(3.2→6rem) · Quincy Black 900</p>
+        <p class="font-title font-black leading-none" style="font-size:clamp(3.2rem,6vw,6rem)">Speak with confidence</p></div>
+      <div><p class="font-mono text-[0.6rem] text-gray-300 mb-1">Section H2 · clamp(2→3.4rem) · Quincy Bold 700</p>
+        <p class="font-title font-bold leading-tight" style="font-size:clamp(2rem,3.5vw,3.4rem)">Your English is amazing</p></div>
+      <div><p class="font-mono text-[0.6rem] text-gray-300 mb-1">Sub-heading · clamp(1.3→1.9rem) · Quincy 400 italic</p>
+        <p class="font-title italic leading-snug" style="font-size:clamp(1.3rem,2vw,1.9rem)">Start making change today</p></div>
+      <div><p class="font-mono text-[0.6rem] text-gray-300 mb-1">Body LG · clamp(1→1.15rem) · Effra · gray-500</p>
+        <p class="font-body text-gray-500 leading-relaxed" style="font-size:clamp(1rem,1.2vw,1.15rem)">Weekly lessons, free resources and proven programs to help you speak clearly and freely.</p></div>
+      <div><p class="font-mono text-[0.6rem] text-gray-300 mb-1">Label · 0.7rem · Effra · uppercase · tracking · gold</p>
+        <p class="font-body text-[0.7rem] tracking-[0.12em] uppercase text-gold">Free 14-day plan · English coach</p></div>
+    </div>
+
+    <!-- buttons -->
+    <div class="flex flex-col gap-4">
+      <span class="font-body text-[0.7rem] tracking-[0.12em] uppercase text-gold">Buttons</span>
+      <div class="flex flex-wrap items-center gap-3">
+        <button class="bg-gold text-white font-body font-medium text-sm px-6 py-3 rounded-full hover:bg-[#a8904f] transition-colors">Primary gold</button>
+        <button class="border-2 border-black text-black font-body font-medium text-sm px-6 py-3 rounded-full hover:bg-black hover:text-white transition-colors">Outline black</button>
+        <button class="bg-green-dark text-white font-body font-medium text-sm px-6 py-3 rounded-full hover:bg-[#024f4c] transition-colors">Green dark CTA</button>
+        <div class="bg-black rounded-xl px-3 py-2.5">
+          <button class="border-2 border-white/50 text-white font-body font-medium text-sm px-6 py-3 rounded-full hover:bg-white hover:text-black transition-colors">Outline on dark</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- pills -->
+    <div class="flex flex-col gap-4">
+      <span class="font-body text-[0.7rem] tracking-[0.12em] uppercase text-gold">Pill Tags / Filters</span>
+      <div class="flex flex-wrap items-center gap-2">
+        <span class="pill on border border-gold rounded-full px-4 py-1.5 font-body text-[0.78rem] cursor-pointer">Active</span>
+        <span class="pill border border-gold text-black rounded-full px-4 py-1.5 font-body text-[0.78rem] cursor-pointer">Pronunciation</span>
+        <span class="pill border border-gold text-black rounded-full px-4 py-1.5 font-body text-[0.78rem] cursor-pointer">Fluency</span>
+        <span class="pill border border-gold text-black rounded-full px-4 py-1.5 font-body text-[0.78rem] cursor-pointer">Confidence</span>
+        <span class="pill border border-gold text-black rounded-full px-4 py-1.5 font-body text-[0.78rem] cursor-pointer">Grammar</span>
+        <div class="bg-black rounded-xl px-3 py-2 flex gap-2">
+          <span class="pill pill-inv on border border-white/50 text-white rounded-full px-4 py-1.5 font-body text-[0.78rem] cursor-pointer">Dark active</span>
+          <span class="pill pill-inv border border-white/40 text-white rounded-full px-4 py-1.5 font-body text-[0.78rem] cursor-pointer">Dark pill</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- spacing tokens -->
+    <div class="flex flex-col gap-4">
+      <span class="font-body text-[0.7rem] tracking-[0.12em] uppercase text-gold">Spacing Tokens</span>
+      <div class="flex gap-5 items-end flex-wrap">
+        <div class="flex flex-col items-center gap-2"><div class="w-14 bg-soft-blue rounded-lg" style="height:64px"></div><span class="font-mono text-[0.6rem] text-gray-400 text-center">section-sm<br>4rem</span></div>
+        <div class="flex flex-col items-center gap-2"><div class="w-14 bg-teal rounded-lg" style="height:96px"></div><span class="font-mono text-[0.6rem] text-gray-400 text-center">section-md<br>6rem</span></div>
+        <div class="flex flex-col items-center gap-2"><div class="w-14 bg-green-dark rounded-lg" style="height:128px"></div><span class="font-mono text-[0.6rem] text-gray-400 text-center">section-lg<br>8rem</span></div>
+      </div>
+    </div>
+
+    <!-- radius scale -->
+    <div class="flex flex-col gap-4">
+      <span class="font-body text-[0.7rem] tracking-[0.12em] uppercase text-gold">Border Radius Scale</span>
+      <div class="flex flex-wrap gap-4 items-center">
+        <div class="w-16 h-16 bg-peach rounded-xl flex items-center justify-center"><span class="font-mono text-[0.55rem] text-gray-600 text-center">card<br>1rem</span></div>
+        <div class="w-16 h-16 bg-gold rounded-2xl flex items-center justify-center"><span class="font-mono text-[0.55rem] text-white text-center">form<br>1.5rem</span></div>
+        <div class="w-20 h-16 bg-green-dark rounded-section flex items-center justify-center"><span class="font-mono text-[0.55rem] text-white text-center">section<br>2.5rem</span></div>
+        <div class="h-10 w-28 bg-black rounded-full flex items-center justify-center"><span class="font-mono text-[0.55rem] text-white text-center">pill · full</span></div>
+      </div>
+    </div>
+
+    <!-- bg rhythm -->
+    <div class="flex flex-col gap-4">
+      <span class="font-body text-[0.7rem] tracking-[0.12em] uppercase text-gold">Section Background Rhythm</span>
+      <div class="flex flex-col gap-1 w-full max-w-xs text-sm">
+        <div class="flex justify-between px-4 py-2 rounded-lg bg-pink"><span class="font-body text-gray-500">1 · Hero</span><span class="font-mono text-[0.6rem] text-gray-400">bg-pink</span></div>
+        <div class="flex justify-between px-4 py-2 rounded-lg bg-light-blue"><span class="font-body text-gray-500">2 · How I Help</span><span class="font-mono text-[0.6rem] text-gray-400">bg-light-blue</span></div>
+        <div class="flex justify-between px-4 py-2 rounded-lg bg-black"><span class="font-body text-white">3 · Proof (inset)</span><span class="font-mono text-[0.6rem] text-white/40">bg-black</span></div>
+        <div class="flex justify-between px-4 py-2 rounded-lg bg-white border border-gray-100"><span class="font-body text-gray-500">4 · Magazine</span><span class="font-mono text-[0.6rem] text-gray-400">bg-white</span></div>
+        <div class="flex justify-between px-4 py-2 rounded-lg bg-light-purple"><span class="font-body text-gray-500">5 · Collections</span><span class="font-mono text-[0.6rem] text-gray-400">bg-light-purple</span></div>
+        <div class="flex justify-between px-4 py-2 rounded-lg bg-peach"><span class="font-body text-gray-600">6 · Testimonials</span><span class="font-mono text-[0.6rem] text-gray-500">bg-peach</span></div>
+        <div class="flex justify-between px-4 py-2 rounded-lg bg-green-dark"><span class="font-body text-white">7 · Newsletter</span><span class="font-mono text-[0.6rem] text-white/40">bg-green-dark</span></div>
+        <div class="flex justify-between px-4 py-2 rounded-lg bg-black"><span class="font-body text-white">8 · Footer</span><span class="font-mono text-[0.6rem] text-white/40">bg-black</span></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<script>
+  // scroll reveal
+  const io = new IntersectionObserver(es => {
+    es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // pill toggle — scoped per pill-row parent
+  document.querySelectorAll('.pill').forEach(pill => {
+    pill.addEventListener('click', () => {
+      const row = pill.closest('.flex');
+      row?.querySelectorAll('.pill').forEach(p => p.classList.remove('on'));
+      pill.classList.add('on');
+    });
+  });
+</script>
+
+</body>
+</html>

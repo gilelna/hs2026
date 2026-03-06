@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HS2026 Design Demo</title>
+
+  <style>
+    /* ══ FONTS — inline @font-face with absolute working URLs ══ */
+    @font-face {
+      font-family: 'Quincy';
+      src: url('https://wordpress-1521687-5899197.cloudwaysapps.com/wp-content/themes/hs2026/fonts/quincy_cf_regular-webfont.woff2') format('woff2'),
+           url('https://wordpress-1521687-5899197.cloudwaysapps.com/wp-content/themes/hs2026/fonts/quincy_cf_regular-webfont.ttf') format('truetype');
+      font-weight: 400; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: 'Quincy';
+      src: url('https://wordpress-1521687-5899197.cloudwaysapps.com/wp-content/themes/hs2026/fonts/quincy_cf_bold-webfont.woff2') format('woff2'),
+           url('https://wordpress-1521687-5899197.cloudwaysapps.com/wp-content/themes/hs2026/fonts/quincy_cf_bold-webfont.ttf') format('truetype');
+      font-weight: 700; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: 'Quincy';
+      src: url('https://wordpress-1521687-5899197.cloudwaysapps.com/wp-content/themes/hs2026/fonts/quincy_cf_black-webfont.woff2') format('woff2'),
+           url('https://wordpress-1521687-5899197.cloudwaysapps.com/wp-content/themes/hs2026/fonts/quincy_cf_black-webfont.woff') format('woff');
+      font-weight: 900; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: 'Effra';
+      src: url('https://wordpress-1521687-5899197.cloudwaysapps.com/wp-content/themes/hs2026/fonts/effra_medium-webfont.ttf') format('truetype');
+      font-weight: 400; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: 'Effra';
+      src: url('https://wordpress-1521687-5899197.cloudwaysapps.com/wp-content/themes/hs2026/fonts/effra_bold-webfont.ttf') format('truetype');
+      font-weight: 700; font-style: normal; font-display: swap;
+    }
+  </style>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            title: ['Quincy','Georgia','serif'],
+            body:  ['Effra','system-ui','sans-serif'],
+          },
+          colors: {
+            /* ── original palette ── */
+            gold:           '#C1A868',
+            'green-dark':   '#026360',
+            peach:          '#F7BAA4',
+            teal:           '#409690',
+            'soft-blue':    '#CBE3E5',
+            'light-blue':   '#F3F7FA',
+            'light-purple': '#F7F2F9',
+            pink:           '#F9F2F3',
+            /* ── warm darks (new) ── */
+            espresso:       '#1A1410',
+            amber:          '#6B4F2A',
+            'warm-sand':    '#E8D5B0',
+            'warm-cream':   '#FAF5EC',
+            /* ── from landing page screenshot ── */
+            berry:          '#8B3A52',   /* week 1-6 mauve/berry */
+            terracotta:     '#C4622D',   /* week 8-10 warm orange */
+            slate:          '#4A6E7A',   /* week 11-12 muted teal-slate */
+            'deep-teal':    '#1E5E5B',   /* week 7 deep green */
+          },
+          maxWidth: { site: '1100px' },
+          borderRadius: { section: '2.5rem', card: '1rem' },
+          boxShadow: {
+            card:  '0 4px 16px rgba(0,0,0,0.06)',
+            form:  '0 4px 40px rgba(0,0,0,0.08)',
+            chip:  '0 8px 30px rgba(0,0,0,0.10)',
+          },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body { font-family:'Effra','system-ui',sans-serif; background:#fff; color:#000; overflow-x:hidden; }
+    .f-title { font-family:'Quincy','Georgia',serif; }
+    .f-body  { font-family:'Effra','system-ui',sans-serif; }
+
+    /* ── floating nav ── */
+    #hs-nav {
+      position:fixed; top:1rem; left:50%; transform:translateX(-50%);
+      z-index:200; width:calc(100% - 2rem); max-width:1080px;
+      background:rgba(255,255,255,0.88);
+      backdrop-filter:blur(18px) saturate(180%);
+      -webkit-backdrop-filter:blur(18px) saturate(180%);
+      border:1px solid rgba(0,0,0,0.07);
+      border-radius:9999px; padding:0.55rem 1.4rem;
+      display:flex; align-items:center; justify-content:space-between;
+      box-shadow:0 2px 32px rgba(0,0,0,0.08);
+      transition:box-shadow .3s, background .3s;
+    }
+    #hs-nav.scrolled { background:rgba(255,255,255,0.97); box-shadow:0 4px 40px rgba(0,0,0,0.13); }
+    .nav-link { font-family:'Effra',sans-serif; font-size:.88rem; color:#333; text-decoration:none; padding:.35rem .8rem; border-radius:9999px; transition:background .15s,color .15s; }
+    .nav-link:hover { background:#F3F7FA; color:#000; }
+
+    /* ── squiggle ── */
+    .drawn { position:relative; display:inline-block; }
+    .drawn svg { position:absolute; bottom:-8px; left:0; width:100%; overflow:visible; pointer-events:none; }
+
+    /* ── float chips ── */
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-7px)} }
+    .chip-a { animation:float 4s ease-in-out infinite; }
+    .chip-b { animation:float 4s ease-in-out 1.6s infinite; }
+
+    /* ── reveal ── */
+    .reveal { opacity:0; transform:translateY(22px); transition:opacity .6s ease,transform .6s ease; }
+    .reveal.visible { opacity:1; transform:none; }
+
+    /* ── pills ── */
+    .pill { transition:background .18s,color .18s,border-color .18s; }
+    .pill.on, .pill:hover { background:#C1A868 !important; color:#fff !important; border-color:#C1A868 !important; }
+    .pill-inv.on, .pill-inv:hover { background:#fff !important; color:#000 !important; border-color:#fff !important; }
+
+    /* ── inputs ── */
+    .hs-input { transition:border-color .2s,box-shadow .2s; }
+    .hs-input:focus { outline:none; border-color:#C1A868; box-shadow:0 0 0 3px rgba(193,168,104,.14); background:#fff; }
+
+    /* ── stat cells ── */
+    .stat-cell:hover { background:rgba(255,255,255,0.04); }
+
+    /* ── texture helpers ── */
+    .tex-dots {
+      background-image: radial-gradient(circle, rgba(193,168,104,0.20) 1.2px, transparent 1.2px);
+      background-size: 22px 22px;
+    }
+    .tex-cross {
+      background-image: url("data:image/svg+xml,%3Csvg width='28' height='28' viewBox='0 0 28 28' xmlns='http://www.w3.org/2000/svg'%3E%3Cg stroke='%23C1A868' stroke-width='0.7' opacity='0.22'%3E%3Cline x1='14' y1='8' x2='14' y2='20'/%3E%3Cline x1='8' y1='14' x2='20' y2='14'/%3E%3C/g%3E%3C/svg%3E");
+      background-size: 28px 28px;
+    }
+    .tex-grid {
+      background-image:
+        linear-gradient(rgba(193,168,104,0.09) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(193,168,104,0.09) 1px, transparent 1px);
+      background-size: 30px 30px;
+    }
+
+    /* ── section label utility ── */
+    .lbl { font-family:'Effra',sans-serif; font-size:0.7rem; letter-spacing:0.12em; text-transform:uppercase; color:#C1A868; }
+
+    /* font test boxes */
+    .font-test { border:1px dashed #ddd; border-radius:.5rem; padding:1rem 1.25rem; }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════
+     FONT LOAD TEST — visible at the very top
+══════════════════════════════════════════════ -->
+<div class="bg-yellow-50 border-b border-yellow-200 px-6 py-4 flex flex-wrap gap-4 items-center">
+  <span class="text-xs text-yellow-700 font-mono uppercase tracking-wide">Font test:</span>
+  <span class="font-test f-title font-black text-2xl" style="font-family:'Quincy',Georgia,serif;font-weight:900">Quincy Black 900 — Hadar Shemesh</span>
+  <span class="font-test f-title font-bold text-2xl" style="font-family:'Quincy',Georgia,serif;font-weight:700">Quincy Bold 700 — Hadar Shemesh</span>
+  <span class="font-test f-body text-xl" style="font-family:'Effra',system-ui,sans-serif;font-weight:400">Effra Regular — speak with confidence</span>
+  <span class="font-test f-body font-bold text-xl" style="font-family:'Effra',system-ui,sans-serif;font-weight:700">Effra Bold — speak with confidence</span>
+  <span class="text-xs text-yellow-600 font-mono">(if this bar looks identical to above → fonts loaded ✓)</span>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     NAV
+══════════════════════════════════════════════ -->
+<nav id="hs-nav">
+  <a href="#" class="flex items-center gap-2 flex-shrink-0">
+    <img src="https://wordpress-1521687-5899197.cloudwaysapps.com/wp-content/uploads/hadar-shemesh-logo.webp"
+      alt="Hadar Shemesh" class="h-7 object-contain" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"/>
+    <span class="f-title font-black text-xl hidden">HS</span>
+  </a>
+  <div class="hidden md:flex items-center gap-1">
+    <a href="#" class="nav-link">Start Here</a>
+    <a href="#" class="nav-link">Courses</a>
+    <a href="#" class="nav-link">Magazine</a>
+    <a href="#" class="nav-link">Free Stuff</a>
+    <a href="#" class="nav-link">About</a>
+    <a href="#" class="nav-link">Community</a>
+  </div>
+  <div class="flex items-center gap-2">
+    <a href="#" class="hidden md:block f-body text-sm text-gray-400 px-3 py-2 hover:text-black transition-colors">Free Training</a>
+    <a href="#" class="bg-gold text-white f-body font-bold text-sm px-5 py-2.5 rounded-full hover:bg-amber transition-colors whitespace-nowrap">Join Now →</a>
+  </div>
+</nav>
+
+
+<!-- ══════════════════════════════════════════════
+     §1  HERO
+══════════════════════════════════════════════ -->
+<section class="bg-pink min-h-[95vh] grid grid-cols-1 md:grid-cols-2 items-end overflow-hidden pt-24">
+  <div class="flex flex-col gap-6 px-6 md:px-10 lg:px-16 pt-8 md:pt-16 pb-16 md:pb-24 max-w-xl">
+    <div class="flex items-center gap-2">
+      <span class="w-2 h-2 rounded-full bg-gold"></span>
+      <span class="lbl">English Coach · Pronunciation Expert</span>
+    </div>
+    <h1 class="f-title font-black text-black leading-[0.95]" style="font-size:clamp(3.2rem,6vw,6rem)">
+      Speak<br>
+      <em class="not-italic text-green-dark">English</em><br>
+      <span class="drawn">with confidence
+        <svg viewBox="0 0 260 12" fill="none" aria-hidden="true">
+          <path d="M2 9 C55 2,110 13,165 6 C200 1,235 11,258 5" stroke="#C1A868" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+      </span>
+    </h1>
+    <p class="f-body text-base md:text-lg text-gray-500 leading-relaxed max-w-sm">
+      Weekly lessons, free resources and proven programs to help you speak clearly, freely, and without fear.
+    </p>
+    <form class="flex flex-wrap gap-2" onsubmit="return false">
+      <input type="email" placeholder="Your email address"
+        class="hs-input flex-1 min-w-[180px] border border-black/15 bg-white rounded-full px-5 py-3 f-body text-sm placeholder-gray-300" />
+      <button class="bg-gold text-white f-body font-bold text-sm px-6 py-3 rounded-full hover:bg-amber transition-colors">Get weekly lessons →</button>
+    </form>
+    <div class="flex flex-wrap gap-2">
+      <span class="pill on border border-gold rounded-full px-4 py-1.5 f-body text-[0.78rem] cursor-pointer">Pronunciation</span>
+      <span class="pill border border-gold text-black rounded-full px-4 py-1.5 f-body text-[0.78rem] cursor-pointer">Fluency</span>
+      <span class="pill border border-gold text-black rounded-full px-4 py-1.5 f-body text-[0.78rem] cursor-pointer">Confidence</span>
+      <span class="pill border border-gold text-black rounded-full px-4 py-1.5 f-body text-[0.78rem] cursor-pointer">Grammar</span>
+    </div>
+  </div>
+  <div class="relative flex items-end justify-center px-4 min-h-[420px]">
+    <div class="absolute bottom-0 right-0 w-[82%] h-[88%] bg-soft-blue rounded-t-[50%] rounded-bl-[50%] z-0"></div>
+    <div class="chip-a absolute top-[20%] left-0 z-10 bg-white rounded-2xl px-4 py-3 flex items-center gap-3 shadow-chip">
+      <span class="w-2.5 h-2.5 rounded-full bg-gold flex-shrink-0"></span>
+      <div><div class="f-title font-bold text-2xl leading-none">622k</div><div class="f-body text-[0.68rem] text-gray-400 mt-0.5 max-w-[72px]">YouTube subscribers</div></div>
+    </div>
+    <div class="chip-b absolute bottom-[28%] right-2 z-10 bg-white rounded-2xl px-4 py-3 flex items-center gap-3 shadow-chip">
+      <span class="w-2.5 h-2.5 rounded-full bg-teal flex-shrink-0"></span>
+      <div><div class="f-title font-bold text-2xl leading-none">130k+</div><div class="f-body text-[0.68rem] text-gray-400 mt-0.5 max-w-[72px]">Weekly readers</div></div>
+    </div>
+    <img src="https://wordpress-1521687-5899197.cloudwaysapps.com/wp-content/uploads/hadar-hero-new-website-200.webp"
+      alt="Hadar Shemesh" class="relative z-[2] w-full max-w-[500px] block" />
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     §2  SOCIAL PROOF — dark inset
+══════════════════════════════════════════════ -->
+<div class="bg-light-blue py-2 px-3 md:px-4">
+  <section class="bg-black rounded-[2.5rem] overflow-hidden">
+    <div class="max-w-site mx-auto px-6 md:px-10 lg:px-16 py-24 md:py-32 flex flex-col items-center gap-16">
+      <div class="reveal text-center">
+        <p class="f-body text-[0.7rem] tracking-[0.14em] uppercase text-white/40 mb-5">Trusted worldwide</p>
+        <h2 class="f-title font-black text-white leading-[1.05] max-w-3xl" style="font-size:clamp(2.4rem,5vw,5rem)">
+          Real people.<br><span class="text-gold italic">Real results.</span><br>Every single day.
+        </h2>
+      </div>
+      <div class="reveal w-full border border-white/10 rounded-card overflow-hidden grid grid-cols-2 md:grid-cols-4">
+        <div class="stat-cell flex flex-col items-center gap-2 px-6 py-10 border-r border-b md:border-b-0 border-white/[0.08] transition-colors">
+          <div class="w-6 h-0.5 bg-gold rounded mb-1"></div>
+          <div class="f-title font-black text-white leading-none" style="font-size:clamp(2.5rem,4vw,3.8rem)">622<sup class="text-[0.5em] text-gold">k</sup></div>
+          <div class="f-body text-[0.72rem] uppercase tracking-widest text-white/40 text-center mt-1">YouTube<br>subscribers</div>
+        </div>
+        <div class="stat-cell flex flex-col items-center gap-2 px-6 py-10 border-r border-b md:border-b-0 border-white/[0.08] transition-colors">
+          <div class="w-6 h-0.5 bg-gold rounded mb-1"></div>
+          <div class="f-title font-black text-white leading-none" style="font-size:clamp(2.5rem,4vw,3.8rem)">130<sup class="text-[0.5em] text-gold">k+</sup></div>
+          <div class="f-body text-[0.72rem] uppercase tracking-widest text-white/40 text-center mt-1">Weekly<br>readers</div>
+        </div>
+        <div class="stat-cell flex flex-col items-center gap-2 px-6 py-10 border-r border-white/[0.08] transition-colors">
+          <div class="w-6 h-0.5 bg-gold rounded mb-1"></div>
+          <div class="f-title font-black text-white leading-none" style="font-size:clamp(2.5rem,4vw,3.8rem)">10<sup class="text-[0.5em] text-gold">yr</sup></div>
+          <div class="f-body text-[0.72rem] uppercase tracking-widest text-white/40 text-center mt-1">Teaching<br>English</div>
+        </div>
+        <div class="stat-cell flex flex-col items-center gap-2 px-6 py-10 transition-colors">
+          <div class="w-6 h-0.5 bg-gold rounded mb-1"></div>
+          <div class="f-title font-black text-white leading-none" style="font-size:clamp(2.5rem,4vw,3.8rem)">50<sup class="text-[0.5em] text-gold">+</sup></div>
+          <div class="f-body text-[0.72rem] uppercase tracking-widest text-white/40 text-center mt-1">Countries<br>represented</div>
+        </div>
+      </div>
+      <div class="reveal flex flex-col items-center gap-5 w-full">
+        <p class="f-body text-[0.68rem] uppercase tracking-widest text-white/25">Students from</p>
+        <div class="flex flex-wrap items-center justify-center gap-8 opacity-30 grayscale brightness-[10]">
+          <img src="https://wordpress-1521687-5899197.cloudwaysapps.com/wp-content/uploads/google-white-bg.webp" alt="Google" class="h-5 object-contain">
+          <img src="https://wordpress-1521687-5899197.cloudwaysapps.com/wp-content/uploads/Microsoft_logo_2012-white-bg.svg.webp" alt="Microsoft" class="h-5 object-contain">
+          <img src="https://wordpress-1521687-5899197.cloudwaysapps.com/wp-content/uploads/Waze_logo_white-bg-1.webp" alt="Waze" class="h-5 object-contain">
+          <img src="https://wordpress-1521687-5899197.cloudwaysapps.com/wp-content/uploads/General_Motors_logo.svg-white-background-1.webp" alt="GM" class="h-5 object-contain">
+          <img src="https://wordpress-1521687-5899197.cloudwaysapps.com/wp-content/uploads/wework-white-bg-1.webp" alt="WeWork" class="h-5 object-contain">
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     §3  PILL-CTA — 4 VARIATIONS
+══════════════════════════════════════════════ -->
+<section class="bg-white py-16 px-4 md:px-8">
+  <div class="max-w-site mx-auto flex flex-col gap-5">
+    <p class="lbl text-center py-2">Pill CTA — 4 Color Variations</p>
+
+    <!-- A: Original pink — standard -->
+    <div class="reveal relative rounded-full overflow-hidden flex items-center min-h-[200px] pl-[36%] pr-8 md:pr-14 py-10 bg-pink">
+      <img src="https://wordpress-1521687-5899197.cloudwaysapps.com/wp-content/uploads/Untitled-design-2025-11-30T135024.043.webp"
+        alt="Hadar" class="absolute left-0 bottom-0 h-[115%] w-auto object-contain object-bottom z-10 pointer-events-none" />
+      <div class="relative z-20 flex flex-col gap-3 max-w-lg">
+        <h2 class="f-title font-bold text-black leading-tight" style="font-size:clamp(1.8rem,3vw,2.6rem)">Gosh.. There's so much<br>to choose from!</h2>
+        <p class="f-body text-gray-500 text-base leading-relaxed">Hundreds of lessons and free downloads to improve on your own. Click here and I'll show you exactly how to get started.</p>
+        <a href="#" class="self-start bg-gold text-white f-body font-bold text-sm tracking-widest uppercase px-8 py-3 rounded-xl hover:bg-amber transition-colors">Start Now</a>
+      </div>
+    </div>
+
+    <!-- B: Espresso dark — dramatic, large -->
+    <div class="reveal relative rounded-full overflow-hidden flex items-center min-h-[260px] pl-[36%] pr-8 md:pr-14 py-12 tex-dots" style="background:#1A1410">
+      <img src="https://wordpress-1521687-5899197.cloudwaysapps.com/wp-content/uploads/Untitled-design-2025-11-30T135024.043.webp"
+        alt="Hadar" class="absolute left-0 bottom-0 h-[120%] w-auto object-contain object-bottom z-10 pointer-events-none" />
+      <div class="absolute top-6 right-14 w-28 h-28 rounded-full opacity-10" style="background:#C1A868"></div>
+      <div class="relative z-20 flex flex-col gap-3 max-w-lg">
+        <span class="lbl" style="color:rgba(232,213,176,0.6)">New here?</span>
+        <h2 class="f-title font-black text-white leading-[0.93]" style="font-size:clamp(2.4rem,4vw,4rem)">
+          Gosh.. There's<br><span class="text-gold italic">so much</span><br>to choose from!
+        </h2>
+        <p class="f-body text-white/50 text-base leading-relaxed max-w-sm">Hundreds of lessons, free downloads, and courses. Let me show you where to start.</p>
+        <a href="#" class="self-start bg-gold text-white f-body font-bold text-sm tracking-widest uppercase px-8 py-3 rounded-xl hover:bg-amber transition-colors">Start Now</a>
+      </div>
+    </div>
+
+    <!-- C: Berry + warm cream — from screenshot palette -->
+    <div class="reveal relative rounded-full overflow-hidden flex items-center min-h-[260px] pl-[36%] pr-8 md:pr-14 py-12 tex-cross" style="background:#FAF5EC">
+      <img src="https://wordpress-1521687-5899197.cloudwaysapps.com/wp-content/uploads/Untitled-design-2025-11-30T135024.043.webp"
+        alt="Hadar" class="absolute left-0 bottom-0 h-[120%] w-auto object-contain object-bottom z-10 pointer-events-none" />
+      <div class="absolute -bottom-4 right-8 w-48 h-48 rounded-full opacity-10" style="background:#8B3A52"></div>
+      <div class="relative z-20 flex flex-col gap-3 max-w-lg">
+        <span class="lbl" style="color:#8B3A52">New here?</span>
+        <h2 class="f-title font-black leading-[0.93]" style="font-size:clamp(2.4rem,4vw,4rem);color:#1A1410">
+          Gosh.. There's<br><span style="color:#8B3A52" class="italic">so much</span><br>to choose from!
+        </h2>
+        <p class="f-body text-base leading-relaxed max-w-sm" style="color:#6B4F2A">Hundreds of lessons and free downloads to help you improve your English your way.</p>
+        <a href="#" class="self-start f-body font-bold text-sm tracking-widest uppercase px-8 py-3 rounded-xl text-white transition-colors hover:opacity-90" style="background:#8B3A52">Start Now</a>
+      </div>
+    </div>
+
+    <!-- D: Deep teal + terracotta accent — from screenshot -->
+    <div class="reveal relative rounded-full overflow-hidden flex items-center min-h-[260px] pl-[36%] pr-8 md:pr-14 py-12 tex-dots" style="background:#1E5E5B">
+      <img src="https://wordpress-1521687-5899197.cloudwaysapps.com/wp-content/uploads/Untitled-design-2025-11-30T135024.043.webp"
+        alt="Hadar" class="absolute left-0 bottom-0 h-[120%] w-auto object-contain object-bottom z-10 pointer-events-none" />
+      <div class="absolute bottom-4 right-10 w-36 h-36 rounded-full opacity-10 bg-white"></div>
+      <div class="relative z-20 flex flex-col gap-3 max-w-lg">
+        <span class="lbl text-white/40">New here?</span>
+        <h2 class="f-title font-black text-white leading-[0.93]" style="font-size:clamp(2.4rem,4vw,4rem)">
+          Gosh.. There's<br><span style="color:#F7BAA4" class="italic">so much</span><br>to choose from!
+        </h2>
+        <p class="f-body text-white/55 text-base leading-relaxed max-w-sm">Hundreds of lessons and free downloads — let me show you where to begin.</p>
+        <a href="#" class="self-start f-body font-bold text-sm tracking-widest uppercase px-8 py-3 rounded-xl text-white transition-colors hover:opacity-90" style="background:#C4622D">Start Now</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     §4  NEW COLORS IN CONTEXT
+     (from your landing page screenshot)
+══════════════════════════════════════════════ -->
+<section class="bg-white border-t border-gray-100 py-20">
+  <div class="max-w-site mx-auto px-6 md:px-10 lg:px-16 flex flex-col gap-8">
+
+    <div class="flex items-center gap-4">
+      <span class="f-body text-[0.62rem] tracking-[0.2em] uppercase text-gray-300 whitespace-nowrap">Colors from Landing Page — Usage Exploration</span>
+      <div class="flex-1 h-px bg-gray-100"></div>
+    </div>
+
+    <!-- color swatches row -->
+    <div class="flex flex-wrap gap-5 items-end">
+      <!-- existing -->
+      <div class="flex flex-col items-center gap-1.5"><div class="w-16 h-16 rounded-2xl" style="background:#C1A868"></div><span class="f-body font-mono text-[0.6rem] text-gray-400 text-center">gold<br>#C1A868<br><em class="not-italic text-gray-300">existing</em></span></div>
+      <div class="flex flex-col items-center gap-1.5"><div class="w-16 h-16 rounded-2xl" style="background:#026360"></div><span class="f-body font-mono text-[0.6rem] text-gray-400 text-center">green-dark<br>#026360<br><em class="not-italic text-gray-300">existing</em></span></div>
+      <div class="flex flex-col items-center gap-1.5"><div class="w-16 h-16 rounded-2xl" style="background:#F7BAA4"></div><span class="f-body font-mono text-[0.6rem] text-gray-400 text-center">peach<br>#F7BAA4<br><em class="not-italic text-gray-300">existing</em></span></div>
+      <div class="w-px bg-gray-200 self-stretch mx-1"></div>
+      <!-- from screenshot -->
+      <div class="flex flex-col items-center gap-1.5"><div class="w-16 h-16 rounded-2xl" style="background:#8B3A52"></div><span class="f-body font-mono text-[0.6rem] text-gold text-center">berry<br>#8B3A52<br><em class="not-italic text-yellow-600">NEW ★</em></span></div>
+      <div class="flex flex-col items-center gap-1.5"><div class="w-16 h-16 rounded-2xl" style="background:#C4622D"></div><span class="f-body font-mono text-[0.6rem] text-gold text-center">terracotta<br>#C4622D<br><em class="not-italic text-yellow-600">NEW ★</em></span></div>
+      <div class="flex flex-col items-center gap-1.5"><div class="w-16 h-16 rounded-2xl" style="background:#1E5E5B"></div><span class="f-body font-mono text-[0.6rem] text-gold text-center">deep-teal<br>#1E5E5B<br><em class="not-italic text-yellow-600">NEW ★</em></span></div>
+      <div class="flex flex-col items-center gap-1.5"><div class="w-16 h-16 rounded-2xl" style="background:#4A6E7A"></div><span class="f-body font-mono text-[0.6rem] text-gold text-center">slate<br>#4A6E7A<br><em class="not-italic text-yellow-600">NEW ★</em></span></div>
+      <div class="flex flex-col items-center gap-1.5"><div class="w-16 h-16 rounded-2xl" style="background:#1A1410"></div><span class="f-body font-mono text-[0.6rem] text-gold text-center">espresso<br>#1A1410<br><em class="not-italic text-yellow-600">NEW ★</em></span></div>
+    </div>
+
+    <!-- color-in-context demo cards -->
+    <p class="lbl mt-4">New colors in UI context</p>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+
+      <!-- Berry card -->
+      <div class="rounded-2xl p-7 flex flex-col gap-3 tex-cross" style="background:#FAF5EC">
+        <div class="w-8 h-8 rounded-full flex-shrink-0" style="background:#8B3A52"></div>
+        <h3 class="f-title font-bold text-xl leading-tight" style="color:#1A1410">Pronunciation<br>Clarity</h3>
+        <p class="f-body text-sm leading-relaxed" style="color:#6B4F2A">Week 1–6. Build the foundation of clear, confident sound.</p>
+        <span class="self-start f-body text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full text-white mt-auto" style="background:#8B3A52">Berry accent</span>
+      </div>
+
+      <!-- Terracotta card -->
+      <div class="rounded-2xl p-7 flex flex-col gap-3 tex-dots" style="background:#FDF6F0">
+        <div class="w-8 h-8 rounded-full flex-shrink-0" style="background:#C4622D"></div>
+        <h3 class="f-title font-bold text-xl leading-tight text-black">Rhythm &amp;<br>Intonation</h3>
+        <p class="f-body text-sm leading-relaxed text-gray-500">Week 8–10. Discover what makes English sound natural and engaging.</p>
+        <span class="self-start f-body text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full text-white mt-auto" style="background:#C4622D">Terracotta</span>
+      </div>
+
+      <!-- Deep teal card -->
+      <div class="rounded-2xl p-7 flex flex-col gap-3 tex-dots" style="background:#1E5E5B">
+        <div class="w-8 h-8 rounded-full bg-white/20 flex-shrink-0"></div>
+        <h3 class="f-title font-bold text-xl leading-tight text-white">Confidence<br>Through Work</h3>
+        <p class="f-body text-sm leading-relaxed text-white/55">Week 7. Shift how you think about speaking English.</p>
+        <span class="self-start f-body text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full mt-auto" style="background:#F7BAA4;color:#026360">Peach on teal</span>
+      </div>
+
+      <!-- Slate card -->
+      <div class="rounded-2xl p-7 flex flex-col gap-3 tex-grid" style="background:#4A6E7A">
+        <div class="w-8 h-8 rounded-full bg-white/20 flex-shrink-0"></div>
+        <h3 class="f-title font-bold text-xl leading-tight text-white">Habits &amp;<br>Real Fluency</h3>
+        <p class="f-body text-sm leading-relaxed text-white/55">Week 11–12. Turn practice into lasting, automatic speech.</p>
+        <span class="self-start f-body text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full mt-auto bg-white" style="color:#4A6E7A">White on slate</span>
+      </div>
+
+    </div>
+
+    <!-- pairing notes -->
+    <div class="bg-light-blue rounded-2xl p-8 mt-4">
+      <p class="lbl mb-4">My pairing recommendations</p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 f-body text-sm text-gray-600 leading-relaxed">
+        <div class="flex gap-3">
+          <span class="w-3 h-3 rounded-full bg-berry flex-shrink-0 mt-1" style="background:#8B3A52"></span>
+          <p><strong class="text-black">Berry #8B3A52</strong> — pairs beautifully with your gold and warm-cream. Use for testimonial section backgrounds, week labels, or accent headings on light sections. Warm but more sophisticated than peach.</p>
+        </div>
+        <div class="flex gap-3">
+          <span class="w-3 h-3 rounded-full flex-shrink-0 mt-1" style="background:#C4622D"></span>
+          <p><strong class="text-black">Terracotta #C4622D</strong> — use sparingly as a high-energy CTA accent. Works next to gold and espresso. Not a background color — better as a button or icon highlight on off-white or cream.</p>
+        </div>
+        <div class="flex gap-3">
+          <span class="w-3 h-3 rounded-full flex-shrink-0 mt-1" style="background:#1E5E5B"></span>
+          <p><strong class="text-black">Deep Teal #1E5E5B</strong> — richer than your current green-dark (#026360) but very close. Consider using it instead as it's slightly warmer. Works as dark section bg with peach or gold text.</p>
+        </div>
+        <div class="flex gap-3">
+          <span class="w-3 h-3 rounded-full flex-shrink-0 mt-1" style="background:#4A6E7A"></span>
+          <p><strong class="text-black">Slate #4A6E7A</strong> — a muted mid-tone between soft-blue and green-dark. Perfect for week/label badges, icon backgrounds, and secondary card bgs. Adds depth to the current palette.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     §5  TEXTURE EXPLORER
+══════════════════════════════════════════════ -->
+<section class="bg-white border-t border-gray-100 py-20">
+  <div class="max-w-site mx-auto px-6 md:px-10 lg:px-16 flex flex-col gap-6">
+    <div class="flex items-center gap-4 mb-2">
+      <span class="f-body text-[0.62rem] tracking-[0.2em] uppercase text-gray-300 whitespace-nowrap">Texture &amp; Pattern Explorer</span>
+      <div class="flex-1 h-px bg-gray-100"></div>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+      <div class="rounded-2xl p-10 flex flex-col gap-3 tex-dots bg-peach">
+        <span class="lbl">Dot grid · peach bg</span>
+        <h3 class="f-title font-bold text-2xl">Gold dots on warm bg</h3>
+        <p class="f-body text-sm text-gray-600">Subtle depth for testimonial or CTA sections.</p>
+      </div>
+      <div class="rounded-2xl p-10 flex flex-col gap-3 tex-cross bg-light-blue">
+        <span class="lbl">Cross grid · light-blue bg</span>
+        <h3 class="f-title font-bold text-2xl">Editorial plus pattern</h3>
+        <p class="f-body text-sm text-gray-600">Structured feel for content and form areas.</p>
+      </div>
+      <div class="rounded-2xl p-10 flex flex-col gap-3 tex-dots" style="background:#1A1410">
+        <span class="lbl" style="color:rgba(232,213,176,0.5)">Dot grid · espresso bg</span>
+        <h3 class="f-title font-bold text-2xl text-white">Warm dark with texture</h3>
+        <p class="f-body text-sm text-white/50">Much warmer than pure black. Richer editorial feel.</p>
+      </div>
+      <div class="rounded-2xl p-10 flex flex-col gap-3 tex-grid" style="background:#FAF5EC">
+        <span class="lbl" style="color:#6B4F2A">Line grid · warm-cream bg</span>
+        <h3 class="f-title font-bold text-2xl" style="color:#1A1410">Warm cream + amber</h3>
+        <p class="f-body text-sm" style="color:#6B4F2A">Luxurious and personal. Perfect for about/coaching sections.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     STYLE WATERFALL
+══════════════════════════════════════════════ -->
+<section class="bg-white border-t border-gray-100 py-20">
+  <div class="max-w-site mx-auto px-6 md:px-10 lg:px-16 flex flex-col gap-12">
+
+    <div class="flex items-center gap-4">
+      <span class="f-body text-[0.62rem] tracking-[0.2em] uppercase text-gray-300 whitespace-nowrap">HS2026 · Style Waterfall</span>
+      <div class="flex-1 h-px bg-gray-100"></div>
+    </div>
+
+    <!-- type scale -->
+    <div class="flex flex-col gap-6">
+      <span class="lbl">Typography · Quincy + Effra (loaded inline)</span>
+      <div class="font-test"><p class="f-body text-[0.6rem] text-gray-300 font-mono mb-1">Display · 900 · Quincy Black</p><p class="f-title font-black leading-none" style="font-size:clamp(3rem,6vw,5.5rem)">Speak with confidence</p></div>
+      <div class="font-test"><p class="f-body text-[0.6rem] text-gray-300 font-mono mb-1">Section H2 · 700 · Quincy Bold</p><p class="f-title font-bold leading-tight" style="font-size:clamp(2rem,3.5vw,3.2rem)">Your English is amazing</p></div>
+      <div class="font-test"><p class="f-body text-[0.6rem] text-gray-300 font-mono mb-1">Body · 400 · Effra Medium</p><p class="f-body text-gray-500 leading-relaxed text-lg">Weekly lessons and free resources to help you speak clearly.</p></div>
+      <div class="font-test"><p class="f-body text-[0.6rem] text-gray-300 font-mono mb-1">Body Bold · 700 · Effra Bold</p><p class="f-body font-bold text-gray-700 text-lg">This means you'll build stronger fluency through practice.</p></div>
+      <div class="font-test"><p class="f-body text-[0.6rem] text-gray-300 font-mono mb-1">Label · Effra · uppercase · tracking</p><p class="lbl">Free 14-day plan · English Coach · Pronunciation Expert</p></div>
+    </div>
+
+    <!-- buttons -->
+    <div class="flex flex-col gap-4">
+      <span class="lbl">Buttons — full palette</span>
+      <div class="flex flex-wrap items-center gap-3">
+        <button class="bg-gold text-white f-body font-bold text-sm px-6 py-3 rounded-full hover:bg-amber transition-colors">Gold primary</button>
+        <button class="border-2 border-black text-black f-body font-bold text-sm px-6 py-3 rounded-full hover:bg-black hover:text-white transition-colors">Outline black</button>
+        <button class="f-body font-bold text-sm px-6 py-3 rounded-full text-white transition-colors hover:opacity-90" style="background:#026360">Green dark</button>
+        <button class="f-body font-bold text-sm px-6 py-3 rounded-full text-white transition-colors hover:opacity-90" style="background:#1A1410">Espresso</button>
+        <button class="f-body font-bold text-sm px-6 py-3 rounded-full text-white transition-colors hover:opacity-90" style="background:#8B3A52">Berry</button>
+        <button class="f-body font-bold text-sm px-6 py-3 rounded-full text-white transition-colors hover:opacity-90" style="background:#C4622D">Terracotta</button>
+        <button class="f-body font-bold text-sm px-6 py-3 rounded-full text-white transition-colors hover:opacity-90" style="background:#1E5E5B">Deep teal</button>
+        <button class="f-body font-bold text-sm px-6 py-3 rounded-full text-white transition-colors hover:opacity-90" style="background:#6B4F2A">Amber</button>
+      </div>
+    </div>
+
+    <!-- pills -->
+    <div class="flex flex-col gap-4">
+      <span class="lbl">Pill Tags / Filters</span>
+      <div class="flex flex-wrap gap-2">
+        <span class="pill on border border-gold rounded-full px-4 py-1.5 f-body text-[0.78rem] cursor-pointer">Active</span>
+        <span class="pill border border-gold text-black rounded-full px-4 py-1.5 f-body text-[0.78rem] cursor-pointer">Pronunciation</span>
+        <span class="pill border border-gold text-black rounded-full px-4 py-1.5 f-body text-[0.78rem] cursor-pointer">Fluency</span>
+        <span class="pill border border-gold text-black rounded-full px-4 py-1.5 f-body text-[0.78rem] cursor-pointer">Confidence</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<script>
+  // nav scroll
+  const nav = document.getElementById('hs-nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 60), { passive: true });
+
+  // reveal
+  const io = new IntersectionObserver(es => {
+    es.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // pill toggle
+  document.querySelectorAll('.pill').forEach(pill => {
+    pill.addEventListener('click', () => {
+      const row = pill.closest('div');
+      row?.querySelectorAll('.pill').forEach(p => p.classList.remove('on'));
+      pill.classList.add('on');
+    });
+  });
+</script>
+
+</body>
+</html>

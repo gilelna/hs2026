@@ -104,4 +104,49 @@ add_action('wp_enqueue_scripts', 'hs2026_enqueue_blocks_css', 30);
 
 
 
+// ============================
+// Register Gutenberg block style variations
+// ============================
+add_action( 'init', function() {
+
+  // Button variants
+  register_block_style( 'core/button', [
+    'name'  => 'outline-gold',
+    'label' => 'Outline Gold',
+  ]);
+  register_block_style( 'core/button', [
+    'name'  => 'ghost',
+    'label' => 'Ghost (dark bg)',
+  ]);
+  register_block_style( 'core/button', [
+    'name'  => 'chip',
+    'label' => 'Pill Chip',
+  ]);
+
+  // Group variants
+  register_block_style( 'core/group', [
+    'name'  => 'section-inset',
+    'label' => 'Section Inset',
+  ]);
+
+  // Heading variants
+  register_block_style( 'core/heading', [
+    'name'  => 'label',
+    'label' => 'Label / Eyebrow',
+  ]);
+
+});
+
+// ============================
+// Auto-register all patterns from /patterns/ folder
+// ============================
+add_action( 'init', function() {
+
+  register_block_pattern_category( 'hs2026', [
+    'label' => 'HS2026 Sections',
+  ]);
+
+});
+
+
 ?>

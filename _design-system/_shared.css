@@ -1,0 +1,251 @@
+/* HS2026 Design System — shared page chrome
+   Load order: output.css → style.css → blocks.css → _shared.css
+   Do not deploy — design system use only */
+
+/* ── Fonts (local paths from _design-system/ — fallback for file:// access)
+   style.css already imports fonts/fonts.css; these are a direct-load safety net ── */
+@font-face { font-family:'Quincy'; src:url('../fonts/quincy_cf_regular-webfont.woff2') format('woff2'),url('../fonts/quincy_cf_regular-webfont.woff') format('woff'); font-weight:400; font-style:normal; }
+@font-face { font-family:'Quincy'; src:url('../fonts/quincy_cf_bold-webfont.woff2') format('woff2'),url('../fonts/quincy_cf_bold-webfont.woff') format('woff'); font-weight:700; font-style:normal; }
+@font-face { font-family:'Quincy'; src:url('../fonts/quincy_cf_black-webfont.woff2') format('woff2'),url('../fonts/quincy_cf_black-webfont.woff') format('woff'); font-weight:900; font-style:normal; }
+@font-face { font-family:'Effra'; src:url('../fonts/effra_regular-webfont.woff2') format('woff2'),url('../fonts/effra_regular-webfont.woff') format('woff'); font-weight:400; font-style:normal; }
+@font-face { font-family:'Effra'; src:url('../fonts/effra_medium-webfont.woff2') format('woff2'),url('../fonts/effra_medium-webfont.woff') format('woff'); font-weight:500; font-style:normal; }
+@font-face { font-family:'Effra'; src:url('../fonts/effra_bold-webfont.woff2') format('woff2'),url('../fonts/effra_bold-webfont.woff') format('woff'); font-weight:700; font-style:normal; }
+
+/* ── WP block base — minimal styles for standalone rendering without WordPress core ── */
+.wp-block-columns { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 2em; }
+.wp-block-column  { flex-grow: 1; min-width: 0; word-break: break-word; }
+.wp-block-group   { box-sizing: border-box; }
+.wp-block-group__inner-container { height: 100%; }
+
+/* ── DS Navigation ── */
+.ds-nav {
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  background: rgba(250, 245, 236, 0.92);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  transition: box-shadow .3s;
+}
+.ds-nav.scrolled { box-shadow: var(--shadow-raised); }
+
+.ds-nav__inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 var(--sp-5);
+  height: 56px;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+}
+
+.ds-nav__logo {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  text-decoration: none;
+  flex-shrink: 0;
+}
+.ds-nav__logo-mark {
+  width: 30px; height: 30px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--color-black);
+  color: var(--color-gold);
+  font-family: var(--font-title);
+  font-weight: 700; font-size: 0.7rem;
+  border-radius: var(--radius-sm);
+  letter-spacing: -0.01em;
+}
+.ds-nav__logo-label {
+  font-family: var(--font-body);
+  font-size: var(--text-label);
+  font-weight: 700;
+  color: var(--color-black);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+}
+
+.ds-nav__links {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+  flex: 1;
+}
+.ds-nav__link {
+  font-family: var(--font-body);
+  font-size: var(--text-label);
+  font-weight: 700;
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--color-espresso);
+  text-decoration: none;
+  padding: var(--sp-2) var(--sp-4);
+  border-radius: var(--radius-pill);
+  opacity: 0.4;
+  transition: opacity .15s, background .15s, color .15s;
+  white-space: nowrap;
+}
+.ds-nav__link:hover  { opacity: 1; background: rgba(0,0,0,0.04); }
+.ds-nav__link.is-active { opacity: 1; background: var(--color-black); color: var(--color-gold); }
+
+.ds-nav__ref {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  flex-shrink: 0;
+}
+.ds-nav__ref-link {
+  font-family: var(--font-body);
+  font-size: var(--text-micro);
+  color: var(--color-espresso);
+  opacity: 0.35;
+  text-decoration: none;
+  padding: var(--sp-1) var(--sp-3);
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(0,0,0,0.1);
+  transition: opacity .15s;
+  white-space: nowrap;
+}
+.ds-nav__ref-link:hover { opacity: 0.7; }
+
+.ds-nav__vp {
+  margin-left: auto;
+  display: flex; align-items: center; gap: var(--sp-2);
+  flex-shrink: 0;
+}
+.ds-nav__vp-bp {
+  background: var(--color-gold);
+  color: var(--color-white);
+  font-family: var(--font-body);
+  font-weight: 700; font-size: 0.6rem;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 2px 8px; border-radius: var(--radius-pill);
+}
+.ds-nav__vp-px {
+  font-family: monospace;
+  font-size: var(--text-micro);
+  color: var(--color-espresso); opacity: 0.4;
+}
+
+/* ── Page wrapper ── */
+.ds-page {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: var(--sp-6) var(--sp-5);
+}
+
+/* ── Section chrome ── */
+.ds-section { margin-bottom: var(--sp-8); }
+
+.ds-section-eyebrow {
+  font-family: var(--font-body);
+  font-size: var(--text-label); font-weight: 700;
+  letter-spacing: var(--ls-wider); text-transform: uppercase;
+  color: var(--color-gold); margin-bottom: var(--sp-2);
+}
+.ds-section-heading {
+  font-family: var(--font-title);
+  font-size: var(--text-h3); font-weight: 700;
+  color: var(--color-black);
+  margin-bottom: var(--sp-5);
+  padding-bottom: var(--sp-3);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  line-height: var(--lh-heading);
+}
+.ds-note {
+  font-family: var(--font-body);
+  font-size: var(--text-label);
+  color: var(--color-espresso); opacity: 0.5;
+  margin-bottom: var(--sp-5);
+  line-height: var(--lh-body);
+}
+
+/* ── Demo layout helpers ── */
+.ds-demo-row { display: flex; flex-wrap: wrap; gap: var(--sp-5); align-items: flex-start; }
+.ds-demo-col { display: flex; flex-direction: column; gap: var(--sp-3); align-items: flex-start; }
+.ds-demo-label {
+  font-family: monospace; font-size: var(--text-micro);
+  color: var(--color-espresso); opacity: 0.5;
+  margin-top: var(--sp-2);
+}
+.ds-divider { height: 1px; background: rgba(0,0,0,0.06); margin: var(--sp-6) 0; }
+
+/* ── Pattern labels (patterns.html) ── */
+.ds-pattern-band {
+  background: var(--color-cream);
+  padding: var(--sp-4) var(--sp-5);
+  border-left: 3px solid var(--color-gold);
+}
+.ds-pattern-band__inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-5);
+  flex-wrap: wrap;
+}
+.ds-pattern-band__class {
+  font-family: monospace; font-size: var(--text-micro); font-weight: 700;
+  color: var(--color-gold-deep);
+}
+.ds-pattern-band__desc {
+  font-family: var(--font-body); font-size: var(--text-micro);
+  color: var(--color-espresso); opacity: 0.55;
+}
+.ds-pattern-band__sep {
+  height: 12px; width: 1px;
+  background: rgba(0,0,0,0.15);
+}
+
+/* ── DS page footer ── */
+.ds-footer {
+  padding: var(--sp-5) 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  font-family: var(--font-body);
+  font-size: var(--text-micro);
+  color: var(--color-espresso); opacity: 0.35;
+}
+
+/* ── Texture helpers (from design-demo_2) ── */
+.tex-dots {
+  background-image: radial-gradient(circle, rgba(193,168,104,0.20) 1.2px, transparent 1.2px);
+  background-size: 22px 22px;
+}
+.tex-cross {
+  background-image: url("data:image/svg+xml,%3Csvg width='28' height='28' viewBox='0 0 28 28' xmlns='http://www.w3.org/2000/svg'%3E%3Cg stroke='%23C1A868' stroke-width='0.7' opacity='0.22'%3E%3Cline x1='14' y1='8' x2='14' y2='20'/%3E%3Cline x1='8' y1='14' x2='20' y2='14'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 28px 28px;
+}
+.tex-grid {
+  background-image:
+    linear-gradient(rgba(193,168,104,0.09) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(193,168,104,0.09) 1px, transparent 1px);
+  background-size: 30px 30px;
+}
+
+/* ── Image placeholders ── */
+.img-ph {
+  width: 100%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-body); font-size: var(--text-micro);
+  color: var(--color-espresso); opacity: 0.35;
+  letter-spacing: var(--ls-wide); text-transform: uppercase;
+  background: var(--color-soft-blue);
+}
+.img-ph--portrait  { aspect-ratio: 3/4; }
+.img-ph--landscape { aspect-ratio: 16/9; }
+.img-ph--sq        { aspect-ratio: 1/1; }
+.img-ph--hero      { aspect-ratio: 4/5; }
+
+/* ── Scroll offset for sticky nav ── */
+[id] { scroll-margin-top: 72px; }
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .ds-nav__logo-label  { display: none; }
+  .ds-nav__ref         { display: none; }
+  .ds-nav__vp-px       { display: none; }
+}
+@media (max-width: 480px) {
+  .ds-page { padding: var(--sp-5) var(--sp-4); }
+}

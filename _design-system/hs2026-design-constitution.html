@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>HS2026 · Design Constitution</title>
+<style>
+@font-face{font-family:'Quincy';src:url('https://wordpress-1521687-5899197.cloudwaysapps.com/wp-content/themes/hs2026/fonts/quincy_cf_regular-webfont.woff2') format('woff2');font-weight:400;font-display:swap;}
+@font-face{font-family:'Quincy';src:url('https://wordpress-1521687-5899197.cloudwaysapps.com/wp-content/themes/hs2026/fonts/quincy_cf_bold-webfont.woff2') format('woff2');font-weight:700;font-display:swap;}
+@font-face{font-family:'Quincy';src:url('https://wordpress-1521687-5899197.cloudwaysapps.com/wp-content/themes/hs2026/fonts/quincy_cf_black-webfont.woff2') format('woff2');font-weight:900;font-display:swap;}
+@font-face{font-family:'Effra';src:url('https://wordpress-1521687-5899197.cloudwaysapps.com/wp-content/themes/hs2026/fonts/effra_medium-webfont.ttf') format('truetype');font-weight:400;font-display:swap;}
+@font-face{font-family:'Effra';src:url('https://wordpress-1521687-5899197.cloudwaysapps.com/wp-content/themes/hs2026/fonts/effra_bold-webfont.ttf') format('truetype');font-weight:700;font-display:swap;}
+
+/* ══════════════════════════════════════════════
+   HS2026 DESIGN CONSTITUTION — CSS CUSTOM PROPS
+   Mathematical foundation for every design decision
+══════════════════════════════════════════════ */
+:root {
+
+  /* ── TYPEFACES ── */
+  --font-display: 'Quincy', Georgia, 'Times New Roman', serif;
+  --font-body:    'Effra', 'Helvetica Neue', Arial, sans-serif;
+
+  /* ── φ CONSTANT ── */
+  --phi: 1.618;
+
+  /* ── TYPE SCALE ──────────────────────────────
+     Root: 1rem = 16px (browser default, never override)
+     Scale: modified φ — pure φ explodes too fast at display sizes,
+     so we use φ for sm→h4, then switch to √φ (≈1.272) for large sizes.
+     This mimics the Fibonacci spiral: fast growth that gently decelerates.
+     All values are fluid via clamp(min, slope×vw + intercept, max).
+     Clamp slope calculated for 400px→1400px viewport range.
+  ────────────────────────────────────────────── */
+  --text-micro:   clamp(0.625rem,  0.575rem + 0.5vw,  0.750rem);  /*  10→12px  label/badge uppercase */
+  --text-label:   clamp(0.750rem,  0.700rem + 0.5vw,  0.875rem);  /*  12→14px  eyebrow / caption     */
+  --text-body:    clamp(1.000rem,  0.950rem + 0.5vw,  1.125rem);  /*  16→18px  prose body            */
+  --text-lg:      clamp(1.125rem,  1.025rem + 1.0vw,  1.375rem);  /*  18→22px  lead / large body     */
+  --text-h4:      clamp(1.375rem,  1.175rem + 2.0vw,  1.750rem);  /*  22→28px  card heading          */
+  --text-h3:      clamp(1.750rem,  1.400rem + 3.5vw,  2.375rem);  /*  28→38px  section sub-heading   */
+  --text-h2:      clamp(2.250rem,  1.750rem + 5.0vw,  3.250rem);  /*  36→52px  section heading       */
+  --text-h1:      clamp(2.875rem,  1.875rem + 10.0vw, 4.750rem);  /*  46→76px  page title            */
+  --text-display: clamp(3.500rem,  1.500rem + 20.0vw, 7.000rem);  /*  56→112px hero display          */
+
+  /* ── LINE HEIGHT ────────────────────────────
+     Mathematical: body uses φ exactly (1.618).
+     Display type: optically tightened — large letterforms
+     create their own implied leading; mathematical leading
+     would feel cavernous. Print convention: 120% for display.
+  ────────────────────────────────────────────── */
+  --leading-tight:  1.05;   /* display/hero — very tight, optically intentional */
+  --leading-snug:   1.2;    /* h1–h3 — standard print display treatment */
+  --leading-normal: 1.4;    /* h4/cards — mid-weight headings */
+  --leading-prose:  1.618;  /* body — φ exactly. Proven: this IS the golden ratio of readability */
+  --leading-loose:  1.75;   /* small text/captions — small type needs more air */
+
+  /* ── LETTER SPACING ─────────────────────────
+     Physics principle: angular resolution of the human eye.
+     Large glyphs → subtend larger angles → spacing feels wider → tighten.
+     Small glyphs → tight together → spacing feels cramped → open.
+     -0.03em at 96px = same absolute gap as +0.10em at 12px (≈ 2.9px each).
+  ────────────────────────────────────────────── */
+  --tracking-tightest: -0.04em;  /* display: 96px+ only */
+  --tracking-tight:    -0.02em;  /* h1, h2 — heavy display weights */
+  --tracking-normal:    0em;     /* body — no tracking, never touch prose */
+  --tracking-wide:      0.08em;  /* label uppercase — always need spacing */
+  --tracking-wider:     0.14em;  /* micro uppercase badge */
+  --tracking-widest:    0.20em;  /* all-caps decorative */
+
+  /* ── SPACING SCALE ───────────────────────────
+     Base unit: 4px = 0.25rem (atomic grid unit — divisible by all common factors)
+     φ progression: each step × 1.618
+     Rounded to nearest 0.25rem (4px) for pixel harmony
+     
+     space-1:  4px   → icon gap, border width contexts
+     space-2:  6px   → tight inline spacing
+     space-3:  10px  → close sibling spacing
+     space-4:  16px  → = 1rem, component base gap (also = type base)
+     space-5:  26px  → card inner rhythm, input padding
+     space-6:  42px  → between-element spacing in sections
+     space-7:  68px  → section padding top/bottom (narrow)
+     space-8:  110px → section padding top/bottom (wide/hero)
+     space-9:  178px → max hero breathing room
+  ────────────────────────────────────────────── */
+  --space-1:  0.250rem;   /*  4px */
+  --space-2:  0.375rem;   /*  6px */
+  --space-3:  0.625rem;   /* 10px */
+  --space-4:  1.000rem;   /* 16px ← = body base. Not a coincidence. */
+  --space-5:  1.625rem;   /* 26px ← ≈ φ × space-4 */
+  --space-6:  2.625rem;   /* 42px ← ≈ φ × space-5 */
+  --space-7:  4.250rem;   /* 68px ← ≈ φ × space-6 */
+  --space-8:  6.875rem;   /* 110px← ≈ φ × space-7 */
+  --space-9: 11.125rem;   /* 178px← ≈ φ × space-8 */
+
+  /* ── LAYOUT ──────────────────────────────────
+     Container: 1100px (chosen deliberately — see reasoning below)
+     Golden content zone: 1100 / φ = 680px → narrow content max-width
+     Golden sidebar: 1100 - 680 = 420px (image columns, asides)
+     
+     Why 1100px? — It sits at φ × 680px (the narrow reading width).
+     1100 / 680 = 1.617... ≈ φ. The container IS the golden expansion of content.
+  ────────────────────────────────────────────── */
+  --container:    1100px;
+  --content-zone: 680px;   /* 1100/φ — golden narrow reading width */
+  --sidebar:      420px;   /* 1100 - 680 = 420 = 1100/φ² */
+
+  /* ── BORDER RADIUS ───────────────────────────
+     φ-scaled from 4px base unit.
+     4 → 6.5 → 10.5 → 17 → pill
+     Rounded to usable values.
+  ────────────────────────────────────────────── */
+  --radius-sm:      0.375rem;   /*  6px — input, badge */
+  --radius-card:    0.75rem;    /* 12px — card (rounded to 0.25rem grid) */
+  --radius-section: 1.25rem;    /* 20px — inset rounded sections */
+  --radius-section-lg: 2.5rem;  /* 40px — Wispr Flow style large sections */
+  --radius-pill:    9999px;     /* pill/circle */
+
+  /* ── SHADOW SYSTEM ───────────────────────────
+     Layers: ambient (large, low opacity) + key (small, higher opacity)
+     Ambient: simulates skylight (diffuse, colorless)
+     Key: simulates directional light (sharp, slightly colored)
+     Always use warm shadow tint (gold undertone) to stay on-brand.
+  ────────────────────────────────────────────── */
+  --shadow-subtle: 0 1px 3px rgba(26,20,16,0.05), 0 4px 12px rgba(26,20,16,0.05);
+  --shadow-card:   0 2px 6px rgba(26,20,16,0.06), 0 8px 24px rgba(26,20,16,0.08);
+  --shadow-raised: 0 4px 12px rgba(26,20,16,0.08), 0 16px 48px rgba(26,20,16,0.10);
+  --shadow-float:  0 8px 24px rgba(26,20,16,0.10), 0 32px 80px rgba(26,20,16,0.12);
+  --shadow-gold:   0 4px 20px rgba(193,168,104,0.25);  /* gold CTA glow */
+
+  /* ── COLORS ──────────────────────────────────
+     Full palette — from previous sessions + new additions
+  ────────────────────────────────────────────── */
+  --c-gold:         #C1A868;
+  --c-gold-deep:    #A8904F;   /* gold darkened for hover states */
+  --c-green-dark:   #026360;
+  --c-peach:        #F7BAA4;
+  --c-teal:         #409690;
+  --c-soft-blue:    #CBE3E5;
+  --c-light-blue:   #F3F7FA;
+  --c-light-purple: #F7F2F9;
+  --c-pink:         #F9F2F3;
+  --c-white:        #FFFFFF;
+  --c-espresso:     #1A1410;
+  --c-amber:        #6B4F2A;
+  --c-warm-cream:   #FAF5EC;
+  --c-berry:        #8B3A52;
+  --c-terracotta:   #C4622D;
+  --c-slate:        #4A6E7A;
+  --c-deep-teal:    #1E5E5B;
+}
+
+/* ── RESETS ── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{font-size:16px;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
+body{font-family:var(--font-body);font-size:var(--text-body);line-height:var(--leading-prose);color:var(--c-espresso);background:#fff;overflow-x:hidden;}
+
+/* ── LAYOUT ── */
+.wrap{max-width:var(--container);margin-inline:auto;padding-inline:var(--space-6);}
+.wrap-narrow{max-width:var(--content-zone);margin-inline:auto;padding-inline:var(--space-6);}
+section{padding-block:var(--space-8);}
+section.tight{padding-block:var(--space-7);}
+
+/* ── TYPE UTILITIES ── */
+.display{font-family:var(--font-display);font-size:var(--text-display);font-weight:900;line-height:var(--leading-tight);letter-spacing:var(--tracking-tightest);}
+.h1{font-family:var(--font-display);font-size:var(--text-h1);font-weight:900;line-height:var(--leading-snug);letter-spacing:var(--tracking-tight);}
+.h2{font-family:var(--font-display);font-size:var(--text-h2);font-weight:700;line-height:var(--leading-snug);letter-spacing:var(--tracking-tight);}
+.h3{font-family:var(--font-display);font-size:var(--text-h3);font-weight:700;line-height:var(--leading-normal);}
+.h4{font-family:var(--font-display);font-size:var(--text-h4);font-weight:700;line-height:var(--leading-normal);}
+.body-lg{font-size:var(--text-lg);line-height:var(--leading-prose);}
+.body{font-size:var(--text-body);line-height:var(--leading-prose);}
+.label{font-family:var(--font-body);font-size:var(--text-label);font-weight:700;line-height:1;letter-spacing:var(--tracking-wide);text-transform:uppercase;color:var(--c-gold);}
+.micro{font-family:var(--font-body);font-size:var(--text-micro);font-weight:700;line-height:1;letter-spacing:var(--tracking-wider);text-transform:uppercase;}
+
+/* ── UI COMPONENTS ── */
+.btn{display:inline-flex;align-items:center;gap:var(--space-3);font-family:var(--font-body);font-weight:700;font-size:var(--text-label);letter-spacing:var(--tracking-wide);text-transform:uppercase;border-radius:var(--radius-pill);cursor:pointer;border:2px solid transparent;transition:all .2s ease;text-decoration:none;white-space:nowrap;}
+.btn-md{padding:var(--space-3) var(--space-5);}
+.btn-lg{padding:var(--space-4) var(--space-6);}
+.btn-primary{background:var(--c-gold);color:#fff;box-shadow:var(--shadow-gold);}
+.btn-primary:hover{background:var(--c-gold-deep);box-shadow:var(--shadow-raised);}
+.btn-outline{background:transparent;color:var(--c-espresso);border-color:var(--c-espresso);}
+.btn-outline:hover{background:var(--c-espresso);color:#fff;}
+.btn-soft{background:var(--c-soft-blue);color:var(--c-espresso);border-color:transparent;}
+.btn-soft:hover{background:var(--c-teal);color:#fff;}
+
+/* ── CARD SYSTEM ── */
+.card{background:#fff;border-radius:var(--radius-card);box-shadow:var(--shadow-card);padding:var(--space-6);transition:transform .2s ease, box-shadow .2s ease;}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow-raised);}
+.card-tight{padding:var(--space-5);}
+.card-loose{padding:var(--space-7);}
+
+/* ── INPUT SYSTEM ── */
+.input{font-family:var(--font-body);font-size:var(--text-body);line-height:var(--leading-normal);border:1.5px solid #E5E5E0;border-radius:var(--radius-sm);padding:var(--space-3) var(--space-5);background:#fff;color:var(--c-espresso);transition:border-color .2s, box-shadow .2s;width:100%;}
+.input::placeholder{color:#B8B5AF;}
+.input:focus{outline:none;border-color:var(--c-gold);box-shadow:0 0 0 3px rgba(193,168,104,.14);}
+
+/* ── PILL CHIP ── */
+.chip{display:inline-flex;align-items:center;gap:var(--space-2);font-family:var(--font-body);font-size:var(--text-micro);font-weight:700;letter-spacing:var(--tracking-wide);text-transform:uppercase;border:1.5px solid var(--c-gold);border-radius:var(--radius-pill);padding:var(--space-2) var(--space-4);color:var(--c-espresso);cursor:pointer;transition:all .18s ease;}
+.chip:hover,.chip.active{background:var(--c-gold);color:#fff;border-color:var(--c-gold);}
+
+/* PAGE ── */
+.page-bg{background:#FAFAF8;}
+
+/* for the doc display */
+.section-label{display:flex;align-items:center;gap:var(--space-5);padding-block:var(--space-5);border-bottom:1px solid #EEEDE9;}
+.section-label h2{font-family:var(--font-body);font-size:var(--text-micro);font-weight:700;letter-spacing:var(--tracking-widest);text-transform:uppercase;color:#AAA7A0;white-space:nowrap;}
+.section-label::after{content:'';flex:1;height:1px;background:#EEEDE9;}
+.token-row{display:flex;align-items:baseline;gap:var(--space-6);padding-block:var(--space-4);border-bottom:1px solid #F5F4F1;flex-wrap:wrap;}
+.token-name{font-family:var(--font-body);font-size:var(--text-micro);letter-spacing:var(--tracking-wider);color:#999;width:90px;flex-shrink:0;}
+.token-code{font-family:'SF Mono','Fira Code','Consolas',monospace;font-size:var(--text-micro);color:#BBB;margin-left:auto;}
+.swatch{width:32px;height:32px;border-radius:var(--radius-sm);flex-shrink:0;box-shadow:inset 0 0 0 1px rgba(0,0,0,0.05);}
+.sp-bar{height:var(--space-3);border-radius:2px;background:var(--c-gold);opacity:.7;flex-shrink:0;}
+.equation{font-family:'SF Mono','Fira Code','Consolas',monospace;font-size:var(--text-micro);background:#F7F5F0;border:1px solid #EDE9E0;border-radius:var(--radius-sm);padding:var(--space-3) var(--space-5);color:#7A7065;line-height:1.7;}
+.note{font-size:var(--text-micro);color:#AAA7A0;line-height:var(--leading-loose);}
+
+/* ── staggered reveal ── */
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .55s ease,transform .55s ease;}
+.reveal.visible{opacity:1;transform:none;}
+[data-delay="1"]{transition-delay:.08s;}
+[data-delay="2"]{transition-delay:.16s;}
+[data-delay="3"]{transition-delay:.24s;}
+[data-delay="4"]{transition-delay:.32s;}
+[data-delay="5"]{transition-delay:.40s;}
+[data-delay="6"]{transition-delay:.48s;}
+
+/* ── layout helpers for demo ── */
+.golden-grid{display:grid;grid-template-columns:61.8fr 38.2fr;gap:var(--space-6);}
+.golden-grid-inv{display:grid;grid-template-columns:38.2fr 61.8fr;gap:var(--space-6);}
+.col-3{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-5);}
+.col-2{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--space-5);}
+
+@media(max-width:768px){
+  .golden-grid,.golden-grid-inv,.col-3,.col-2{grid-template-columns:1fr;}
+  .wrap,.wrap-narrow{padding-inline:var(--space-5);}
+}
+</style>
+</head>
+<body class="page-bg">
+
+<!-- ══════════════════════════════════════════════
+     HEADER — THE DOCUMENT ITSELF IS A SPECIMEN
+══════════════════════════════════════════════ -->
+<header style="background:var(--c-espresso);padding-block:var(--space-8) var(--space-7);">
+  <div class="wrap">
+    <div class="reveal" style="display:flex;align-items:flex-start;gap:var(--space-6);flex-wrap:wrap;">
+      <div style="flex:1;min-width:280px;">
+        <p class="micro" style="color:rgba(255,255,255,.35);margin-bottom:var(--space-4)">HS2026 · Design System</p>
+        <h1 class="display" style="color:#fff;max-width:10ch;">The Design<br><em style="color:var(--c-gold);font-style:italic">Constitution</em></h1>
+        <p class="body-lg" style="color:rgba(255,255,255,.55);margin-top:var(--space-5);max-width:42ch;">Typography, spacing, and proportional systems — derived from the golden ratio φ and print tradition. This document IS the specimen.</p>
+      </div>
+      <div style="flex-shrink:0;padding:var(--space-6);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:var(--radius-section);">
+        <div class="equation" style="background:rgba(0,0,0,.3);border-color:rgba(255,255,255,.08);color:rgba(255,255,255,.5);">
+φ  = 1.618033988...<br>
+φ² = 2.618033...<br>
+1/φ = 0.618033... = φ - 1<br><br>
+a/b = b/(a+b) = φ<br><br>
+Container:  1100px<br>
+÷ φ      =  680px  (content zone)<br>
+÷ φ²     =  420px  (sidebar)<br><br>
+1100 / 680 = 1.6176... ≈ φ ✓<br>
+680  / 420 = 1.6190... ≈ φ ✓
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+<!-- ══════════════════════════════════════════════
+     §1 TYPE SCALE — LIVE SPECIMEN
+══════════════════════════════════════════════ -->
+<section style="background:#fff;padding-block:var(--space-8);">
+  <div class="wrap">
+
+    <div class="section-label reveal"><h2>§1 · Type Scale — Live Specimen</h2></div>
+
+    <!-- philosophical note -->
+    <div class="reveal" style="margin-block:var(--space-6);padding:var(--space-5);background:var(--c-warm-cream);border-radius:var(--radius-card);border-left:3px solid var(--c-gold);">
+      <p class="note"><strong style="color:var(--c-espresso)">Why not pure φ?</strong> — A pure φ scale from 16px gives h2 at 110px, h1 at 178px. That's mathematically correct but typographically absurd for web layout. Print masters (Tschichold, Müller-Brockmann) established that display type above 60px needs a <em>decelerating</em> scale — proportional to the square root of φ for large sizes. Our scale uses φ steps for body→h4, then moderates for h2→display. The result: mathematically proportional at every step, but optically harmonious across all sizes.</p>
+    </div>
+
+    <!-- type specimens -->
+    <div class="reveal" style="display:flex;flex-direction:column;gap:0;">
+
+      <div class="token-row">
+        <span class="token-name">display</span>
+        <p class="display" style="color:var(--c-espresso)">English</p>
+        <div style="margin-left:auto;text-align:right;">
+          <p class="token-code">--text-display</p>
+          <p class="note">clamp(3.5rem → 7rem) · wt 900 · ls -0.04em · lh 1.05</p>
+          <p class="note" style="color:var(--c-gold)">Hero headline only · Quincy Black</p>
+        </div>
+      </div>
+
+      <div class="token-row" data-delay="1">
+        <span class="token-name">h1</span>
+        <p class="h1" style="color:var(--c-espresso)">Speak with confidence</p>
+        <div style="margin-left:auto;text-align:right;">
+          <p class="token-code">--text-h1</p>
+          <p class="note">clamp(2.875rem → 4.75rem) · wt 900 · ls -0.02em · lh 1.2</p>
+          <p class="note" style="color:var(--c-gold)">Page titles · Quincy Black</p>
+        </div>
+      </div>
+
+      <div class="token-row" data-delay="2">
+        <span class="token-name">h2</span>
+        <p class="h2" style="color:var(--c-espresso)">How I can help you</p>
+        <div style="margin-left:auto;text-align:right;">
+          <p class="token-code">--text-h2</p>
+          <p class="note">clamp(2.25rem → 3.25rem) · wt 700 · ls -0.02em · lh 1.2</p>
+          <p class="note" style="color:var(--c-gold)">Section headings · Quincy Bold</p>
+        </div>
+      </div>
+
+      <div class="token-row" data-delay="3">
+        <span class="token-name">h3</span>
+        <p class="h3" style="color:var(--c-espresso)">Your English is amazing</p>
+        <div style="margin-left:auto;text-align:right;">
+          <p class="token-code">--text-h3</p>
+          <p class="note">clamp(1.75rem → 2.375rem) · wt 700 · lh 1.4</p>
+          <p class="note" style="color:var(--c-gold)">Sub-sections · Quincy Bold</p>
+        </div>
+      </div>
+
+      <div class="token-row" data-delay="4">
+        <span class="token-name">h4</span>
+        <p class="h4" style="color:var(--c-espresso)">Start practicing today</p>
+        <div style="margin-left:auto;text-align:right;">
+          <p class="token-code">--text-h4</p>
+          <p class="note">clamp(1.375rem → 1.75rem) · wt 700 · lh 1.4</p>
+          <p class="note" style="color:var(--c-gold)">Cards, testimonials · Quincy Bold</p>
+        </div>
+      </div>
+
+      <div class="token-row" data-delay="5">
+        <span class="token-name">body-lg</span>
+        <p class="body-lg" style="color:#555">Clear structure, supportive community, and practical tools to help you thrive in English.</p>
+        <div style="margin-left:auto;text-align:right;">
+          <p class="token-code">--text-lg</p>
+          <p class="note">clamp(1.125rem → 1.375rem) · wt 400 · lh 1.618 (φ)</p>
+          <p class="note" style="color:var(--c-gold)">Lead paragraphs · Effra</p>
+        </div>
+      </div>
+
+      <div class="token-row" data-delay="6">
+        <span class="token-name">body</span>
+        <p class="body" style="color:#666;max-width:52ch">Weekly lessons, free resources and proven programs to help you speak clearly, freely, and without fear. The line height here is φ = 1.618 exactly. This is not coincidence — it is the golden ratio applied to the vertical rhythm of text.</p>
+        <div style="margin-left:auto;text-align:right;">
+          <p class="token-code">--text-body</p>
+          <p class="note">clamp(1rem → 1.125rem) · wt 400 · lh 1.618 (φ)</p>
+          <p class="note" style="color:var(--c-gold)">All prose · Effra</p>
+        </div>
+      </div>
+
+      <div class="token-row">
+        <span class="token-name">label</span>
+        <p class="label">Free Downloads · Pronunciation · Courses</p>
+        <div style="margin-left:auto;text-align:right;">
+          <p class="token-code">--text-label</p>
+          <p class="note">clamp(0.75rem → 0.875rem) · wt 700 · ls +0.08em · uppercase</p>
+          <p class="note" style="color:var(--c-gold)">Eyebrows, categories · Effra Bold</p>
+        </div>
+      </div>
+
+      <div class="token-row">
+        <span class="token-name">micro</span>
+        <p class="micro" style="color:#AAA">Week 1–6 · Grammar Tutorial · New Sound</p>
+        <div style="margin-left:auto;text-align:right;">
+          <p class="token-code">--text-micro</p>
+          <p class="note">clamp(0.625rem → 0.75rem) · wt 700 · ls +0.14em · uppercase</p>
+          <p class="note" style="color:var(--c-gold)">Badges, tags, meta · Effra Bold</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- type pairing demo -->
+    <div class="reveal" style="margin-top:var(--space-7);display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:var(--space-5);">
+
+      <div class="card">
+        <p class="label" style="margin-bottom:var(--space-4)">Free Downloads</p>
+        <p class="h4" style="margin-bottom:var(--space-3)">Start practicing with my free resources</p>
+        <p class="body" style="color:#777;margin-bottom:var(--space-5)">Download and practice your pronunciation and fluency for free, with dozens of PDFs.</p>
+        <a class="btn btn-primary btn-md">Start Now</a>
+      </div>
+
+      <div class="card" style="background:var(--c-espresso);">
+        <p class="label" style="margin-bottom:var(--space-4);color:rgba(193,168,104,.7)">Online Courses</p>
+        <p class="h4" style="margin-bottom:var(--space-3);color:#fff">Transform your English fast</p>
+        <p class="body" style="color:rgba(255,255,255,.55);margin-bottom:var(--space-5)">Whether it's pronunciation or mindset training — my programs deliver results quickly.</p>
+        <a class="btn btn-soft btn-md">Explore →</a>
+      </div>
+
+      <div class="card" style="background:var(--c-warm-cream);">
+        <p class="label" style="margin-bottom:var(--space-4)">App Access</p>
+        <p class="h4" style="margin-bottom:var(--space-3)">Free 14-day Pronunciation Plan</p>
+        <p class="body" style="color:#888;margin-bottom:var(--space-5)">Daily lessons, practice sheets, and audio recordings. No strings attached.</p>
+        <a class="btn btn-outline btn-md">Get the Plan</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     §2 SPACING SCALE — VISUAL RULER
+══════════════════════════════════════════════ -->
+<section style="background:var(--c-light-blue);padding-block:var(--space-8);">
+  <div class="wrap">
+
+    <div class="section-label reveal" style="border-color:#D8E8EC;"><h2>§2 · Spacing Scale — Visual Ruler</h2></div>
+
+    <div class="reveal" style="margin-top:var(--space-6);padding:var(--space-5);background:var(--c-warm-cream);border-radius:var(--radius-card);border-left:3px solid var(--c-gold);">
+      <p class="note"><strong style="color:var(--c-espresso)">The 4px Atom.</strong> Every spacing value is a multiple of 4px. This is the fundamental grid unit — the smallest meaningful gap the eye can detect at screen resolution. The φ progression from this base creates: icon gaps → inline → component → section → hero. Each step is 1.618× the previous. The body font-size (16px = space-4) appears at step 4 — this alignment of type and space is intentional and creates invisible harmonic resonance.</p>
+    </div>
+
+    <div class="reveal" style="margin-top:var(--space-6);display:flex;flex-direction:column;gap:var(--space-2);">
+
+      <div class="token-row" style="border-color:#D8E8EC;">
+        <span class="token-name">space-1</span>
+        <div class="sp-bar" style="width:4px;"></div>
+        <p class="body" style="color:#555">4px · Icon gap, micro spacing</p>
+        <p class="token-code">--space-1 · 0.25rem</p>
+      </div>
+      <div class="token-row" style="border-color:#D8E8EC;">
+        <span class="token-name">space-2</span>
+        <div class="sp-bar" style="width:6px;"></div>
+        <p class="body" style="color:#555">6px · Tight inline elements</p>
+        <p class="token-code">--space-2 · 0.375rem</p>
+      </div>
+      <div class="token-row" style="border-color:#D8E8EC;">
+        <span class="token-name">space-3</span>
+        <div class="sp-bar" style="width:10px;"></div>
+        <p class="body" style="color:#555">10px · Close siblings, badge padding</p>
+        <p class="token-code">--space-3 · 0.625rem</p>
+      </div>
+      <div class="token-row" style="border-color:#D8E8EC;">
+        <span class="token-name">space-4</span>
+        <div class="sp-bar" style="width:16px;background:var(--c-teal);"></div>
+        <p class="body" style="color:var(--c-espresso)"><strong>16px = 1rem = body base ← anchor point</strong> · Component gaps</p>
+        <p class="token-code">--space-4 · 1rem</p>
+      </div>
+      <div class="token-row" style="border-color:#D8E8EC;">
+        <span class="token-name">space-5</span>
+        <div class="sp-bar" style="width:26px;"></div>
+        <p class="body" style="color:#555">26px · Card inner rhythm, input padding</p>
+        <p class="token-code">--space-5 · 1.625rem ≈ φ × space-4</p>
+      </div>
+      <div class="token-row" style="border-color:#D8E8EC;">
+        <span class="token-name">space-6</span>
+        <div class="sp-bar" style="width:42px;"></div>
+        <p class="body" style="color:#555">42px · Card padding, between-element gaps</p>
+        <p class="token-code">--space-6 · 2.625rem ≈ φ × space-5</p>
+      </div>
+      <div class="token-row" style="border-color:#D8E8EC;">
+        <span class="token-name">space-7</span>
+        <div class="sp-bar" style="width:68px;"></div>
+        <p class="body" style="color:#555">68px · Narrow section padding</p>
+        <p class="token-code">--space-7 · 4.25rem ≈ φ × space-6</p>
+      </div>
+      <div class="token-row" style="border-color:#D8E8EC;">
+        <span class="token-name">space-8</span>
+        <div class="sp-bar" style="width:110px;background:var(--c-green-dark);"></div>
+        <p class="body" style="color:var(--c-espresso)"><strong>110px · Standard section vertical rhythm</strong></p>
+        <p class="token-code">--space-8 · 6.875rem ≈ φ × space-7</p>
+      </div>
+      <div class="token-row" style="border-color:#D8E8EC;">
+        <span class="token-name">space-9</span>
+        <div class="sp-bar" style="width:178px;"></div>
+        <p class="body" style="color:#555">178px · Max hero breathing room</p>
+        <p class="token-code">--space-9 · 11.125rem ≈ φ × space-8</p>
+      </div>
+
+    </div>
+
+    <!-- SPACING IN PRACTICE -->
+    <div class="reveal" style="margin-top:var(--space-7);">
+      <p class="label" style="margin-bottom:var(--space-5)">Spacing in Practice — Same Card, Different Densities</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--space-5);">
+
+        <div>
+          <p class="micro" style="color:#999;margin-bottom:var(--space-3)">Compact · space-4 padding</p>
+          <div style="background:#fff;border-radius:var(--radius-card);box-shadow:var(--shadow-card);padding:var(--space-4);">
+            <p class="label" style="margin-bottom:var(--space-3)">Grammar</p>
+            <p class="h4" style="margin-bottom:var(--space-3)">The perfect lesson</p>
+            <p class="body" style="color:#777;margin-bottom:var(--space-4)">Short body text example.</p>
+            <a class="btn btn-primary btn-md">Learn →</a>
+          </div>
+        </div>
+
+        <div>
+          <p class="micro" style="color:#999;margin-bottom:var(--space-3)">Standard · space-6 padding ← recommended</p>
+          <div style="background:#fff;border-radius:var(--radius-card);box-shadow:var(--shadow-card);padding:var(--space-6);">
+            <p class="label" style="margin-bottom:var(--space-4)">Grammar</p>
+            <p class="h4" style="margin-bottom:var(--space-4)">The perfect lesson</p>
+            <p class="body" style="color:#777;margin-bottom:var(--space-5)">Short body text example.</p>
+            <a class="btn btn-primary btn-md">Learn →</a>
+          </div>
+        </div>
+
+        <div>
+          <p class="micro" style="color:#999;margin-bottom:var(--space-3)">Generous · space-7 padding</p>
+          <div style="background:#fff;border-radius:var(--radius-card);box-shadow:var(--shadow-card);padding:var(--space-7);">
+            <p class="label" style="margin-bottom:var(--space-5)">Grammar</p>
+            <p class="h4" style="margin-bottom:var(--space-4)">The perfect lesson</p>
+            <p class="body" style="color:#777;margin-bottom:var(--space-6)">Short body text example.</p>
+            <a class="btn btn-primary btn-md">Learn →</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     §3 GOLDEN GRID — LAYOUT PROPORTIONS
+══════════════════════════════════════════════ -->
+<section style="background:#fff;padding-block:var(--space-8);">
+  <div class="wrap">
+    <div class="section-label reveal"><h2>§3 · Golden Grid — Layout Proportions</h2></div>
+
+    <div class="reveal" style="margin-block:var(--space-6);padding:var(--space-5);background:var(--c-warm-cream);border-radius:var(--radius-card);border-left:3px solid var(--c-gold);">
+      <p class="note"><strong style="color:var(--c-espresso)">The 1100px container.</strong> This number was not chosen arbitrarily. 1100 / φ = 680px — the ideal prose reading width (confirmed by readability research: 60–70 characters per line at 18px = ~650–700px). So the container IS the golden expansion of the optimal reading width. When you center 680px text in 1100px, the remaining 420px creates two margins of 210px each. 420 / 680 = 0.618 = 1/φ. Every empty space is mathematically proportional to the filled space.</p>
+    </div>
+
+    <!-- container width ruler -->
+    <div class="reveal" style="margin-bottom:var(--space-7);">
+      <div style="position:relative;height:80px;background:var(--c-light-blue);border-radius:var(--radius-card);overflow:hidden;">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:38.2%;background:var(--c-peach);opacity:.5;display:flex;align-items:center;justify-content:center;">
+          <p class="micro">420px (38.2%)</p>
+        </div>
+        <div style="position:absolute;left:38.2%;right:38.2%;top:0;bottom:0;background:var(--c-gold);opacity:.7;display:flex;align-items:center;justify-content:center;">
+          <p class="micro" style="color:#fff">680px CONTENT (61.8%)</p>
+        </div>
+        <div style="position:absolute;right:0;top:0;bottom:0;width:38.2%;background:var(--c-peach);opacity:.5;display:flex;align-items:center;justify-content:center;">
+          <p class="micro">420px (38.2%)</p>
+        </div>
+      </div>
+      <p class="note" style="text-align:center;margin-top:var(--space-3)">1100px container = 420 + 680 + 420. Every ratio equals 1/φ or φ.</p>
+    </div>
+
+    <!-- 2-col golden ratio demo -->
+    <p class="label reveal" style="margin-bottom:var(--space-5)">Golden 2-Column: 61.8% + 38.2%</p>
+    <div class="golden-grid reveal" style="margin-bottom:var(--space-7);">
+      <div style="background:var(--c-light-blue);border-radius:var(--radius-section);padding:var(--space-6);display:flex;flex-direction:column;gap:var(--space-5);">
+        <p class="label">Hero text — 61.8%</p>
+        <p class="h2" style="max-width:12ch">Speak English with confidence</p>
+        <p class="body-lg" style="color:#666">Clear structure and practical tools to help you thrive. The text column takes 61.8% of the container.</p>
+        <a class="btn btn-primary btn-lg">Get Started</a>
+      </div>
+      <div style="background:var(--c-soft-blue);border-radius:var(--radius-section);min-height:280px;display:flex;align-items:center;justify-content:center;">
+        <div style="text-align:center;">
+          <p class="label" style="color:var(--c-teal)">Image — 38.2%</p>
+          <p class="micro" style="margin-top:var(--space-3);color:#888">1100 × 0.382 = 420px</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- inverse golden ratio -->
+    <p class="label reveal" style="margin-bottom:var(--space-5)">Inverse: 38.2% image + 61.8% content (editorial variant)</p>
+    <div class="golden-grid-inv reveal">
+      <div style="background:var(--c-espresso);border-radius:var(--radius-section);min-height:220px;display:flex;align-items:center;justify-content:center;">
+        <p class="label" style="color:var(--c-gold)">Image — 38.2%</p>
+      </div>
+      <div style="background:var(--c-pink);border-radius:var(--radius-section);padding:var(--space-6);display:flex;flex-direction:column;gap:var(--space-4);">
+        <p class="label">About — 61.8%</p>
+        <p class="h3">Your English is amazing</p>
+        <p class="body" style="color:#777">You don't have to be a native speaker to have great English. The content column expands to 61.8%.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     §4 COMPONENT SYSTEM — BUTTONS, INPUTS, CHIPS
+══════════════════════════════════════════════ -->
+<section style="background:var(--c-light-purple);padding-block:var(--space-8);">
+  <div class="wrap">
+    <div class="section-label reveal" style="border-color:#E0D8E8;"><h2>§4 · Component System</h2></div>
+
+    <div class="reveal" style="margin-top:var(--space-6);display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:var(--space-6);">
+
+      <!-- BUTTONS -->
+      <div style="background:#fff;border-radius:var(--radius-section);padding:var(--space-6);display:flex;flex-direction:column;gap:var(--space-5);">
+        <p class="label">Buttons</p>
+        <div style="display:flex;flex-direction:column;gap:var(--space-4);">
+          <div style="display:flex;flex-wrap:wrap;gap:var(--space-3);align-items:center;">
+            <a class="btn btn-primary btn-lg">Primary LG</a>
+            <a class="btn btn-primary btn-md">Primary MD</a>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:var(--space-3);align-items:center;">
+            <a class="btn btn-outline btn-lg">Outline LG</a>
+            <a class="btn btn-outline btn-md">Outline MD</a>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:var(--space-3);align-items:center;">
+            <a class="btn btn-soft btn-lg">Soft LG</a>
+            <a class="btn btn-soft btn-md">Soft MD</a>
+          </div>
+          <div style="background:var(--c-espresso);border-radius:var(--radius-card);padding:var(--space-4);display:flex;flex-wrap:wrap;gap:var(--space-3);">
+            <a class="btn btn-md" style="background:rgba(255,255,255,1);color:var(--c-espresso);">White on Dark</a>
+            <a class="btn btn-md" style="background:var(--c-gold);color:#fff;">Gold on Dark</a>
+            <a class="btn btn-md" style="background:transparent;color:#fff;border:2px solid rgba(255,255,255,.3);">Ghost</a>
+          </div>
+        </div>
+        <div class="equation">
+padding: space-3 space-5  (MD)<br>
+padding: space-4 space-6  (LG)<br>
+font:    text-label · bold · +0.08em<br>
+radius:  var(--radius-pill)
+        </div>
+      </div>
+
+      <!-- INPUTS + FORM -->
+      <div style="background:#fff;border-radius:var(--radius-section);padding:var(--space-6);display:flex;flex-direction:column;gap:var(--space-5);">
+        <p class="label">Form Elements</p>
+        <div style="display:flex;flex-direction:column;gap:var(--space-4);">
+          <div>
+            <p class="micro" style="color:#AAA;margin-bottom:var(--space-2)">text-label · margin-bottom space-2</p>
+            <label style="display:block;font-size:var(--text-label);font-weight:700;letter-spacing:var(--tracking-wide);text-transform:uppercase;color:var(--c-espresso);margin-bottom:var(--space-2)">Your Name</label>
+            <input class="input" placeholder="Hadar Shemesh" />
+          </div>
+          <div>
+            <label style="display:block;font-size:var(--text-label);font-weight:700;letter-spacing:var(--tracking-wide);text-transform:uppercase;color:var(--c-espresso);margin-bottom:var(--space-2)">Email</label>
+            <input class="input" type="email" placeholder="hadar@example.com" />
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-3);">
+            <input class="input" placeholder="Name" />
+            <input class="input" placeholder="Email" />
+          </div>
+          <button class="btn btn-soft btn-lg" style="width:100%;justify-content:center;text-transform:uppercase;letter-spacing:var(--tracking-widest)">Yes! Send me weekly lessons</button>
+        </div>
+        <div class="equation">
+border:  1.5px · #E5E5E0<br>
+radius:  var(--radius-sm) = 6px<br>
+padding: space-3 space-5<br>
+focus:   gold ring · 3px · 14% opacity
+        </div>
+      </div>
+
+      <!-- CHIPS + BADGES -->
+      <div style="background:#fff;border-radius:var(--radius-section);padding:var(--space-6);display:flex;flex-direction:column;gap:var(--space-5);">
+        <p class="label">Chips · Pills · Badges</p>
+        <div style="display:flex;flex-direction:column;gap:var(--space-5);">
+          <div>
+            <p class="micro" style="color:#AAA;margin-bottom:var(--space-3)">Filter Chips (click to activate)</p>
+            <div style="display:flex;flex-wrap:wrap;gap:var(--space-2);">
+              <span class="chip active">All</span>
+              <span class="chip">Pronunciation</span>
+              <span class="chip">Fluency</span>
+              <span class="chip">Grammar</span>
+              <span class="chip">Confidence</span>
+            </div>
+          </div>
+          <div>
+            <p class="micro" style="color:#AAA;margin-bottom:var(--space-3)">Category Labels (eyebrow)</p>
+            <div style="display:flex;flex-wrap:wrap;gap:var(--space-2);">
+              <span class="label">Free Downloads</span>
+              <span class="label" style="color:var(--c-teal)">App Access</span>
+              <span class="label" style="color:var(--c-berry)">Courses</span>
+            </div>
+          </div>
+          <div>
+            <p class="micro" style="color:#AAA;margin-bottom:var(--space-3)">Status Badges</p>
+            <div style="display:flex;flex-wrap:wrap;gap:var(--space-2);">
+              <span class="micro" style="background:var(--c-gold);color:#fff;padding:var(--space-1) var(--space-3);border-radius:var(--radius-pill);">New</span>
+              <span class="micro" style="background:var(--c-soft-blue);color:var(--c-teal);padding:var(--space-1) var(--space-3);border-radius:var(--radius-pill);">Free</span>
+              <span class="micro" style="background:var(--c-peach);color:var(--c-espresso);padding:var(--space-1) var(--space-3);border-radius:var(--radius-pill);">Popular</span>
+              <span class="micro" style="background:var(--c-espresso);color:#fff;padding:var(--space-1) var(--space-3);border-radius:var(--radius-pill);">Pro</span>
+            </div>
+          </div>
+        </div>
+        <div class="equation">
+font:    text-micro · bold · +0.14em<br>
+padding: space-2 space-4<br>
+radius:  var(--radius-pill)<br>
+border:  1.5px solid var(--c-gold)
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     §5 SHADOW SYSTEM
+══════════════════════════════════════════════ -->
+<section style="background:var(--c-warm-cream);padding-block:var(--space-8);">
+  <div class="wrap">
+    <div class="section-label reveal" style="border-color:#EDE9E0;"><h2>§5 · Shadow System — Atmospheric Depth</h2></div>
+
+    <div class="reveal" style="margin-block:var(--space-6);padding:var(--space-5);background:#fff;border-radius:var(--radius-card);border-left:3px solid var(--c-gold);">
+      <p class="note"><strong style="color:var(--c-espresso)">Two-layer shadow principle.</strong> Real light creates two types of shadow: ambient (scattered light from the whole sky — large, soft, low opacity) and key (directional sun/lamp — small, sharp, higher opacity). Single-layer CSS shadows look fake. Our system uses: ambient = large offset + large blur + low opacity; key = small offset + tight blur + medium opacity. The shadow tint uses our espresso color (#1A1410) not pure black — warm shadow tint stays on-brand and avoids the cold look of rgba(0,0,0).</p>
+    </div>
+
+    <div class="reveal" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:var(--space-7);margin-top:var(--space-6);">
+      <div>
+        <div style="background:#fff;border-radius:var(--radius-card);padding:var(--space-6);box-shadow:var(--shadow-subtle);margin-bottom:var(--space-4);">
+          <p class="h4">Subtle</p>
+          <p class="body" style="color:#888;margin-top:var(--space-2)">Background separation, inner sections</p>
+        </div>
+        <p class="equation">0 1px 3px rgba(26,20,16,0.05)<br>0 4px 12px rgba(26,20,16,0.05)</p>
+      </div>
+      <div>
+        <div style="background:#fff;border-radius:var(--radius-card);padding:var(--space-6);box-shadow:var(--shadow-card);margin-bottom:var(--space-4);">
+          <p class="h4">Card</p>
+          <p class="body" style="color:#888;margin-top:var(--space-2)">Standard card resting state</p>
+        </div>
+        <p class="equation">0 2px 6px rgba(26,20,16,0.06)<br>0 8px 24px rgba(26,20,16,0.08)</p>
+      </div>
+      <div>
+        <div style="background:#fff;border-radius:var(--radius-card);padding:var(--space-6);box-shadow:var(--shadow-raised);margin-bottom:var(--space-4);">
+          <p class="h4">Raised</p>
+          <p class="body" style="color:#888;margin-top:var(--space-2)">Card hover / elevated state</p>
+        </div>
+        <p class="equation">0 4px 12px rgba(26,20,16,0.08)<br>0 16px 48px rgba(26,20,16,0.10)</p>
+      </div>
+      <div>
+        <div style="background:#fff;border-radius:var(--radius-card);padding:var(--space-6);box-shadow:var(--shadow-float);margin-bottom:var(--space-4);">
+          <p class="h4">Float</p>
+          <p class="body" style="color:#888;margin-top:var(--space-2)">Modals, floating nav</p>
+        </div>
+        <p class="equation">0 8px 24px rgba(26,20,16,0.10)<br>0 32px 80px rgba(26,20,16,0.12)</p>
+      </div>
+      <div>
+        <div style="background:var(--c-gold);border-radius:var(--radius-card);padding:var(--space-6);box-shadow:var(--shadow-gold);margin-bottom:var(--space-4);">
+          <p class="h4" style="color:#fff">Gold Glow</p>
+          <p class="body" style="color:rgba(255,255,255,.7);margin-top:var(--space-2)">Primary CTA buttons only</p>
+        </div>
+        <p class="equation">0 4px 20px rgba(193,168,104,0.25)</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     §6  THE RULES — PRINTED CONSTITUTIONS
+══════════════════════════════════════════════ -->
+<section style="background:var(--c-espresso);padding-block:var(--space-8);">
+  <div class="wrap">
+    <div class="section-label reveal" style="border-color:rgba(255,255,255,.08);"><h2 style="color:rgba(255,255,255,.3)">§6 · The Constitutional Rules</h2></div>
+
+    <div class="reveal" style="margin-top:var(--space-6);display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:var(--space-5);">
+
+      <div style="padding:var(--space-6);border-radius:var(--radius-section);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);">
+        <p class="label" style="margin-bottom:var(--space-4)">Typography Laws</p>
+        <div style="display:flex;flex-direction:column;gap:var(--space-3);">
+          <p class="body" style="color:rgba(255,255,255,.65)"><span style="color:var(--c-gold);font-weight:700">1.</span> Never use more than 2 type sizes adjacent without a hierarchy break.</p>
+          <p class="body" style="color:rgba(255,255,255,.65)"><span style="color:var(--c-gold);font-weight:700">2.</span> Body text: Effra only. Headings: Quincy only. Never mix roles.</p>
+          <p class="body" style="color:rgba(255,255,255,.65)"><span style="color:var(--c-gold);font-weight:700">3.</span> Line length: 52–72 characters for body. Wider = harder to read.</p>
+          <p class="body" style="color:rgba(255,255,255,.65)"><span style="color:var(--c-gold);font-weight:700">4.</span> Display type always gets tracking-tight or tighter. Never track display loose.</p>
+          <p class="body" style="color:rgba(255,255,255,.65)"><span style="color:var(--c-gold);font-weight:700">5.</span> Uppercase labels always get tracking-wide minimum. Unspaced caps are illegible.</p>
+        </div>
+      </div>
+
+      <div style="padding:var(--space-6);border-radius:var(--radius-section);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);">
+        <p class="label" style="margin-bottom:var(--space-4)">Spacing Laws</p>
+        <div style="display:flex;flex-direction:column;gap:var(--space-3);">
+          <p class="body" style="color:rgba(255,255,255,.65)"><span style="color:var(--c-gold);font-weight:700">1.</span> All spacing values must be from the scale. No arbitrary px values.</p>
+          <p class="body" style="color:rgba(255,255,255,.65)"><span style="color:var(--c-gold);font-weight:700">2.</span> Space between heading and body: space-4 (= 1rem = the type base).</p>
+          <p class="body" style="color:rgba(255,255,255,.65)"><span style="color:var(--c-gold);font-weight:700">3.</span> Card padding: space-6 standard. Never below space-5, never above space-7.</p>
+          <p class="body" style="color:rgba(255,255,255,.65)"><span style="color:var(--c-gold);font-weight:700">4.</span> Section vertical rhythm: space-8. This is non-negotiable. Sections need breath.</p>
+          <p class="body" style="color:rgba(255,255,255,.65)"><span style="color:var(--c-gold);font-weight:700">5.</span> Gap between type and CTA button: space-5 minimum. Give the call-to-action air.</p>
+        </div>
+      </div>
+
+      <div style="padding:var(--space-6);border-radius:var(--radius-section);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);">
+        <p class="label" style="margin-bottom:var(--space-4)">Layout Laws</p>
+        <div style="display:flex;flex-direction:column;gap:var(--space-3);">
+          <p class="body" style="color:rgba(255,255,255,.65)"><span style="color:var(--c-gold);font-weight:700">1.</span> 2-column splits: always 61.8/38.2 or 50/50. No 40/60 or 30/70.</p>
+          <p class="body" style="color:rgba(255,255,255,.65)"><span style="color:var(--c-gold);font-weight:700">2.</span> Narrow prose content: max 680px. Never wider. Reading comfort is a law.</p>
+          <p class="body" style="color:rgba(255,255,255,.65)"><span style="color:var(--c-gold);font-weight:700">3.</span> Sections alternate light/dark. Never two adjacent dark or two adjacent light sections.</p>
+          <p class="body" style="color:rgba(255,255,255,.65)"><span style="color:var(--c-gold);font-weight:700">4.</span> Grid gaps = space-5 (cards) or space-6 (major elements). Consistent, never ad-hoc.</p>
+          <p class="body" style="color:rgba(255,255,255,.65)"><span style="color:var(--c-gold);font-weight:700">5.</span> Container max-width: 1100px. Never increase. Whitespace on wide screens is a feature.</p>
+        </div>
+      </div>
+
+      <div style="padding:var(--space-6);border-radius:var(--radius-section);background:rgba(193,168,104,.08);border:1px solid rgba(193,168,104,.2);">
+        <p class="label" style="margin-bottom:var(--space-4)">The φ Cheat Sheet</p>
+        <div class="equation" style="background:rgba(0,0,0,.3);border-color:rgba(193,168,104,.15);color:rgba(255,255,255,.5);">
+φ  = 1.618  multiply to go up<br>
+1/φ = 0.618  multiply to go down<br><br>
+Need a value between A and B?<br>
+→ A × 1.618 should equal B<br>
+→ If not, adjust until it does<br><br>
+Column split: 61.8% / 38.2%<br>
+Container:    1100px<br>
+Content zone: 680px<br>
+Body → LG:    1rem → 1.618rem<br>
+sp-4 → sp-5:  1rem → 1.625rem<br>
+lh body:      1.618 (φ exactly)
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     LIVE SECTION DEMO — everything applied
+══════════════════════════════════════════════ -->
+<section style="background:var(--c-light-blue);padding-block:var(--space-8);">
+  <div class="wrap">
+    <div class="section-label reveal" style="border-color:#D8E8EC;"><h2>§7 · Live Section — System Applied</h2></div>
+
+    <!-- A full How I Help section built entirely from the system tokens -->
+    <div class="reveal" style="margin-top:var(--space-7);background:var(--c-pink);border-radius:var(--radius-section-lg);padding:var(--space-8) var(--space-7);position:relative;overflow:hidden;">
+      <div style="position:absolute;top:-40px;right:-40px;width:200px;height:200px;background:var(--c-peach);opacity:.4;border-radius:50%;"></div>
+      <p class="label" style="margin-bottom:var(--space-4)">How I can help</p>
+      <h2 class="h2" style="margin-bottom:var(--space-4);max-width:14ch;">Start making change — right here</h2>
+      <p class="body-lg" style="color:#777;max-width:52ch;margin-bottom:var(--space-7)">This website is the place where you can start making change. Everything below uses the mathematical system above — not a single arbitrary spacing value.</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--space-5);">
+        <div class="card" style="display:flex;flex-direction:column;gap:var(--space-4);">
+          <span class="label">Free Downloads</span>
+          <h3 class="h4">Practice with my free resources</h3>
+          <p class="body" style="color:#888">Download PDFs and audio recordings for free.</p>
+          <a class="btn btn-primary btn-md" style="margin-top:auto">Start →</a>
+        </div>
+        <div class="card" style="background:var(--c-green-dark);display:flex;flex-direction:column;gap:var(--space-4);">
+          <span class="label" style="color:rgba(193,168,104,.7)">App Access</span>
+          <h3 class="h4" style="color:#fff">Free 14-day Plan</h3>
+          <p class="body" style="color:rgba(255,255,255,.55)">Daily video lessons and practice sheets.</p>
+          <a class="btn btn-md" style="margin-top:auto;background:var(--c-gold);color:#fff">Get Plan →</a>
+        </div>
+        <div class="card" style="background:var(--c-espresso);display:flex;flex-direction:column;gap:var(--space-4);">
+          <span class="label" style="color:rgba(193,168,104,.6)">Courses</span>
+          <h3 class="h4" style="color:#fff">Transform your English</h3>
+          <p class="body" style="color:rgba(255,255,255,.5)">Pronunciation, mindset, fluency — fast.</p>
+          <a class="btn btn-md" style="margin-top:auto;background:transparent;color:#fff;border:2px solid rgba(255,255,255,.2)">Explore →</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+const io = new IntersectionObserver(es => {
+  es.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); } });
+},{threshold:.05});
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+document.querySelectorAll('.chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    chip.closest('div')?.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>

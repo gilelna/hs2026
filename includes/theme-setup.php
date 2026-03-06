@@ -9,6 +9,21 @@
  * Loaded by `includes/index/load.php`.
  */
 
+// --- theme image helper -----------------------------------------------------
+
+/**
+ * Returns the URL for a file inside the theme's /images/ directory.
+ *
+ * Used in block patterns as a placeholder image source so the pattern preview
+ * renders without hard-coded absolute URLs.
+ *
+ * @param string $filename Filename relative to the theme /images/ folder.
+ * @return string Absolute URL.
+ */
+function hs2026_img( $filename ) {
+	return get_stylesheet_directory_uri() . '/images/' . ltrim( $filename, '/' );
+}
+
 // --- asset enqueue helpers --------------------------------------------------
 
 /**

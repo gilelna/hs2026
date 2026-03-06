@@ -12,7 +12,7 @@
 
 /**
  * Returns true only when we are safe to override Elementor.
- * (block theme active + not inside Elementor editor/preview)
+ * (block theme active + not inside Elementor editor/preview + page not built with Elementor)
  */
 function hs2026_fse_should_override() {
 	if ( is_admin() ) {
@@ -23,6 +23,13 @@ function hs2026_fse_should_override() {
 	}
 	if ( function_exists( 'hs2026_is_elementor_editor_context' ) && hs2026_is_elementor_editor_context() ) {
 		return false;
+	}
+	// Don't strip Elementor on pages that were built with Elementor.
+	if ( is_singular() ) {
+		$post_id = get_queried_object_id();
+		if ( 'builder' === get_post_meta( $post_id, '_elementor_edit_mode', true ) ) {
+			return false;
+		}
 	}
 	return true;
 }

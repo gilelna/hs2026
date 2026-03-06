@@ -17,7 +17,7 @@
 - No Tailwind-led layout system (layout remains Gutenberg-native).
 
 ## Release Checklist
-- [ ] Theme loads cleanly in WP admin and frontend.
+- [x] Theme loads cleanly with no PHP fatal errors. *(2026-03-06)*
 - [ ] Child CSS + generated `css/output.css` load as expected.
-- [ ] Elementor separation works (Elementor assets only where needed).
+- [x] Elementor/FSE coexistence: Elementor pages unaffected, FSE pages strip Elementor assets. *(2026-03-06)*
 - [ ] Pattern library has started and is reusable across pages.
